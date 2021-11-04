@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XPath Template", "XPath Template\XPath Template.csproj", "{9A798FD5-4283-47C7-B420-EEAE6F16E8B0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9A798FD5-4283-47C7-B420-EEAE6F16E8B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9A798FD5-4283-47C7-B420-EEAE6F16E8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9A798FD5-4283-47C7-B420-EEAE6F16E8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9A798FD5-4283-47C7-B420-EEAE6F16E8B0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F1BD0D5-FC5E-43E3-9A16-8F8F0D98BD7A}
+	EndGlobalSection
+EndGlobal
