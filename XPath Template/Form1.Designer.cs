@@ -32,7 +32,6 @@ namespace XPath_Template
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tb_spider_denomer = new System.Windows.Forms.TextBox();
             this.lb_spider_denomer = new System.Windows.Forms.Label();
-            this.gb_listings = new System.Windows.Forms.GroupBox();
             this.tb_specifications = new System.Windows.Forms.TextBox();
             this.lb_specifications = new System.Windows.Forms.Label();
             this.tb_next_page = new System.Windows.Forms.TextBox();
@@ -47,7 +46,6 @@ namespace XPath_Template
             this.btn_test = new System.Windows.Forms.Button();
             this.btn_Create = new System.Windows.Forms.Button();
             this.gb_main = new System.Windows.Forms.GroupBox();
-            this.tb_url = new System.Windows.Forms.TextBox();
             this.lb_url = new System.Windows.Forms.Label();
             this.tb_domain = new System.Windows.Forms.TextBox();
             this.lb_domain = new System.Windows.Forms.Label();
@@ -111,7 +109,7 @@ namespace XPath_Template
             this.cb_convert_metres_to_feet = new System.Windows.Forms.CheckBox();
             this.cb_absolute_url = new System.Windows.Forms.CheckBox();
             this.cb_infinite_scroll = new System.Windows.Forms.CheckBox();
-            this.gb_listings.SuspendLayout();
+            this.rtb_urls = new System.Windows.Forms.RichTextBox();
             this.pnl_Header.SuspendLayout();
             this.pnl_Footer.SuspendLayout();
             this.gb_main.SuspendLayout();
@@ -142,7 +140,7 @@ namespace XPath_Template
             // 
             this.tb_spider_denomer.Location = new System.Drawing.Point(116, 19);
             this.tb_spider_denomer.Name = "tb_spider_denomer";
-            this.tb_spider_denomer.Size = new System.Drawing.Size(133, 20);
+            this.tb_spider_denomer.Size = new System.Drawing.Size(476, 20);
             this.tb_spider_denomer.TabIndex = 0;
             this.tb_spider_denomer.TextChanged += new System.EventHandler(this.tb_spider_denomer_TextChanged);
             // 
@@ -155,32 +153,17 @@ namespace XPath_Template
             this.lb_spider_denomer.TabIndex = 1;
             this.lb_spider_denomer.Text = "Spider Name:";
             // 
-            // gb_listings
-            // 
-            this.gb_listings.Controls.Add(this.tb_specifications);
-            this.gb_listings.Controls.Add(this.lb_specifications);
-            this.gb_listings.Controls.Add(this.tb_next_page);
-            this.gb_listings.Controls.Add(this.lb_next_page);
-            this.gb_listings.Controls.Add(this.tb_boat_listings);
-            this.gb_listings.Controls.Add(this.lb_boat_listings);
-            this.gb_listings.Location = new System.Drawing.Point(274, 97);
-            this.gb_listings.Name = "gb_listings";
-            this.gb_listings.Size = new System.Drawing.Size(255, 113);
-            this.gb_listings.TabIndex = 4;
-            this.gb_listings.TabStop = false;
-            this.gb_listings.Text = "Boat Listings and Pagination";
-            // 
             // tb_specifications
             // 
-            this.tb_specifications.Location = new System.Drawing.Point(116, 71);
+            this.tb_specifications.Location = new System.Drawing.Point(116, 249);
             this.tb_specifications.Name = "tb_specifications";
-            this.tb_specifications.Size = new System.Drawing.Size(133, 20);
+            this.tb_specifications.Size = new System.Drawing.Size(476, 20);
             this.tb_specifications.TabIndex = 6;
             // 
             // lb_specifications
             // 
             this.lb_specifications.AutoSize = true;
-            this.lb_specifications.Location = new System.Drawing.Point(2, 74);
+            this.lb_specifications.Location = new System.Drawing.Point(2, 252);
             this.lb_specifications.Name = "lb_specifications";
             this.lb_specifications.Size = new System.Drawing.Size(108, 13);
             this.lb_specifications.TabIndex = 11;
@@ -188,15 +171,15 @@ namespace XPath_Template
             // 
             // tb_next_page
             // 
-            this.tb_next_page.Location = new System.Drawing.Point(116, 45);
+            this.tb_next_page.Location = new System.Drawing.Point(116, 223);
             this.tb_next_page.Name = "tb_next_page";
-            this.tb_next_page.Size = new System.Drawing.Size(133, 20);
+            this.tb_next_page.Size = new System.Drawing.Size(476, 20);
             this.tb_next_page.TabIndex = 5;
             // 
             // lb_next_page
             // 
             this.lb_next_page.AutoSize = true;
-            this.lb_next_page.Location = new System.Drawing.Point(18, 48);
+            this.lb_next_page.Location = new System.Drawing.Point(18, 226);
             this.lb_next_page.Name = "lb_next_page";
             this.lb_next_page.Size = new System.Drawing.Size(92, 13);
             this.lb_next_page.TabIndex = 9;
@@ -204,15 +187,15 @@ namespace XPath_Template
             // 
             // tb_boat_listings
             // 
-            this.tb_boat_listings.Location = new System.Drawing.Point(116, 19);
+            this.tb_boat_listings.Location = new System.Drawing.Point(116, 197);
             this.tb_boat_listings.Name = "tb_boat_listings";
-            this.tb_boat_listings.Size = new System.Drawing.Size(133, 20);
+            this.tb_boat_listings.Size = new System.Drawing.Size(476, 20);
             this.tb_boat_listings.TabIndex = 4;
             // 
             // lb_boat_listings
             // 
             this.lb_boat_listings.AutoSize = true;
-            this.lb_boat_listings.Location = new System.Drawing.Point(8, 22);
+            this.lb_boat_listings.Location = new System.Drawing.Point(8, 200);
             this.lb_boat_listings.Name = "lb_boat_listings";
             this.lb_boat_listings.Size = new System.Drawing.Size(102, 13);
             this.lb_boat_listings.TabIndex = 7;
@@ -223,7 +206,7 @@ namespace XPath_Template
             this.lb_Title.AutoSize = true;
             this.lb_Title.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_Title.ForeColor = System.Drawing.SystemColors.Window;
-            this.lb_Title.Location = new System.Drawing.Point(226, 27);
+            this.lb_Title.Location = new System.Drawing.Point(460, 26);
             this.lb_Title.Name = "lb_Title";
             this.lb_Title.Size = new System.Drawing.Size(362, 37);
             this.lb_Title.TabIndex = 0;
@@ -317,40 +300,39 @@ namespace XPath_Template
             // 
             // gb_main
             // 
-            this.gb_main.Controls.Add(this.tb_url);
+            this.gb_main.Controls.Add(this.rtb_urls);
+            this.gb_main.Controls.Add(this.tb_specifications);
+            this.gb_main.Controls.Add(this.lb_specifications);
             this.gb_main.Controls.Add(this.lb_url);
+            this.gb_main.Controls.Add(this.tb_next_page);
             this.gb_main.Controls.Add(this.tb_domain);
+            this.gb_main.Controls.Add(this.lb_next_page);
             this.gb_main.Controls.Add(this.lb_domain);
+            this.gb_main.Controls.Add(this.tb_boat_listings);
+            this.gb_main.Controls.Add(this.lb_boat_listings);
             this.gb_main.Controls.Add(this.tb_spider_denomer);
             this.gb_main.Controls.Add(this.lb_spider_denomer);
             this.gb_main.Location = new System.Drawing.Point(13, 97);
             this.gb_main.Name = "gb_main";
-            this.gb_main.Size = new System.Drawing.Size(255, 113);
+            this.gb_main.Size = new System.Drawing.Size(598, 282);
             this.gb_main.TabIndex = 0;
             this.gb_main.TabStop = false;
             this.gb_main.Text = "General Information";
             // 
-            // tb_url
-            // 
-            this.tb_url.Location = new System.Drawing.Point(116, 71);
-            this.tb_url.Name = "tb_url";
-            this.tb_url.Size = new System.Drawing.Size(133, 20);
-            this.tb_url.TabIndex = 2;
-            // 
             // lb_url
             // 
             this.lb_url.AutoSize = true;
-            this.lb_url.Location = new System.Drawing.Point(36, 74);
+            this.lb_url.Location = new System.Drawing.Point(25, 74);
             this.lb_url.Name = "lb_url";
-            this.lb_url.Size = new System.Drawing.Size(74, 13);
+            this.lb_url.Size = new System.Drawing.Size(85, 13);
             this.lb_url.TabIndex = 5;
-            this.lb_url.Text = "Website URL:";
+            this.lb_url.Text = "Website URL(s):";
             // 
             // tb_domain
             // 
             this.tb_domain.Location = new System.Drawing.Point(116, 45);
             this.tb_domain.Name = "tb_domain";
-            this.tb_domain.Size = new System.Drawing.Size(133, 20);
+            this.tb_domain.Size = new System.Drawing.Size(476, 20);
             this.tb_domain.TabIndex = 1;
             // 
             // lb_domain
@@ -1009,9 +991,9 @@ namespace XPath_Template
             this.gb_notes.Controls.Add(this.lb_notes);
             this.gb_notes.Controls.Add(this.lb_status);
             this.gb_notes.Controls.Add(this.lb_assigned_to);
-            this.gb_notes.Location = new System.Drawing.Point(13, 216);
+            this.gb_notes.Location = new System.Drawing.Point(13, 385);
             this.gb_notes.Name = "gb_notes";
-            this.gb_notes.Size = new System.Drawing.Size(516, 140);
+            this.gb_notes.Size = new System.Drawing.Size(598, 140);
             this.gb_notes.TabIndex = 6;
             this.gb_notes.TabStop = false;
             // 
@@ -1025,9 +1007,9 @@ namespace XPath_Template
             "Ebren Durling",
             "Ben Tonks",
             "Gareth Loakes"});
-            this.cb_assigned_to.Location = new System.Drawing.Point(81, 13);
+            this.cb_assigned_to.Location = new System.Drawing.Point(116, 13);
             this.cb_assigned_to.Name = "cb_assigned_to";
-            this.cb_assigned_to.Size = new System.Drawing.Size(168, 21);
+            this.cb_assigned_to.Size = new System.Drawing.Size(133, 21);
             this.cb_assigned_to.TabIndex = 14;
             // 
             // cb_status
@@ -1040,23 +1022,23 @@ namespace XPath_Template
             "PIPELINE WORK REQUIRED",
             "NOT STARTED",
             "OTHER"});
-            this.cb_status.Location = new System.Drawing.Point(342, 12);
+            this.cb_status.Location = new System.Drawing.Point(424, 13);
             this.cb_status.Name = "cb_status";
             this.cb_status.Size = new System.Drawing.Size(168, 21);
             this.cb_status.TabIndex = 13;
             // 
             // rtb_notes
             // 
-            this.rtb_notes.Location = new System.Drawing.Point(81, 39);
+            this.rtb_notes.Location = new System.Drawing.Point(116, 39);
             this.rtb_notes.Name = "rtb_notes";
-            this.rtb_notes.Size = new System.Drawing.Size(429, 89);
+            this.rtb_notes.Size = new System.Drawing.Size(476, 89);
             this.rtb_notes.TabIndex = 12;
             this.rtb_notes.Text = "";
             // 
             // lb_notes
             // 
             this.lb_notes.AutoSize = true;
-            this.lb_notes.Location = new System.Drawing.Point(36, 42);
+            this.lb_notes.Location = new System.Drawing.Point(72, 42);
             this.lb_notes.Name = "lb_notes";
             this.lb_notes.Size = new System.Drawing.Size(38, 13);
             this.lb_notes.TabIndex = 11;
@@ -1065,7 +1047,7 @@ namespace XPath_Template
             // lb_status
             // 
             this.lb_status.AutoSize = true;
-            this.lb_status.Location = new System.Drawing.Point(272, 16);
+            this.lb_status.Location = new System.Drawing.Point(354, 17);
             this.lb_status.Name = "lb_status";
             this.lb_status.Size = new System.Drawing.Size(64, 13);
             this.lb_status.TabIndex = 9;
@@ -1074,7 +1056,7 @@ namespace XPath_Template
             // lb_assigned_to
             // 
             this.lb_assigned_to.AutoSize = true;
-            this.lb_assigned_to.Location = new System.Drawing.Point(6, 16);
+            this.lb_assigned_to.Location = new System.Drawing.Point(42, 16);
             this.lb_assigned_to.Name = "lb_assigned_to";
             this.lb_assigned_to.Size = new System.Drawing.Size(69, 13);
             this.lb_assigned_to.TabIndex = 7;
@@ -1144,7 +1126,7 @@ namespace XPath_Template
             // cb_absolute_url
             // 
             this.cb_absolute_url.AutoSize = true;
-            this.cb_absolute_url.Location = new System.Drawing.Point(535, 118);
+            this.cb_absolute_url.Location = new System.Drawing.Point(617, 297);
             this.cb_absolute_url.Name = "cb_absolute_url";
             this.cb_absolute_url.Size = new System.Drawing.Size(98, 17);
             this.cb_absolute_url.TabIndex = 14;
@@ -1154,12 +1136,20 @@ namespace XPath_Template
             // cb_infinite_scroll
             // 
             this.cb_infinite_scroll.AutoSize = true;
-            this.cb_infinite_scroll.Location = new System.Drawing.Point(635, 118);
+            this.cb_infinite_scroll.Location = new System.Drawing.Point(617, 322);
             this.cb_infinite_scroll.Name = "cb_infinite_scroll";
             this.cb_infinite_scroll.Size = new System.Drawing.Size(92, 17);
             this.cb_infinite_scroll.TabIndex = 17;
             this.cb_infinite_scroll.Text = "Infinite Scroll?";
             this.cb_infinite_scroll.UseVisualStyleBackColor = true;
+            // 
+            // rtb_urls
+            // 
+            this.rtb_urls.Location = new System.Drawing.Point(116, 74);
+            this.rtb_urls.Name = "rtb_urls";
+            this.rtb_urls.Size = new System.Drawing.Size(476, 111);
+            this.rtb_urls.TabIndex = 15;
+            this.rtb_urls.Text = "";
             // 
             // Form1
             // 
@@ -1174,15 +1164,12 @@ namespace XPath_Template
             this.Controls.Add(this.gb_main);
             this.Controls.Add(this.pnl_Header);
             this.Controls.Add(this.pnl_Footer);
-            this.Controls.Add(this.gb_listings);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(1279, 680);
             this.MinimumSize = new System.Drawing.Size(1279, 680);
             this.Name = "Form1";
             this.Text = "XPath Template";
-            this.gb_listings.ResumeLayout(false);
-            this.gb_listings.PerformLayout();
             this.pnl_Header.ResumeLayout(false);
             this.pnl_Header.PerformLayout();
             this.pnl_Footer.ResumeLayout(false);
@@ -1221,13 +1208,11 @@ namespace XPath_Template
 
         private System.Windows.Forms.TextBox tb_spider_denomer;
         private System.Windows.Forms.Label lb_spider_denomer;
-        private System.Windows.Forms.GroupBox gb_listings;
         private System.Windows.Forms.Label lb_Title;
         private System.Windows.Forms.Panel pnl_Header;
         private System.Windows.Forms.Panel pnl_Footer;
         private System.Windows.Forms.Button btn_Create;
         private System.Windows.Forms.GroupBox gb_main;
-        private System.Windows.Forms.TextBox tb_url;
         private System.Windows.Forms.Label lb_url;
         private System.Windows.Forms.TextBox tb_domain;
         private System.Windows.Forms.Label lb_domain;
@@ -1300,6 +1285,7 @@ namespace XPath_Template
         private System.Windows.Forms.CheckBox cb_sold_year;
         private System.Windows.Forms.CheckBox cb_sold_model;
         private System.Windows.Forms.CheckBox cb_infinite_scroll;
+        private System.Windows.Forms.RichTextBox rtb_urls;
     }
 }
 

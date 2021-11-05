@@ -25,7 +25,7 @@ namespace XPath_Template
         {
             if (tb_spider_denomer.TextLength < 3 |
                 tb_domain.TextLength < 3 |
-                tb_url.TextLength < 3 |
+                rtb_urls.TextLength < 3 | //tb_url.TextLength < 3 |
                 tb_boat_listings.TextLength < 3 |
                 tb_next_page.TextLength < 3 |
                 tb_specifications.TextLength < 3 |
@@ -317,8 +317,8 @@ namespace XPath_Template
         {
             // replace apostrophes and blank edges:
             tb_spider_denomer.Text = tb_spider_denomer.Text.Trim();
-            tb_domain.Text = tb_domain.Text.Trim();
-            tb_url.Text = tb_url.Text.Replace("\"", "'").Trim();
+            tb_domain.Text = tb_domain.Text.Trim(); //rtb_urls.Text = tb_domain.Text.Trim();
+            //tb_url.Text = tb_url.Text.Replace("\"", "'").Trim();
             tb_boat_listings.Text = tb_boat_listings.Text.Replace("'", "\"").Trim();
             tb_next_page.Text = tb_next_page.Text.Replace("'", "\"").Trim();
             tb_specifications.Text = tb_specifications.Text.Replace("'", "\"").Trim();
@@ -339,6 +339,14 @@ namespace XPath_Template
                 string brief_status = cb_status.Text;
                 string notes = rtb_notes.Text;
                 if (notes != "") { notes = "\n"+notes; }
+
+                // get every base url into a single one-line string:
+                string urls = ",";
+                foreach (var s in rtb_urls.Lines)
+                {
+                    urls = urls + $"f'{s}',";
+                }
+                urls = urls.Remove(urls.Length);
 
                 // determine what fields can have the word "sold" in them (for removal purposes):
                 string sold_make = "";
@@ -454,7 +462,7 @@ $"class {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tb_spider_denomer.Text.
 $"\tname = '{tb_spider_denomer.Text.ToLower()}'\n" +
 $"\tallowed_domains = ['{tb_domain.Text}']\n" +
 $"{infinite_scroll_headers}" +//only appear if required
-$"\tstart_urls = [f'{tb_url.Text}']\n" +
+$"\tstart_urls = [{urls}]\n" +
 "\n" +
 "\tdef parse(self, response):\n" +
 "\n" +
@@ -557,7 +565,13 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         continue;
                     case 2:
                         find = l.IndexOf("start_urls");
-                        if (find > -1) { find = l.IndexOf('[') + 3; tb_url.Text = l.Substring(find, l.IndexOf(']') - find - 1); next += 1; }
+                        if (find > -1)
+                        { 
+                            find = l.IndexOf('[') + 3;
+                            string[] urls = l.Substring(find, l.IndexOf("']") - find).Split(new[] { "',f'" }, StringSplitOptions.None);//tb_url.Text
+                            rtb_urls.Text = string.Join(Environment.NewLine, urls);
+                            next += 1;
+                        }
                         continue;
                     case 3:
                         find = l.IndexOf("for boat_listing");
@@ -758,7 +772,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
         private void clear_template(bool includespider=true)
         {
             tb_domain.Text = "";
-            tb_url.Text = "";
+            rtb_urls.Text = "";//tb_url.Text = "";
             tb_boat_listings.Text = "";
             tb_next_page.Text = "";
             tb_specifications.Text = "";
