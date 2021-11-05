@@ -341,12 +341,12 @@ namespace XPath_Template
                 if (notes != "") { notes = "\n"+notes; }
 
                 // get every base url into a single one-line string:
-                string urls = ",";
+                string urls = "";
                 foreach (var s in rtb_urls.Lines)
                 {
-                    urls = urls + $"f'{s}',";
+                    urls = $"f'{s.Trim()}'," + urls;
                 }
-                urls = urls.Remove(urls.Length);
+                urls = urls.Remove(urls.Length - 1);
 
                 // determine what fields can have the word "sold" in them (for removal purposes):
                 string sold_make = "";
