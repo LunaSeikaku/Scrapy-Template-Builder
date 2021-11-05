@@ -52,6 +52,15 @@ namespace XPath_Template
             this.tb_domain = new System.Windows.Forms.TextBox();
             this.lb_domain = new System.Windows.Forms.Label();
             this.gb_listing = new System.Windows.Forms.GroupBox();
+            this.cb_sold_country = new System.Windows.Forms.CheckBox();
+            this.cb_sold_location = new System.Windows.Forms.CheckBox();
+            this.cb_sold_material = new System.Windows.Forms.CheckBox();
+            this.cb_sold_length = new System.Windows.Forms.CheckBox();
+            this.cb_sold_price = new System.Windows.Forms.CheckBox();
+            this.cb_sold_condition = new System.Windows.Forms.CheckBox();
+            this.cb_sold_year = new System.Windows.Forms.CheckBox();
+            this.cb_sold_model = new System.Windows.Forms.CheckBox();
+            this.cb_sold_make = new System.Windows.Forms.CheckBox();
             this.ud_country_b = new System.Windows.Forms.NumericUpDown();
             this.ud_country_a = new System.Windows.Forms.NumericUpDown();
             this.ud_location_b = new System.Windows.Forms.NumericUpDown();
@@ -101,15 +110,6 @@ namespace XPath_Template
             this.cb_parse_gbp = new System.Windows.Forms.CheckBox();
             this.cb_convert_metres_to_feet = new System.Windows.Forms.CheckBox();
             this.cb_absolute_url = new System.Windows.Forms.CheckBox();
-            this.cb_sold_make = new System.Windows.Forms.CheckBox();
-            this.cb_sold_model = new System.Windows.Forms.CheckBox();
-            this.cb_sold_year = new System.Windows.Forms.CheckBox();
-            this.cb_sold_condition = new System.Windows.Forms.CheckBox();
-            this.cb_sold_price = new System.Windows.Forms.CheckBox();
-            this.cb_sold_length = new System.Windows.Forms.CheckBox();
-            this.cb_sold_material = new System.Windows.Forms.CheckBox();
-            this.cb_sold_location = new System.Windows.Forms.CheckBox();
-            this.cb_sold_country = new System.Windows.Forms.CheckBox();
             this.cb_infinite_scroll = new System.Windows.Forms.CheckBox();
             this.gb_listings.SuspendLayout();
             this.pnl_Header.SuspendLayout();
@@ -409,16 +409,116 @@ namespace XPath_Template
             this.gb_listing.Controls.Add(this.lb_boat_model);
             this.gb_listing.Controls.Add(this.tb_boat_make);
             this.gb_listing.Controls.Add(this.lb_boat_make);
-            this.gb_listing.Location = new System.Drawing.Point(758, 97);
+            this.gb_listing.Location = new System.Drawing.Point(724, 97);
             this.gb_listing.Name = "gb_listing";
-            this.gb_listing.Size = new System.Drawing.Size(493, 259);
+            this.gb_listing.Size = new System.Drawing.Size(527, 259);
             this.gb_listing.TabIndex = 7;
             this.gb_listing.TabStop = false;
-            this.gb_listing.Text = "Single Boat Listing";
+            this.gb_listing.Text = "Single Boat Listing XPaths";
+            // 
+            // cb_sold_country
+            // 
+            this.cb_sold_country.AutoSize = true;
+            this.cb_sold_country.Enabled = false;
+            this.cb_sold_country.Location = new System.Drawing.Point(438, 229);
+            this.cb_sold_country.Name = "cb_sold_country";
+            this.cb_sold_country.Size = new System.Drawing.Size(83, 17);
+            this.cb_sold_country.TabIndex = 49;
+            this.cb_sold_country.Text = "Sold Boats?";
+            this.cb_sold_country.UseVisualStyleBackColor = true;
+            // 
+            // cb_sold_location
+            // 
+            this.cb_sold_location.AutoSize = true;
+            this.cb_sold_location.Enabled = false;
+            this.cb_sold_location.Location = new System.Drawing.Point(438, 203);
+            this.cb_sold_location.Name = "cb_sold_location";
+            this.cb_sold_location.Size = new System.Drawing.Size(83, 17);
+            this.cb_sold_location.TabIndex = 48;
+            this.cb_sold_location.Text = "Sold Boats?";
+            this.cb_sold_location.UseVisualStyleBackColor = true;
+            // 
+            // cb_sold_material
+            // 
+            this.cb_sold_material.AutoSize = true;
+            this.cb_sold_material.Enabled = false;
+            this.cb_sold_material.Location = new System.Drawing.Point(438, 176);
+            this.cb_sold_material.Name = "cb_sold_material";
+            this.cb_sold_material.Size = new System.Drawing.Size(83, 17);
+            this.cb_sold_material.TabIndex = 47;
+            this.cb_sold_material.Text = "Sold Boats?";
+            this.cb_sold_material.UseVisualStyleBackColor = true;
+            // 
+            // cb_sold_length
+            // 
+            this.cb_sold_length.AutoSize = true;
+            this.cb_sold_length.Enabled = false;
+            this.cb_sold_length.Location = new System.Drawing.Point(438, 150);
+            this.cb_sold_length.Name = "cb_sold_length";
+            this.cb_sold_length.Size = new System.Drawing.Size(83, 17);
+            this.cb_sold_length.TabIndex = 46;
+            this.cb_sold_length.Text = "Sold Boats?";
+            this.cb_sold_length.UseVisualStyleBackColor = true;
+            // 
+            // cb_sold_price
+            // 
+            this.cb_sold_price.AutoSize = true;
+            this.cb_sold_price.Enabled = false;
+            this.cb_sold_price.Location = new System.Drawing.Point(438, 125);
+            this.cb_sold_price.Name = "cb_sold_price";
+            this.cb_sold_price.Size = new System.Drawing.Size(83, 17);
+            this.cb_sold_price.TabIndex = 45;
+            this.cb_sold_price.Text = "Sold Boats?";
+            this.cb_sold_price.UseVisualStyleBackColor = true;
+            // 
+            // cb_sold_condition
+            // 
+            this.cb_sold_condition.AutoSize = true;
+            this.cb_sold_condition.Enabled = false;
+            this.cb_sold_condition.Location = new System.Drawing.Point(438, 99);
+            this.cb_sold_condition.Name = "cb_sold_condition";
+            this.cb_sold_condition.Size = new System.Drawing.Size(83, 17);
+            this.cb_sold_condition.TabIndex = 44;
+            this.cb_sold_condition.Text = "Sold Boats?";
+            this.cb_sold_condition.UseVisualStyleBackColor = true;
+            // 
+            // cb_sold_year
+            // 
+            this.cb_sold_year.AutoSize = true;
+            this.cb_sold_year.Enabled = false;
+            this.cb_sold_year.Location = new System.Drawing.Point(438, 73);
+            this.cb_sold_year.Name = "cb_sold_year";
+            this.cb_sold_year.Size = new System.Drawing.Size(83, 17);
+            this.cb_sold_year.TabIndex = 43;
+            this.cb_sold_year.Text = "Sold Boats?";
+            this.cb_sold_year.UseVisualStyleBackColor = true;
+            // 
+            // cb_sold_model
+            // 
+            this.cb_sold_model.AutoSize = true;
+            this.cb_sold_model.Enabled = false;
+            this.cb_sold_model.Location = new System.Drawing.Point(438, 47);
+            this.cb_sold_model.Name = "cb_sold_model";
+            this.cb_sold_model.Size = new System.Drawing.Size(83, 17);
+            this.cb_sold_model.TabIndex = 42;
+            this.cb_sold_model.Text = "Sold Boats?";
+            this.cb_sold_model.UseVisualStyleBackColor = true;
+            // 
+            // cb_sold_make
+            // 
+            this.cb_sold_make.AutoSize = true;
+            this.cb_sold_make.Enabled = false;
+            this.cb_sold_make.Location = new System.Drawing.Point(438, 19);
+            this.cb_sold_make.Name = "cb_sold_make";
+            this.cb_sold_make.Size = new System.Drawing.Size(83, 17);
+            this.cb_sold_make.TabIndex = 29;
+            this.cb_sold_make.Text = "Sold Boats?";
+            this.cb_sold_make.UseVisualStyleBackColor = true;
             // 
             // ud_country_b
             // 
-            this.ud_country_b.Location = new System.Drawing.Point(344, 227);
+            this.ud_country_b.Enabled = false;
+            this.ud_country_b.Location = new System.Drawing.Point(391, 227);
             this.ud_country_b.Maximum = new decimal(new int[] {
             999,
             0,
@@ -435,7 +535,8 @@ namespace XPath_Template
             // 
             // ud_country_a
             // 
-            this.ud_country_a.Location = new System.Drawing.Point(297, 227);
+            this.ud_country_a.Enabled = false;
+            this.ud_country_a.Location = new System.Drawing.Point(344, 227);
             this.ud_country_a.Maximum = new decimal(new int[] {
             999,
             0,
@@ -452,7 +553,8 @@ namespace XPath_Template
             // 
             // ud_location_b
             // 
-            this.ud_location_b.Location = new System.Drawing.Point(344, 201);
+            this.ud_location_b.Enabled = false;
+            this.ud_location_b.Location = new System.Drawing.Point(391, 201);
             this.ud_location_b.Maximum = new decimal(new int[] {
             999,
             0,
@@ -469,7 +571,8 @@ namespace XPath_Template
             // 
             // ud_location_a
             // 
-            this.ud_location_a.Location = new System.Drawing.Point(297, 201);
+            this.ud_location_a.Enabled = false;
+            this.ud_location_a.Location = new System.Drawing.Point(344, 201);
             this.ud_location_a.Maximum = new decimal(new int[] {
             999,
             0,
@@ -486,7 +589,8 @@ namespace XPath_Template
             // 
             // ud_material_b
             // 
-            this.ud_material_b.Location = new System.Drawing.Point(344, 175);
+            this.ud_material_b.Enabled = false;
+            this.ud_material_b.Location = new System.Drawing.Point(391, 175);
             this.ud_material_b.Maximum = new decimal(new int[] {
             999,
             0,
@@ -503,7 +607,8 @@ namespace XPath_Template
             // 
             // ud_material_a
             // 
-            this.ud_material_a.Location = new System.Drawing.Point(297, 175);
+            this.ud_material_a.Enabled = false;
+            this.ud_material_a.Location = new System.Drawing.Point(344, 175);
             this.ud_material_a.Maximum = new decimal(new int[] {
             999,
             0,
@@ -520,7 +625,8 @@ namespace XPath_Template
             // 
             // ud_length_b
             // 
-            this.ud_length_b.Location = new System.Drawing.Point(344, 149);
+            this.ud_length_b.Enabled = false;
+            this.ud_length_b.Location = new System.Drawing.Point(391, 149);
             this.ud_length_b.Maximum = new decimal(new int[] {
             999,
             0,
@@ -537,7 +643,8 @@ namespace XPath_Template
             // 
             // ud_length_a
             // 
-            this.ud_length_a.Location = new System.Drawing.Point(297, 149);
+            this.ud_length_a.Enabled = false;
+            this.ud_length_a.Location = new System.Drawing.Point(344, 149);
             this.ud_length_a.Maximum = new decimal(new int[] {
             999,
             0,
@@ -554,7 +661,8 @@ namespace XPath_Template
             // 
             // ud_price_b
             // 
-            this.ud_price_b.Location = new System.Drawing.Point(344, 123);
+            this.ud_price_b.Enabled = false;
+            this.ud_price_b.Location = new System.Drawing.Point(391, 123);
             this.ud_price_b.Maximum = new decimal(new int[] {
             999,
             0,
@@ -571,7 +679,8 @@ namespace XPath_Template
             // 
             // ud_price_a
             // 
-            this.ud_price_a.Location = new System.Drawing.Point(297, 123);
+            this.ud_price_a.Enabled = false;
+            this.ud_price_a.Location = new System.Drawing.Point(344, 123);
             this.ud_price_a.Maximum = new decimal(new int[] {
             999,
             0,
@@ -588,7 +697,8 @@ namespace XPath_Template
             // 
             // ud_condition_b
             // 
-            this.ud_condition_b.Location = new System.Drawing.Point(344, 97);
+            this.ud_condition_b.Enabled = false;
+            this.ud_condition_b.Location = new System.Drawing.Point(391, 97);
             this.ud_condition_b.Maximum = new decimal(new int[] {
             999,
             0,
@@ -605,7 +715,8 @@ namespace XPath_Template
             // 
             // ud_condition_a
             // 
-            this.ud_condition_a.Location = new System.Drawing.Point(297, 97);
+            this.ud_condition_a.Enabled = false;
+            this.ud_condition_a.Location = new System.Drawing.Point(344, 97);
             this.ud_condition_a.Maximum = new decimal(new int[] {
             999,
             0,
@@ -622,7 +733,8 @@ namespace XPath_Template
             // 
             // ud_year_b
             // 
-            this.ud_year_b.Location = new System.Drawing.Point(344, 71);
+            this.ud_year_b.Enabled = false;
+            this.ud_year_b.Location = new System.Drawing.Point(391, 71);
             this.ud_year_b.Maximum = new decimal(new int[] {
             999,
             0,
@@ -639,7 +751,8 @@ namespace XPath_Template
             // 
             // ud_year_a
             // 
-            this.ud_year_a.Location = new System.Drawing.Point(297, 71);
+            this.ud_year_a.Enabled = false;
+            this.ud_year_a.Location = new System.Drawing.Point(344, 71);
             this.ud_year_a.Maximum = new decimal(new int[] {
             999,
             0,
@@ -656,7 +769,8 @@ namespace XPath_Template
             // 
             // ud_model_b
             // 
-            this.ud_model_b.Location = new System.Drawing.Point(344, 45);
+            this.ud_model_b.Enabled = false;
+            this.ud_model_b.Location = new System.Drawing.Point(391, 45);
             this.ud_model_b.Maximum = new decimal(new int[] {
             999,
             0,
@@ -673,7 +787,8 @@ namespace XPath_Template
             // 
             // ud_model_a
             // 
-            this.ud_model_a.Location = new System.Drawing.Point(297, 45);
+            this.ud_model_a.Enabled = false;
+            this.ud_model_a.Location = new System.Drawing.Point(344, 45);
             this.ud_model_a.Maximum = new decimal(new int[] {
             999,
             0,
@@ -690,7 +805,8 @@ namespace XPath_Template
             // 
             // ud_make_b
             // 
-            this.ud_make_b.Location = new System.Drawing.Point(344, 18);
+            this.ud_make_b.Enabled = false;
+            this.ud_make_b.Location = new System.Drawing.Point(391, 18);
             this.ud_make_b.Maximum = new decimal(new int[] {
             999,
             0,
@@ -707,7 +823,8 @@ namespace XPath_Template
             // 
             // ud_make_a
             // 
-            this.ud_make_a.Location = new System.Drawing.Point(297, 18);
+            this.ud_make_a.Enabled = false;
+            this.ud_make_a.Location = new System.Drawing.Point(344, 18);
             this.ud_make_a.Maximum = new decimal(new int[] {
             999,
             0,
@@ -724,147 +841,165 @@ namespace XPath_Template
             // 
             // tb_boat_country
             // 
-            this.tb_boat_country.Location = new System.Drawing.Point(116, 227);
+            this.tb_boat_country.Location = new System.Drawing.Point(66, 227);
             this.tb_boat_country.Name = "tb_boat_country";
-            this.tb_boat_country.Size = new System.Drawing.Size(175, 20);
+            this.tb_boat_country.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_country.TabIndex = 15;
+            this.tb_boat_country.Text = "None";
+            this.tb_boat_country.TextChanged += new System.EventHandler(this.tb_boat_country_TextChanged);
             // 
             // lb_boat_country
             // 
             this.lb_boat_country.AutoSize = true;
-            this.lb_boat_country.Location = new System.Drawing.Point(10, 230);
+            this.lb_boat_country.Location = new System.Drawing.Point(13, 230);
             this.lb_boat_country.Name = "lb_boat_country";
-            this.lb_boat_country.Size = new System.Drawing.Size(103, 13);
+            this.lb_boat_country.Size = new System.Drawing.Size(46, 13);
             this.lb_boat_country.TabIndex = 23;
-            this.lb_boat_country.Text = "Boat Country XPath:";
+            this.lb_boat_country.Text = "Country:";
             // 
             // tb_boat_location
             // 
-            this.tb_boat_location.Location = new System.Drawing.Point(116, 201);
+            this.tb_boat_location.Location = new System.Drawing.Point(66, 201);
             this.tb_boat_location.Name = "tb_boat_location";
-            this.tb_boat_location.Size = new System.Drawing.Size(175, 20);
+            this.tb_boat_location.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_location.TabIndex = 14;
+            this.tb_boat_location.Text = "None";
+            this.tb_boat_location.TextChanged += new System.EventHandler(this.tb_boat_location_TextChanged);
             // 
             // lb_boat_location
             // 
             this.lb_boat_location.AutoSize = true;
-            this.lb_boat_location.Location = new System.Drawing.Point(7, 204);
+            this.lb_boat_location.Location = new System.Drawing.Point(10, 204);
             this.lb_boat_location.Name = "lb_boat_location";
-            this.lb_boat_location.Size = new System.Drawing.Size(108, 13);
+            this.lb_boat_location.Size = new System.Drawing.Size(51, 13);
             this.lb_boat_location.TabIndex = 21;
-            this.lb_boat_location.Text = "Boat Location XPath:";
+            this.lb_boat_location.Text = "Location:";
             // 
             // tb_boat_material
             // 
-            this.tb_boat_material.Location = new System.Drawing.Point(116, 175);
+            this.tb_boat_material.Location = new System.Drawing.Point(66, 175);
             this.tb_boat_material.Name = "tb_boat_material";
-            this.tb_boat_material.Size = new System.Drawing.Size(175, 20);
+            this.tb_boat_material.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_material.TabIndex = 13;
+            this.tb_boat_material.Text = "None";
+            this.tb_boat_material.TextChanged += new System.EventHandler(this.tb_boat_material_TextChanged);
             // 
             // lb_boat_material
             // 
             this.lb_boat_material.AutoSize = true;
-            this.lb_boat_material.Location = new System.Drawing.Point(10, 178);
+            this.lb_boat_material.Location = new System.Drawing.Point(13, 178);
             this.lb_boat_material.Name = "lb_boat_material";
-            this.lb_boat_material.Size = new System.Drawing.Size(104, 13);
+            this.lb_boat_material.Size = new System.Drawing.Size(47, 13);
             this.lb_boat_material.TabIndex = 19;
-            this.lb_boat_material.Text = "Boat Material XPath:";
+            this.lb_boat_material.Text = "Material:";
             // 
             // tb_boat_length
             // 
-            this.tb_boat_length.Location = new System.Drawing.Point(116, 149);
+            this.tb_boat_length.Location = new System.Drawing.Point(66, 149);
             this.tb_boat_length.Name = "tb_boat_length";
-            this.tb_boat_length.Size = new System.Drawing.Size(175, 20);
+            this.tb_boat_length.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_length.TabIndex = 12;
+            this.tb_boat_length.Text = "None";
+            this.tb_boat_length.TextChanged += new System.EventHandler(this.tb_boat_length_TextChanged);
             // 
             // lb_boat_length
             // 
             this.lb_boat_length.AutoSize = true;
-            this.lb_boat_length.Location = new System.Drawing.Point(14, 152);
+            this.lb_boat_length.Location = new System.Drawing.Point(17, 152);
             this.lb_boat_length.Name = "lb_boat_length";
-            this.lb_boat_length.Size = new System.Drawing.Size(100, 13);
+            this.lb_boat_length.Size = new System.Drawing.Size(43, 13);
             this.lb_boat_length.TabIndex = 17;
-            this.lb_boat_length.Text = "Boat Length XPath:";
+            this.lb_boat_length.Text = "Length:";
             // 
             // tb_boat_price
             // 
-            this.tb_boat_price.Location = new System.Drawing.Point(116, 123);
+            this.tb_boat_price.Location = new System.Drawing.Point(66, 123);
             this.tb_boat_price.Name = "tb_boat_price";
-            this.tb_boat_price.Size = new System.Drawing.Size(175, 20);
+            this.tb_boat_price.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_price.TabIndex = 11;
+            this.tb_boat_price.Text = "None";
+            this.tb_boat_price.TextChanged += new System.EventHandler(this.tb_boat_price_TextChanged);
             // 
             // lb_boat_price
             // 
             this.lb_boat_price.AutoSize = true;
-            this.lb_boat_price.Location = new System.Drawing.Point(23, 126);
+            this.lb_boat_price.Location = new System.Drawing.Point(26, 126);
             this.lb_boat_price.Name = "lb_boat_price";
-            this.lb_boat_price.Size = new System.Drawing.Size(91, 13);
+            this.lb_boat_price.Size = new System.Drawing.Size(34, 13);
             this.lb_boat_price.TabIndex = 15;
-            this.lb_boat_price.Text = "Boat Price XPath:";
+            this.lb_boat_price.Text = "Price:";
             // 
             // tb_boat_condition
             // 
-            this.tb_boat_condition.Location = new System.Drawing.Point(116, 97);
+            this.tb_boat_condition.Location = new System.Drawing.Point(66, 97);
             this.tb_boat_condition.Name = "tb_boat_condition";
-            this.tb_boat_condition.Size = new System.Drawing.Size(175, 20);
+            this.tb_boat_condition.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_condition.TabIndex = 10;
+            this.tb_boat_condition.Text = "None";
+            this.tb_boat_condition.TextChanged += new System.EventHandler(this.tb_boat_condition_TextChanged);
             // 
             // lb_boat_condition
             // 
             this.lb_boat_condition.AutoSize = true;
-            this.lb_boat_condition.Location = new System.Drawing.Point(3, 100);
+            this.lb_boat_condition.Location = new System.Drawing.Point(6, 100);
             this.lb_boat_condition.Name = "lb_boat_condition";
-            this.lb_boat_condition.Size = new System.Drawing.Size(111, 13);
+            this.lb_boat_condition.Size = new System.Drawing.Size(54, 13);
             this.lb_boat_condition.TabIndex = 13;
-            this.lb_boat_condition.Text = "Boat Condition XPath:";
+            this.lb_boat_condition.Text = "Condition:";
             // 
             // tb_boat_year
             // 
-            this.tb_boat_year.Location = new System.Drawing.Point(116, 71);
+            this.tb_boat_year.Location = new System.Drawing.Point(66, 71);
             this.tb_boat_year.Name = "tb_boat_year";
-            this.tb_boat_year.Size = new System.Drawing.Size(175, 20);
+            this.tb_boat_year.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_year.TabIndex = 9;
+            this.tb_boat_year.Text = "None";
+            this.tb_boat_year.TextChanged += new System.EventHandler(this.tb_boat_year_TextChanged);
             // 
             // lb_boat_year
             // 
             this.lb_boat_year.AutoSize = true;
-            this.lb_boat_year.Location = new System.Drawing.Point(25, 74);
+            this.lb_boat_year.Location = new System.Drawing.Point(28, 74);
             this.lb_boat_year.Name = "lb_boat_year";
-            this.lb_boat_year.Size = new System.Drawing.Size(89, 13);
+            this.lb_boat_year.Size = new System.Drawing.Size(32, 13);
             this.lb_boat_year.TabIndex = 11;
-            this.lb_boat_year.Text = "Boat Year XPath:";
+            this.lb_boat_year.Text = "Year:";
             // 
             // tb_boat_model
             // 
-            this.tb_boat_model.Location = new System.Drawing.Point(116, 45);
+            this.tb_boat_model.Location = new System.Drawing.Point(66, 45);
             this.tb_boat_model.Name = "tb_boat_model";
-            this.tb_boat_model.Size = new System.Drawing.Size(175, 20);
+            this.tb_boat_model.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_model.TabIndex = 8;
+            this.tb_boat_model.Text = "None";
+            this.tb_boat_model.TextChanged += new System.EventHandler(this.tb_boat_model_TextChanged);
             // 
             // lb_boat_model
             // 
             this.lb_boat_model.AutoSize = true;
-            this.lb_boat_model.Location = new System.Drawing.Point(18, 48);
+            this.lb_boat_model.Location = new System.Drawing.Point(21, 48);
             this.lb_boat_model.Name = "lb_boat_model";
-            this.lb_boat_model.Size = new System.Drawing.Size(96, 13);
+            this.lb_boat_model.Size = new System.Drawing.Size(39, 13);
             this.lb_boat_model.TabIndex = 9;
-            this.lb_boat_model.Text = "Boat Model XPath:";
+            this.lb_boat_model.Text = "Model:";
             // 
             // tb_boat_make
             // 
-            this.tb_boat_make.Location = new System.Drawing.Point(116, 19);
+            this.tb_boat_make.Location = new System.Drawing.Point(66, 19);
             this.tb_boat_make.Name = "tb_boat_make";
-            this.tb_boat_make.Size = new System.Drawing.Size(175, 20);
+            this.tb_boat_make.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_make.TabIndex = 7;
+            this.tb_boat_make.Text = "None";
+            this.tb_boat_make.TextChanged += new System.EventHandler(this.tb_boat_make_TextChanged);
             // 
             // lb_boat_make
             // 
             this.lb_boat_make.AutoSize = true;
-            this.lb_boat_make.Location = new System.Drawing.Point(20, 22);
+            this.lb_boat_make.Location = new System.Drawing.Point(23, 22);
             this.lb_boat_make.Name = "lb_boat_make";
-            this.lb_boat_make.Size = new System.Drawing.Size(94, 13);
+            this.lb_boat_make.Size = new System.Drawing.Size(37, 13);
             this.lb_boat_make.TabIndex = 7;
-            this.lb_boat_make.Text = "Boat Make XPath:";
+            this.lb_boat_make.Text = "Make:";
             // 
             // gb_notes
             // 
@@ -951,9 +1086,9 @@ namespace XPath_Template
             this.gb_listing_pp.Controls.Add(this.cb_startchar);
             this.gb_listing_pp.Controls.Add(this.cb_parse_gbp);
             this.gb_listing_pp.Controls.Add(this.cb_convert_metres_to_feet);
-            this.gb_listing_pp.Location = new System.Drawing.Point(860, 362);
+            this.gb_listing_pp.Location = new System.Drawing.Point(724, 362);
             this.gb_listing_pp.Name = "gb_listing_pp";
-            this.gb_listing_pp.Size = new System.Drawing.Size(391, 163);
+            this.gb_listing_pp.Size = new System.Drawing.Size(527, 163);
             this.gb_listing_pp.TabIndex = 13;
             this.gb_listing_pp.TabStop = false;
             this.gb_listing_pp.Text = "Post Processing";
@@ -1016,96 +1151,6 @@ namespace XPath_Template
             this.cb_absolute_url.Text = "Absolute URL?";
             this.cb_absolute_url.UseVisualStyleBackColor = true;
             // 
-            // cb_sold_make
-            // 
-            this.cb_sold_make.AutoSize = true;
-            this.cb_sold_make.Location = new System.Drawing.Point(391, 19);
-            this.cb_sold_make.Name = "cb_sold_make";
-            this.cb_sold_make.Size = new System.Drawing.Size(83, 17);
-            this.cb_sold_make.TabIndex = 29;
-            this.cb_sold_make.Text = "Sold Boats?";
-            this.cb_sold_make.UseVisualStyleBackColor = true;
-            // 
-            // cb_sold_model
-            // 
-            this.cb_sold_model.AutoSize = true;
-            this.cb_sold_model.Location = new System.Drawing.Point(391, 47);
-            this.cb_sold_model.Name = "cb_sold_model";
-            this.cb_sold_model.Size = new System.Drawing.Size(83, 17);
-            this.cb_sold_model.TabIndex = 42;
-            this.cb_sold_model.Text = "Sold Boats?";
-            this.cb_sold_model.UseVisualStyleBackColor = true;
-            // 
-            // cb_sold_year
-            // 
-            this.cb_sold_year.AutoSize = true;
-            this.cb_sold_year.Location = new System.Drawing.Point(391, 73);
-            this.cb_sold_year.Name = "cb_sold_year";
-            this.cb_sold_year.Size = new System.Drawing.Size(83, 17);
-            this.cb_sold_year.TabIndex = 43;
-            this.cb_sold_year.Text = "Sold Boats?";
-            this.cb_sold_year.UseVisualStyleBackColor = true;
-            // 
-            // cb_sold_condition
-            // 
-            this.cb_sold_condition.AutoSize = true;
-            this.cb_sold_condition.Location = new System.Drawing.Point(391, 99);
-            this.cb_sold_condition.Name = "cb_sold_condition";
-            this.cb_sold_condition.Size = new System.Drawing.Size(83, 17);
-            this.cb_sold_condition.TabIndex = 44;
-            this.cb_sold_condition.Text = "Sold Boats?";
-            this.cb_sold_condition.UseVisualStyleBackColor = true;
-            // 
-            // cb_sold_price
-            // 
-            this.cb_sold_price.AutoSize = true;
-            this.cb_sold_price.Location = new System.Drawing.Point(391, 125);
-            this.cb_sold_price.Name = "cb_sold_price";
-            this.cb_sold_price.Size = new System.Drawing.Size(83, 17);
-            this.cb_sold_price.TabIndex = 45;
-            this.cb_sold_price.Text = "Sold Boats?";
-            this.cb_sold_price.UseVisualStyleBackColor = true;
-            // 
-            // cb_sold_length
-            // 
-            this.cb_sold_length.AutoSize = true;
-            this.cb_sold_length.Location = new System.Drawing.Point(391, 150);
-            this.cb_sold_length.Name = "cb_sold_length";
-            this.cb_sold_length.Size = new System.Drawing.Size(83, 17);
-            this.cb_sold_length.TabIndex = 46;
-            this.cb_sold_length.Text = "Sold Boats?";
-            this.cb_sold_length.UseVisualStyleBackColor = true;
-            // 
-            // cb_sold_material
-            // 
-            this.cb_sold_material.AutoSize = true;
-            this.cb_sold_material.Location = new System.Drawing.Point(391, 176);
-            this.cb_sold_material.Name = "cb_sold_material";
-            this.cb_sold_material.Size = new System.Drawing.Size(83, 17);
-            this.cb_sold_material.TabIndex = 47;
-            this.cb_sold_material.Text = "Sold Boats?";
-            this.cb_sold_material.UseVisualStyleBackColor = true;
-            // 
-            // cb_sold_location
-            // 
-            this.cb_sold_location.AutoSize = true;
-            this.cb_sold_location.Location = new System.Drawing.Point(391, 203);
-            this.cb_sold_location.Name = "cb_sold_location";
-            this.cb_sold_location.Size = new System.Drawing.Size(83, 17);
-            this.cb_sold_location.TabIndex = 48;
-            this.cb_sold_location.Text = "Sold Boats?";
-            this.cb_sold_location.UseVisualStyleBackColor = true;
-            // 
-            // cb_sold_country
-            // 
-            this.cb_sold_country.AutoSize = true;
-            this.cb_sold_country.Location = new System.Drawing.Point(391, 229);
-            this.cb_sold_country.Name = "cb_sold_country";
-            this.cb_sold_country.Size = new System.Drawing.Size(83, 17);
-            this.cb_sold_country.TabIndex = 49;
-            this.cb_sold_country.Text = "Sold Boats?";
-            this.cb_sold_country.UseVisualStyleBackColor = true;
-            // 
             // cb_infinite_scroll
             // 
             this.cb_infinite_scroll.AutoSize = true;
@@ -1132,7 +1177,8 @@ namespace XPath_Template
             this.Controls.Add(this.gb_listings);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(816, 489);
+            this.MaximumSize = new System.Drawing.Size(1279, 680);
+            this.MinimumSize = new System.Drawing.Size(1279, 680);
             this.Name = "Form1";
             this.Text = "XPath Template";
             this.gb_listings.ResumeLayout(false);
