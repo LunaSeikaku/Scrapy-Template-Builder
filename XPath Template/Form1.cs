@@ -205,6 +205,9 @@ namespace XPath_Template
                 string country_source = "specs_table";
                 if (tb_boat_country.Text.Replace("(", "").Substring(0, 2) == "//") { country_source = "response"; }
 
+                // check for text() and @href suffixes?
+                // <TBC>
+
                 // determine if any substring suffixes to each specification exist and append them if so:
                 string make_sub = yield_substring(ud_make_a.Value,ud_make_b.Value);
                 string model_sub = yield_substring(ud_model_a.Value, ud_model_b.Value);
@@ -270,15 +273,15 @@ $"{next_page_link_a}{next_page_link_b}{next_page_link_c}"+
 "\t\t# Define and get what specifications we desire:\n" +
 $"\t\tspecs_table = response.xpath('{tb_specifications.Text}')\n" +
 "\t\tspecifications = {\n" +
-$"\t\t\t'make':{make_source}.xpath('{tb_boat_make.Text}/text()').get(default='{make_sub},\n" +
-$"\t\t\t'model':{model_source}.xpath('{tb_boat_model.Text}/text()').get(default='{model_sub},\n" +
-$"\t\t\t'year':{year_source}.xpath('{tb_boat_year.Text}/text()').get(default='{year_sub},\n" +
-$"\t\t\t'condition':{condition_source}.xpath('{tb_boat_condition.Text}/text()').get(default='{condition_sub},\n" +
-$"\t\t\t'price':{price_source}.xpath('{tb_boat_price.Text}/text()').get(default='{price_sub},\n" +
-$"\t\t\t'length':{length_source}.xpath('{tb_boat_length.Text}/text()').get(default='{length_sub},\n" +
-$"\t\t\t'hull_material':{material_source}.xpath('{tb_boat_material.Text}/text()').get(default='{material_sub},\n" +
-$"\t\t\t'location':{location_source}.xpath('{tb_boat_location.Text}/text()').get(default='{location_sub},\n" +
-$"\t\t\t'country':{country_source}.xpath('{tb_boat_country.Text}/text()').get(default='{country_sub},\n" +
+$"\t\t\t'make':{make_source}.xpath('{tb_boat_make.Text}').get(default='{make_sub},\n" +
+$"\t\t\t'model':{model_source}.xpath('{tb_boat_model.Text}').get(default='{model_sub},\n" +
+$"\t\t\t'year':{year_source}.xpath('{tb_boat_year.Text}').get(default='{year_sub},\n" +
+$"\t\t\t'condition':{condition_source}.xpath('{tb_boat_condition.Text}').get(default='{condition_sub},\n" +
+$"\t\t\t'price':{price_source}.xpath('{tb_boat_price.Text}').get(default='{price_sub},\n" +
+$"\t\t\t'length':{length_source}.xpath('{tb_boat_length.Text}').get(default='{length_sub},\n" +
+$"\t\t\t'hull_material':{material_source}.xpath('{tb_boat_material.Text}').get(default='{material_sub},\n" +
+$"\t\t\t'location':{location_source}.xpath('{tb_boat_location.Text}').get(default='{location_sub},\n" +
+$"\t\t\t'country':{country_source}.xpath('{tb_boat_country.Text}').get(default='{country_sub},\n" +
 "\t\t\t'url':href.split('?')[0]}# remove any trailing query to save on memory space and prevent duplicates\n" +
 "\n" +
 $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
@@ -383,7 +386,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         { 
                             find = l.IndexOf('(') + 2;
-                            tb_boat_make.Text = l.Substring(find, l.IndexOf(").") - find - 8);
+                            tb_boat_make.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
                             tail = tail.Remove(tail.Length - 2);
                             split = tail.Split(':');
@@ -397,7 +400,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             find = l.IndexOf('(') + 2;
-                            tb_boat_model.Text = l.Substring(find, l.IndexOf(").") - find - 8);
+                            tb_boat_model.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
                             tail = tail.Remove(tail.Length - 2);
                             split = tail.Split(':');
@@ -411,7 +414,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             find = l.IndexOf('(') + 2;
-                            tb_boat_year.Text = l.Substring(find, l.IndexOf(").") - find - 8);
+                            tb_boat_year.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
                             tail = tail.Remove(tail.Length - 2);
                             split = tail.Split(':');
@@ -425,7 +428,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             find = l.IndexOf('(') + 2;
-                            tb_boat_condition.Text = l.Substring(find, l.IndexOf(").") - find - 8);
+                            tb_boat_condition.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
                             tail = tail.Remove(tail.Length - 2);
                             split = tail.Split(':');
@@ -439,7 +442,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             find = l.IndexOf('(') + 2;
-                            tb_boat_price.Text = l.Substring(find, l.IndexOf(").") - find - 8);
+                            tb_boat_price.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
                             tail = tail.Remove(tail.Length - 2);
                             split = tail.Split(':');
@@ -453,7 +456,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             find = l.IndexOf('(') + 2;
-                            tb_boat_length.Text = l.Substring(find, l.IndexOf(").") - find - 8);
+                            tb_boat_length.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
                             tail = tail.Remove(tail.Length - 2);
                             split = tail.Split(':');
@@ -467,7 +470,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             find = l.IndexOf('(') + 2;
-                            tb_boat_material.Text = l.Substring(find, l.IndexOf(").") - find - 8);
+                            tb_boat_material.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
                             tail = tail.Remove(tail.Length - 2);
                             split = tail.Split(':');
@@ -481,7 +484,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             find = l.IndexOf('(') + 2;
-                            tb_boat_location.Text = l.Substring(find, l.IndexOf(").") - find - 8);
+                            tb_boat_location.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
                             tail = tail.Remove(tail.Length - 2);
                             split = tail.Split(':');
@@ -495,7 +498,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             find = l.IndexOf('(') + 2;
-                            tb_boat_country.Text = l.Substring(find, l.IndexOf(").") - find - 8);
+                            tb_boat_country.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
                             tail = tail.Remove(tail.Length - 2);
                             split = tail.Split(':');
