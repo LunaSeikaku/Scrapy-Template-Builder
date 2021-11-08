@@ -46,6 +46,7 @@ namespace XPath_Template
             this.btn_test = new System.Windows.Forms.Button();
             this.btn_Create = new System.Windows.Forms.Button();
             this.gb_main = new System.Windows.Forms.GroupBox();
+            this.rtb_urls = new System.Windows.Forms.RichTextBox();
             this.lb_url = new System.Windows.Forms.Label();
             this.tb_domain = new System.Windows.Forms.TextBox();
             this.lb_domain = new System.Windows.Forms.Label();
@@ -109,7 +110,6 @@ namespace XPath_Template
             this.cb_convert_metres_to_feet = new System.Windows.Forms.CheckBox();
             this.cb_absolute_url = new System.Windows.Forms.CheckBox();
             this.cb_infinite_scroll = new System.Windows.Forms.CheckBox();
-            this.rtb_urls = new System.Windows.Forms.RichTextBox();
             this.pnl_Header.SuspendLayout();
             this.pnl_Footer.SuspendLayout();
             this.gb_main.SuspendLayout();
@@ -318,6 +318,14 @@ namespace XPath_Template
             this.gb_main.TabIndex = 0;
             this.gb_main.TabStop = false;
             this.gb_main.Text = "General Information";
+            // 
+            // rtb_urls
+            // 
+            this.rtb_urls.Location = new System.Drawing.Point(116, 74);
+            this.rtb_urls.Name = "rtb_urls";
+            this.rtb_urls.Size = new System.Drawing.Size(476, 111);
+            this.rtb_urls.TabIndex = 15;
+            this.rtb_urls.Text = "";
             // 
             // lb_url
             // 
@@ -1020,6 +1028,7 @@ namespace XPath_Template
             "ONGOING",
             "COMPLETE",
             "PIPELINE WORK REQUIRED",
+            "DELAY NEEDED",
             "NOT STARTED",
             "OTHER"});
             this.cb_status.Location = new System.Drawing.Point(424, 13);
@@ -1142,14 +1151,6 @@ namespace XPath_Template
             this.cb_infinite_scroll.TabIndex = 17;
             this.cb_infinite_scroll.Text = "Infinite Scroll?";
             this.cb_infinite_scroll.UseVisualStyleBackColor = true;
-            // 
-            // rtb_urls
-            // 
-            this.rtb_urls.Location = new System.Drawing.Point(116, 74);
-            this.rtb_urls.Name = "rtb_urls";
-            this.rtb_urls.Size = new System.Drawing.Size(476, 111);
-            this.rtb_urls.TabIndex = 15;
-            this.rtb_urls.Text = "";
             // 
             // Form1
             // 

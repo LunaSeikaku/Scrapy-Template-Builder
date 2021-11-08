@@ -334,6 +334,10 @@ namespace XPath_Template
 
             if (no_fields_are_empty())//all form fields filled with something:
             {
+                // add suffixes where applicable: (CANT DO THIS IN CASE THEY NEED SOMETHING OTHER THAN text() END OF XPATH)
+                //string make_suffix = "";
+                //if (tb_boat_make.Text.Substring(tb_boat_make.TextLength-6)!="text()") { }
+
                 // metadata:
                 string assigned_to = cb_assigned_to.Text;
                 string brief_status = cb_status.Text;
