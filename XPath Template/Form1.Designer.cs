@@ -29,6 +29,7 @@ namespace XPath_Template
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tb_spider_denomer = new System.Windows.Forms.TextBox();
             this.lb_spider_denomer = new System.Windows.Forms.Label();
@@ -110,6 +111,7 @@ namespace XPath_Template
             this.cb_convert_metres_to_feet = new System.Windows.Forms.CheckBox();
             this.cb_absolute_url = new System.Windows.Forms.CheckBox();
             this.cb_infinite_scroll = new System.Windows.Forms.CheckBox();
+            this.tt_help = new System.Windows.Forms.ToolTip(this.components);
             this.pnl_Header.SuspendLayout();
             this.pnl_Footer.SuspendLayout();
             this.gb_main.SuspendLayout();
@@ -152,6 +154,7 @@ namespace XPath_Template
             this.lb_spider_denomer.Size = new System.Drawing.Size(71, 13);
             this.lb_spider_denomer.TabIndex = 1;
             this.lb_spider_denomer.Text = "Spider Name:";
+            this.tt_help.SetToolTip(this.lb_spider_denomer, resources.GetString("lb_spider_denomer.ToolTip"));
             // 
             // tb_specifications
             // 
@@ -168,6 +171,7 @@ namespace XPath_Template
             this.lb_specifications.Size = new System.Drawing.Size(108, 13);
             this.lb_specifications.TabIndex = 11;
             this.lb_specifications.Text = "Specifications XPath:";
+            this.tt_help.SetToolTip(this.lb_specifications, resources.GetString("lb_specifications.ToolTip"));
             // 
             // tb_next_page
             // 
@@ -184,6 +188,7 @@ namespace XPath_Template
             this.lb_next_page.Size = new System.Drawing.Size(92, 13);
             this.lb_next_page.TabIndex = 9;
             this.lb_next_page.Text = "Next Page XPath:";
+            this.tt_help.SetToolTip(this.lb_next_page, resources.GetString("lb_next_page.ToolTip"));
             // 
             // tb_boat_listings
             // 
@@ -200,6 +205,7 @@ namespace XPath_Template
             this.lb_boat_listings.Size = new System.Drawing.Size(102, 13);
             this.lb_boat_listings.TabIndex = 7;
             this.lb_boat_listings.Text = "Boat Listings XPath:";
+            this.tt_help.SetToolTip(this.lb_boat_listings, resources.GetString("lb_boat_listings.ToolTip"));
             // 
             // lb_Title
             // 
@@ -324,17 +330,18 @@ namespace XPath_Template
             this.rtb_urls.Location = new System.Drawing.Point(116, 74);
             this.rtb_urls.Name = "rtb_urls";
             this.rtb_urls.Size = new System.Drawing.Size(476, 111);
-            this.rtb_urls.TabIndex = 15;
+            this.rtb_urls.TabIndex = 2;
             this.rtb_urls.Text = "";
             // 
             // lb_url
             // 
             this.lb_url.AutoSize = true;
-            this.lb_url.Location = new System.Drawing.Point(25, 74);
+            this.lb_url.Location = new System.Drawing.Point(9, 74);
             this.lb_url.Name = "lb_url";
-            this.lb_url.Size = new System.Drawing.Size(85, 13);
+            this.lb_url.Size = new System.Drawing.Size(101, 13);
             this.lb_url.TabIndex = 5;
-            this.lb_url.Text = "Website URL(s):";
+            this.lb_url.Text = "Boat Listing URL(s):";
+            this.tt_help.SetToolTip(this.lb_url, resources.GetString("lb_url.ToolTip"));
             // 
             // tb_domain
             // 
@@ -351,6 +358,7 @@ namespace XPath_Template
             this.lb_domain.Size = new System.Drawing.Size(88, 13);
             this.lb_domain.TabIndex = 3;
             this.lb_domain.Text = "Website Domain:";
+            this.tt_help.SetToolTip(this.lb_domain, resources.GetString("lb_domain.ToolTip"));
             // 
             // gb_listing
             // 
@@ -846,6 +854,7 @@ namespace XPath_Template
             this.lb_boat_country.Size = new System.Drawing.Size(46, 13);
             this.lb_boat_country.TabIndex = 23;
             this.lb_boat_country.Text = "Country:";
+            this.tt_help.SetToolTip(this.lb_boat_country, resources.GetString("lb_boat_country.ToolTip"));
             // 
             // tb_boat_location
             // 
@@ -864,6 +873,7 @@ namespace XPath_Template
             this.lb_boat_location.Size = new System.Drawing.Size(51, 13);
             this.lb_boat_location.TabIndex = 21;
             this.lb_boat_location.Text = "Location:";
+            this.tt_help.SetToolTip(this.lb_boat_location, resources.GetString("lb_boat_location.ToolTip"));
             // 
             // tb_boat_material
             // 
@@ -882,6 +892,7 @@ namespace XPath_Template
             this.lb_boat_material.Size = new System.Drawing.Size(47, 13);
             this.lb_boat_material.TabIndex = 19;
             this.lb_boat_material.Text = "Material:";
+            this.tt_help.SetToolTip(this.lb_boat_material, resources.GetString("lb_boat_material.ToolTip"));
             // 
             // tb_boat_length
             // 
@@ -900,6 +911,7 @@ namespace XPath_Template
             this.lb_boat_length.Size = new System.Drawing.Size(43, 13);
             this.lb_boat_length.TabIndex = 17;
             this.lb_boat_length.Text = "Length:";
+            this.tt_help.SetToolTip(this.lb_boat_length, resources.GetString("lb_boat_length.ToolTip"));
             // 
             // tb_boat_price
             // 
@@ -918,6 +930,7 @@ namespace XPath_Template
             this.lb_boat_price.Size = new System.Drawing.Size(34, 13);
             this.lb_boat_price.TabIndex = 15;
             this.lb_boat_price.Text = "Price:";
+            this.tt_help.SetToolTip(this.lb_boat_price, resources.GetString("lb_boat_price.ToolTip"));
             // 
             // tb_boat_condition
             // 
@@ -936,6 +949,7 @@ namespace XPath_Template
             this.lb_boat_condition.Size = new System.Drawing.Size(54, 13);
             this.lb_boat_condition.TabIndex = 13;
             this.lb_boat_condition.Text = "Condition:";
+            this.tt_help.SetToolTip(this.lb_boat_condition, resources.GetString("lb_boat_condition.ToolTip"));
             // 
             // tb_boat_year
             // 
@@ -954,6 +968,7 @@ namespace XPath_Template
             this.lb_boat_year.Size = new System.Drawing.Size(32, 13);
             this.lb_boat_year.TabIndex = 11;
             this.lb_boat_year.Text = "Year:";
+            this.tt_help.SetToolTip(this.lb_boat_year, resources.GetString("lb_boat_year.ToolTip"));
             // 
             // tb_boat_model
             // 
@@ -972,6 +987,7 @@ namespace XPath_Template
             this.lb_boat_model.Size = new System.Drawing.Size(39, 13);
             this.lb_boat_model.TabIndex = 9;
             this.lb_boat_model.Text = "Model:";
+            this.tt_help.SetToolTip(this.lb_boat_model, resources.GetString("lb_boat_model.ToolTip"));
             // 
             // tb_boat_make
             // 
@@ -990,6 +1006,7 @@ namespace XPath_Template
             this.lb_boat_make.Size = new System.Drawing.Size(37, 13);
             this.lb_boat_make.TabIndex = 7;
             this.lb_boat_make.Text = "Make:";
+            this.tt_help.SetToolTip(this.lb_boat_make, resources.GetString("lb_boat_make.ToolTip"));
             // 
             // gb_notes
             // 
@@ -1152,6 +1169,13 @@ namespace XPath_Template
             this.cb_infinite_scroll.Text = "Infinite Scroll?";
             this.cb_infinite_scroll.UseVisualStyleBackColor = true;
             // 
+            // tt_help
+            // 
+            this.tt_help.AutoPopDelay = 100000;
+            this.tt_help.InitialDelay = 250;
+            this.tt_help.IsBalloon = true;
+            this.tt_help.ReshowDelay = 100;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1287,6 +1311,7 @@ namespace XPath_Template
         private System.Windows.Forms.CheckBox cb_sold_model;
         private System.Windows.Forms.CheckBox cb_infinite_scroll;
         private System.Windows.Forms.RichTextBox rtb_urls;
+        private System.Windows.Forms.ToolTip tt_help;
     }
 }
 

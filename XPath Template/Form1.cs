@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 // Load Template
 // Useful functions (parse_feet, string_contains_word)
@@ -317,7 +318,7 @@ namespace XPath_Template
         {
             // replace apostrophes and blank edges:
             tb_spider_denomer.Text = tb_spider_denomer.Text.Trim();
-            tb_domain.Text = tb_domain.Text.Trim(); //rtb_urls.Text = tb_domain.Text.Trim();
+            tb_domain.Text = tb_domain.Text.Trim().ToLower(); //rtb_urls.Text = tb_domain.Text.Trim();
             //tb_url.Text = tb_url.Text.Replace("\"", "'").Trim();
             tb_boat_listings.Text = tb_boat_listings.Text.Replace("'", "\"").Trim();
             tb_next_page.Text = tb_next_page.Text.Replace("'", "\"").Trim();
@@ -334,6 +335,58 @@ namespace XPath_Template
 
             if (no_fields_are_empty())//all form fields filled with something:
             {
+                // input validation:
+                Regex rx_nam = new Regex(//confirm there is a valid spidername (no symbols basically)
+@"^[A-Za-z0-9]{3,}$");
+                string nam = tb_spider_denomer.Text;
+                if (!rx_nam.IsMatch(nam)) { error_box("That is not a valid Spider Name!\n\n(at least 3 characters long with no symbols, please)"); return; }
+
+                Regex rx_dom = new Regex(//confirm there is a valid "domain-name+.+TLD"
+@"^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.){1}[A-Za-z]{2,6}$");//yes I know {1} is a meaningless quantifier: it's there as a reminder!
+                string dom = tb_domain.Text;
+                if (!rx_dom.IsMatch(dom)) { error_box("That is not a valid Website Domain!"); return; }
+
+                // get every base url into a single one-line string (and validate it at the same time for efficency):
+                Regex rx_url = new Regex(
+@"^http(s)?:\/\/www\.((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}(.)*$");
+                string urls = "";
+                foreach (var s in rtb_urls.Lines)
+                {
+                    string strim = s.Trim().ToLower();
+                    if (!rx_url.IsMatch(strim)) { error_box("One of the Website URLs is not a valid URL!"); return; }
+                    urls = $"f'{strim}'," + urls;
+                }
+                urls = urls.Remove(urls.Length - 1);// remove trailing , symbol
+
+                Regex rx_xpath = new Regex(//confirm all xpaths are indeed xpaths:
+@"^\(*(\/|\.)\/(.)+$");
+                string x = tb_boat_listings.Text;
+                if (!rx_xpath.IsMatch(x)) { error_box("That is not a valid Boat Listing XPath!"); return; }
+                x = tb_next_page.Text;
+                if (!rx_xpath.IsMatch(x)) { error_box("That is not a valid Next Page XPath!"); return; }
+                x = tb_specifications.Text;
+                if (!rx_xpath.IsMatch(x)) { error_box("That is not a valid Specifications XPath!"); return; }
+                x = tb_boat_make.Text;
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Make XPath!"); return; }
+                x = tb_boat_model.Text;
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Model XPath!"); return; }
+                x = tb_boat_year.Text;
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Year XPath!"); return; }
+                x = tb_boat_condition.Text;
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Condition XPath!"); return; }
+                x = tb_boat_price.Text;
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Price XPath!"); return; }
+                x = tb_boat_length.Text;
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Length XPath!"); return; }
+                x = tb_boat_material.Text;
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Material XPath!"); return; }
+                x = tb_boat_location.Text;
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Location XPath!"); return; }
+                x = tb_boat_country.Text;
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Country XPath!"); return; }
+
+                // end of input validation!
+
                 // add suffixes where applicable: (CANT DO THIS IN CASE THEY NEED SOMETHING OTHER THAN text() END OF XPATH)
                 //string make_suffix = "";
                 //if (tb_boat_make.Text.Substring(tb_boat_make.TextLength-6)!="text()") { }
@@ -342,15 +395,7 @@ namespace XPath_Template
                 string assigned_to = cb_assigned_to.Text;
                 string brief_status = cb_status.Text;
                 string notes = rtb_notes.Text;
-                if (notes != "") { notes = "\n"+notes; }
-
-                // get every base url into a single one-line string:
-                string urls = "";
-                foreach (var s in rtb_urls.Lines)
-                {
-                    urls = $"f'{s.Trim()}'," + urls;
-                }
-                urls = urls.Remove(urls.Length - 1);
+                if (notes != "") { notes = "\n" + notes; }
 
                 // determine what fields can have the word "sold" in them (for removal purposes):
                 string sold_make = "";
@@ -411,7 +456,7 @@ namespace XPath_Template
                 // determine if any substring suffixes to each specification exist and append them if so:
                 string make_sub = yield_substring(ud_make_a.Value,ud_make_b.Value);
                 string model_sub = yield_substring(ud_model_a.Value, ud_model_b.Value);
-                string year_sub = yield_substring(ud_year_a.Value, ud_year_a.Value);
+                string year_sub = yield_substring(ud_year_a.Value, ud_year_a.Value, "0");
                 string condition_sub = yield_substring(ud_condition_a.Value, ud_condition_a.Value);
                 string price_sub = yield_substring(ud_price_a.Value, ud_price_b.Value, "0");
                 string length_sub = yield_substring(ud_length_a.Value, ud_length_b.Value, "0");
