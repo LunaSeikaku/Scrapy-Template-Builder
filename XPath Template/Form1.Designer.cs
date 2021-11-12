@@ -162,6 +162,7 @@ namespace XPath_Template
             this.tb_specifications.Name = "tb_specifications";
             this.tb_specifications.Size = new System.Drawing.Size(476, 20);
             this.tb_specifications.TabIndex = 6;
+            this.tb_specifications.TextChanged += new System.EventHandler(this.tb_specifications_TextChanged);
             // 
             // lb_specifications
             // 
@@ -179,6 +180,7 @@ namespace XPath_Template
             this.tb_next_page.Name = "tb_next_page";
             this.tb_next_page.Size = new System.Drawing.Size(476, 20);
             this.tb_next_page.TabIndex = 5;
+            this.tb_next_page.TextChanged += new System.EventHandler(this.tb_next_page_TextChanged);
             // 
             // lb_next_page
             // 
@@ -196,6 +198,7 @@ namespace XPath_Template
             this.tb_boat_listings.Name = "tb_boat_listings";
             this.tb_boat_listings.Size = new System.Drawing.Size(476, 20);
             this.tb_boat_listings.TabIndex = 4;
+            this.tb_boat_listings.TextChanged += new System.EventHandler(this.tb_boat_listings_TextChanged);
             // 
             // lb_boat_listings
             // 
@@ -291,6 +294,7 @@ namespace XPath_Template
             // btn_Create
             // 
             this.btn_Create.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(167)))), ((int)(((byte)(157)))));
+            this.btn_Create.Enabled = false;
             this.btn_Create.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(199)))), ((int)(((byte)(8)))));
             this.btn_Create.FlatAppearance.BorderSize = 2;
             this.btn_Create.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -332,6 +336,7 @@ namespace XPath_Template
             this.rtb_urls.Size = new System.Drawing.Size(476, 111);
             this.rtb_urls.TabIndex = 2;
             this.rtb_urls.Text = "";
+            this.rtb_urls.TextChanged += new System.EventHandler(this.rtb_urls_TextChanged);
             // 
             // lb_url
             // 
@@ -349,6 +354,7 @@ namespace XPath_Template
             this.tb_domain.Name = "tb_domain";
             this.tb_domain.Size = new System.Drawing.Size(476, 20);
             this.tb_domain.TabIndex = 1;
+            this.tb_domain.TextChanged += new System.EventHandler(this.tb_domain_TextChanged);
             // 
             // lb_domain
             // 
@@ -1171,7 +1177,7 @@ namespace XPath_Template
             // 
             // tt_help
             // 
-            this.tt_help.AutoPopDelay = 100000;
+            this.tt_help.AutoPopDelay = 1000000;
             this.tt_help.InitialDelay = 250;
             this.tt_help.IsBalloon = true;
             this.tt_help.ReshowDelay = 100;

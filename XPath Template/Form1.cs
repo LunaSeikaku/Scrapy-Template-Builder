@@ -45,9 +45,62 @@ namespace XPath_Template
             { return false; }
             return true;
         }
+        private void tb_spider_denomer_TextChanged(object sender, EventArgs e)
+        {
+            // check if we can Create Template! with current input:
+            tb_spider_denomer.Text = tb_spider_denomer.Text.Trim();
+            confirm_we_can_create_template();
 
+            // only proceed if on Load Template...
+            if (btn_load_template.Text == "Clear Template!") { return; }
+
+            // grab root scrapy project directory
+            string folder_path = Directory.GetCurrentDirectory();
+
+            // grab filepath from below the source directory using the spider name:
+            string file_path = $@"{folder_path}\best_scraper\spiders\{tb_spider_denomer.Text.ToLower()}.py";
+
+            // if file exists, enable Load Template button - otherwise disable it
+            if (File.Exists(file_path)) { btn_load_template.Enabled = true; }
+            else { btn_load_template.Enabled = false; }
+
+            //if (tb_spider_denomer.TextLength < 3 & btn_load_template.Text=="Load Template...") {  }
+            //else {  }
+        }
+        private void tb_domain_TextChanged(object sender, EventArgs e)
+        {
+            // check if we can Create Template! with current input:
+            tb_domain.Text = tb_domain.Text.Trim().ToLower();
+            confirm_we_can_create_template();
+        }
+        private void rtb_urls_TextChanged(object sender, EventArgs e)
+        {
+            confirm_we_can_create_template();//trimming of rtb_urls done in the RegEx function of create_template()
+        }
+        private void tb_boat_listings_TextChanged(object sender, EventArgs e)
+        {
+            // check if we can Create Template! with current input:
+            tb_boat_listings.Text = tb_boat_listings.Text.Replace("'", "\"").Trim();
+            confirm_we_can_create_template();
+        }
+        private void tb_next_page_TextChanged(object sender, EventArgs e)
+        {
+            // check if we can Create Template! with current input:
+            tb_next_page.Text = tb_next_page.Text.Replace("'", "\"").Trim();
+            confirm_we_can_create_template();
+        }
+        private void tb_specifications_TextChanged(object sender, EventArgs e)
+        {
+            // check if we can Create Template! with current input:
+            tb_specifications.Text = tb_specifications.Text.Replace("'", "\"").Trim();
+            confirm_we_can_create_template();
+        }
         private void tb_boat_make_TextChanged(object sender, EventArgs e)
         {
+            // check if we can Create Template! with current input (make or model check):
+            tb_boat_make.Text = tb_boat_make.Text.Replace("'", "\"").Trim();
+            confirm_we_can_create_template();
+
             string make = "";
             if (tb_boat_make.Text.Length>0) { make = tb_boat_make.Text.Replace("(", "").Substring(0, 1); }
             if (make != "/" & make != ".")
@@ -69,6 +122,10 @@ namespace XPath_Template
         }
         private void tb_boat_model_TextChanged(object sender, EventArgs e)
         {
+            // check if we can Create Template! with current input (make or model check):
+            tb_boat_model.Text = tb_boat_model.Text.Replace("'", "\"").Trim();
+            confirm_we_can_create_template();
+
             string model = "";
             if (tb_boat_model.Text.Length > 0) { model = tb_boat_model.Text.Replace("(", "").Substring(0, 1); }
             if (model != "/" & model != ".")
@@ -90,6 +147,7 @@ namespace XPath_Template
         }
         private void tb_boat_year_TextChanged(object sender, EventArgs e)
         {
+            tb_boat_year.Text = tb_boat_year.Text.Replace("'", "\"").Trim();
             string year = "";
             if (tb_boat_year.Text.Length > 0) { year = tb_boat_year.Text.Replace("(", "").Substring(0, 1); }
             if (year != "/" & year != ".")
@@ -111,6 +169,7 @@ namespace XPath_Template
         }
         private void tb_boat_condition_TextChanged(object sender, EventArgs e)
         {
+            tb_boat_condition.Text = tb_boat_condition.Text.Replace("'", "\"").Trim();
             string condition = "";
             if (tb_boat_condition.Text.Length > 0) { condition = tb_boat_condition.Text.Replace("(", "").Substring(0, 1); }
             if (condition != "/" & condition != ".")
@@ -132,6 +191,7 @@ namespace XPath_Template
         }
         private void tb_boat_price_TextChanged(object sender, EventArgs e)
         {
+            tb_boat_price.Text = tb_boat_price.Text.Replace("'", "\"").Trim();
             string price = "";
             if (tb_boat_price.Text.Length > 0) { price = tb_boat_price.Text.Replace("(", "").Substring(0, 1); }
             if (price != "/" & price != ".")
@@ -153,6 +213,7 @@ namespace XPath_Template
         }
         private void tb_boat_length_TextChanged(object sender, EventArgs e)
         {
+            tb_boat_length.Text = tb_boat_length.Text.Replace("'", "\"").Trim();
             string length = "";
             if (tb_boat_length.Text.Length > 0) { length = tb_boat_length.Text.Replace("(", "").Substring(0, 1); }
             if (length != "/" & length != ".")
@@ -174,6 +235,7 @@ namespace XPath_Template
         }
         private void tb_boat_material_TextChanged(object sender, EventArgs e)
         {
+            tb_boat_material.Text = tb_boat_material.Text.Replace("'", "\"").Trim();
             string material = "";
             if (tb_boat_material.Text.Length > 0) { material = tb_boat_material.Text.Replace("(", "").Substring(0, 1); }
             if (material != "/" & material != ".")
@@ -195,6 +257,7 @@ namespace XPath_Template
         }
         private void tb_boat_location_TextChanged(object sender, EventArgs e)
         {
+            tb_boat_location.Text = tb_boat_location.Text.Replace("'", "\"").Trim();
             string location = "";
             if (tb_boat_location.Text.Length > 0) { location = tb_boat_location.Text.Replace("(", "").Substring(0, 1); }
             if (location != "/" & location != ".")
@@ -216,6 +279,7 @@ namespace XPath_Template
         }
         private void tb_boat_country_TextChanged(object sender, EventArgs e)
         {
+            tb_boat_country.Text = tb_boat_country.Text.Replace("'", "\"").Trim();
             string country = "";
             if (tb_boat_country.Text.Length > 0) { country = tb_boat_country.Text.Replace("(", "").Substring(0, 1); }
             if (country != "/" & country != ".")
@@ -267,25 +331,6 @@ namespace XPath_Template
         {
             crawl_spider('n');
         }
-
-        private void tb_spider_denomer_TextChanged(object sender, EventArgs e)
-        {
-            // only proceed if on Load Template...
-            if (btn_load_template.Text == "Clear Template!") { return; }
-
-            // grab root scrapy project directory
-            string folder_path = Directory.GetCurrentDirectory();
-
-            // grab filepath from below the source directory using the spider name:
-            string file_path = $@"{folder_path}\best_scraper\spiders\{tb_spider_denomer.Text.ToLower()}.py";
-
-            // if file exists, enable Load Template button - otherwise disable it
-            if (File.Exists(file_path)) { btn_load_template.Enabled = true; }
-            else { btn_load_template.Enabled = false; }
-
-            //if (tb_spider_denomer.TextLength < 3 & btn_load_template.Text=="Load Template...") {  }
-            //else {  }
-        }
         private void btn_load_template_Click(object sender, EventArgs e)
         {
             if (btn_load_template.Text == "Clear Template!") { clear_template(); }
@@ -314,25 +359,12 @@ namespace XPath_Template
             else { sub += "')"; }
             return sub;
         }
+        private void confirm_we_can_create_template()
+        {
+            if (no_fields_are_empty()) { btn_Create.Enabled = true; } else { btn_Create.Enabled = false; }
+        }
         private void create_template(string debugmode="")//debugmode="pass#" if Debug Mode is ON
         {
-            // replace apostrophes and blank edges:
-            tb_spider_denomer.Text = tb_spider_denomer.Text.Trim();
-            tb_domain.Text = tb_domain.Text.Trim().ToLower(); //rtb_urls.Text = tb_domain.Text.Trim();
-            //tb_url.Text = tb_url.Text.Replace("\"", "'").Trim();
-            tb_boat_listings.Text = tb_boat_listings.Text.Replace("'", "\"").Trim();
-            tb_next_page.Text = tb_next_page.Text.Replace("'", "\"").Trim();
-            tb_specifications.Text = tb_specifications.Text.Replace("'", "\"").Trim();
-            tb_boat_make.Text = tb_boat_make.Text.Replace("'", "\"").Trim();
-            tb_boat_model.Text = tb_boat_model.Text.Replace("'", "\"").Trim();
-            tb_boat_year.Text = tb_boat_year.Text.Replace("'", "\"").Trim();
-            tb_boat_condition.Text = tb_boat_condition.Text.Replace("'", "\"").Trim();
-            tb_boat_price.Text = tb_boat_price.Text.Replace("'", "\"").Trim();
-            tb_boat_length.Text = tb_boat_length.Text.Replace("'", "\"").Trim();
-            tb_boat_material.Text = tb_boat_material.Text.Replace("'", "\"").Trim();
-            tb_boat_location.Text = tb_boat_location.Text.Replace("'", "\"").Trim();
-            tb_boat_country.Text = tb_boat_country.Text.Replace("'", "\"").Trim();
-
             if (no_fields_are_empty())//all form fields filled with something:
             {
                 // input validation:
@@ -342,13 +374,13 @@ namespace XPath_Template
                 if (!rx_nam.IsMatch(nam)) { error_box("That is not a valid Spider Name!\n\n(at least 3 characters long with no symbols, please)"); return; }
 
                 Regex rx_dom = new Regex(//confirm there is a valid "domain-name+.+TLD"
-@"^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.){1}[A-Za-z]{2,6}$");//yes I know {1} is a meaningless quantifier: it's there as a reminder!
+@"^((?!-)[A-Za-z0-9-]{1,63}(?<!-)){1}(\.[A-Za-z]{2,6}){1,2}$");//yes I know {1} is a meaningless quantifier: it's there as a reminder!
                 string dom = tb_domain.Text;
                 if (!rx_dom.IsMatch(dom)) { error_box("That is not a valid Website Domain!"); return; }
 
                 // get every base url into a single one-line string (and validate it at the same time for efficency):
                 Regex rx_url = new Regex(
-@"^http(s)?:\/\/www\.((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}(.)*$");
+@"^http(s)?:\/\/www\.((?!-)[A-Za-z0-9-]{1,63}(?<!-)){1}(\.[A-Za-z]{2,6}){1,2}(.)*$");
                 string urls = "";
                 foreach (var s in rtb_urls.Lines)
                 {
@@ -420,7 +452,7 @@ namespace XPath_Template
                 // infinite scroll stuff:
                 string infinite_scroll_headers = "";
                 if (cb_infinite_scroll.Checked) { infinite_scroll_headers = "\tpage_number=1\n"; } // only 1 header for now
-                string next_page_link_a = $"\t\tnext_page = response.xpath('{tb_next_page.Text}/@href').get(default=[])\n";
+                string next_page_link_a = $"\t\tnext_page = response.xpath('{tb_next_page.Text}').get(default=[])\n";
                 string next_page_link_b = "\t\tif next_page:# if a next page button exists, click it!\n";
                 string next_page_link_c = $"\t\t\t{debugmode}yield scrapy.Request(url=response.urljoin(next_page), callback=self.parse)\n";
                 if (cb_infinite_scroll.Checked)
@@ -516,7 +548,7 @@ $"\tstart_urls = [{urls}]\n" +
 "\tdef parse(self, response):\n" +
 "\n" +
 "\t\t# Grab details on every Boat Listing from this web page's response:\n" +
-$"\t\tfor boat_listing in response.xpath('{tb_boat_listings.Text}/@href'):\n" +
+$"\t\tfor boat_listing in response.xpath('{tb_boat_listings.Text}'):\n" +
 "\n" +
 "\t\t\t# grab the boat_listing's full URL:\n" +
 "\t\t\thref = boat_listing.get()# get just the href without the array stuff\n" +
@@ -624,7 +656,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         continue;
                     case 3:
                         find = l.IndexOf("for boat_listing");
-                        if (find > -1) { find = l.IndexOf('(') + 2; tb_boat_listings.Text = l.Substring(find, l.IndexOf("):") - find - 7); next += 1; }
+                        if (find > -1) { find = l.IndexOf('(') + 2; tb_boat_listings.Text = l.Substring(find, l.IndexOf("'):") - find); next += 1; }
                         continue;
                     case 4:
                         find = l.IndexOf("urljoin");
@@ -633,7 +665,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         continue;
                     case 5:
                         find = l.IndexOf("next_page");
-                        if (find > -1) { find = l.IndexOf('(') + 2; tb_next_page.Text = l.Substring(find, l.IndexOf(").") - find - 7); next += 1; }
+                        if (find > -1) { find = l.IndexOf('(') + 2; tb_next_page.Text = l.Substring(find, l.IndexOf("').") - find); next += 1; }
                         else//infinite scroll stuff:
                         {
                             find = l.IndexOf("url=f'");
