@@ -380,7 +380,7 @@ namespace XPath_Template
 
                 // get every base url into a single one-line string (and validate it at the same time for efficency):
                 Regex rx_url = new Regex(
-@"^http(s)?:\/\/www\.((?!-)[A-Za-z0-9-]{1,63}(?<!-)){1}(\.[A-Za-z]{2,6}){1,2}(.)*$");
+@"^http(s)?:\/\/(www\.)?((?!-)[A-Za-z0-9-]{1,63}(?<!-)){1}(\.[A-Za-z]{2,6}){1,2}(.)*$");
                 string urls = "";
                 foreach (var s in rtb_urls.Lines)
                 {

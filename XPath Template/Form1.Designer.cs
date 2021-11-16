@@ -1033,11 +1033,15 @@ namespace XPath_Template
             this.cb_assigned_to.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_assigned_to.FormattingEnabled = true;
             this.cb_assigned_to.Items.AddRange(new object[] {
+            "Ben Tonks",
+            "Ebren Durling",
+            "Ethan Mackie",
+            "Gareth Loakes",
+            "Lee",
             "Robbie Munro",
             "Sam Prince",
-            "Ebren Durling",
-            "Ben Tonks",
-            "Gareth Loakes"});
+            "",
+            ""});
             this.cb_assigned_to.Location = new System.Drawing.Point(116, 13);
             this.cb_assigned_to.Name = "cb_assigned_to";
             this.cb_assigned_to.Size = new System.Drawing.Size(133, 21);
