@@ -21,6 +21,11 @@ namespace XPath_Template
             cb_status.SelectedIndex = 0;
         }
 
+        private void cb_infinite_scroll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_infinite_scroll.Checked) { lb_next_page.Text = "Next Page URL:"; }
+            else { lb_next_page.Text = "Next Page XPath:"; }
+        }
         // returns true if 1-or-more input fields are empty, otherwise returns false
         private bool no_fields_are_empty()
         {
@@ -395,7 +400,8 @@ namespace XPath_Template
                 string x = tb_boat_listings.Text;
                 if (!rx_xpath.IsMatch(x)) { error_box("That is not a valid Boat Listing XPath!"); return; }
                 x = tb_next_page.Text;
-                if (!rx_xpath.IsMatch(x)) { error_box("That is not a valid Next Page XPath!"); return; }
+                if (!rx_xpath.IsMatch(x) & !cb_infinite_scroll.Checked) { error_box("That is not a valid Next Page XPath!"); return; }
+                else if (!rx_url.IsMatch(x) & cb_infinite_scroll.Checked) { error_box("That is not a valid Infinite Scroll URL!"); return; }
                 x = tb_specifications.Text;
                 if (!rx_xpath.IsMatch(x)) { error_box("That is not a valid Specifications XPath!"); return; }
                 x = tb_boat_make.Text;

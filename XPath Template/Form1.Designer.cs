@@ -1178,6 +1178,7 @@ namespace XPath_Template
             this.cb_infinite_scroll.TabIndex = 17;
             this.cb_infinite_scroll.Text = "Infinite Scroll?";
             this.cb_infinite_scroll.UseVisualStyleBackColor = true;
+            this.cb_infinite_scroll.CheckedChanged += new System.EventHandler(this.cb_infinite_scroll_CheckedChanged);
             // 
             // tt_help
             // 
