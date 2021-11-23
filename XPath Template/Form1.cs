@@ -352,7 +352,7 @@ namespace XPath_Template
             MessageBoxIcon.Error
             );
         }
-        private string yield_substring(decimal a, decimal b, string sub = "UNKNOWN")
+        private string yield_substring(decimal a, decimal b, string sub = "Unknown")
         {
             // determine if any substring suffixes to each specification exist and append them if so:
             if (a != 0 | b != 0)
@@ -503,23 +503,23 @@ namespace XPath_Template
                 string country_sub = yield_substring(ud_country_a.Value, ud_country_b.Value);
 
                 // check for missing XPaths:
-                string make_xpath = "'UNKNOWN'";
+                string make_xpath = "'Unknown'";
                 if (tb_boat_make.Text != "None") { make_xpath = $"{make_source}.xpath('{tb_boat_make.Text}').get(default='{make_sub}.strip()"; }
-                string model_xpath = "'UNKNOWN'";
+                string model_xpath = "'Unknown'";
                 if (tb_boat_model.Text != "None") { model_xpath = $"{model_source}.xpath('{tb_boat_model.Text}').get(default='{model_sub}.strip()"; }
-                string year_xpath = "'UNKNOWN'";
+                string year_xpath = "'Unknown'";
                 if (tb_boat_year.Text != "None") { year_xpath = $"{year_source}.xpath('{tb_boat_year.Text}').get(default='{year_sub}.strip()"; }
-                string condition_xpath = "'UNKNOWN'";
+                string condition_xpath = "'Unknown'";
                 if (tb_boat_condition.Text != "None") { condition_xpath = $"{condition_source}.xpath('{tb_boat_condition.Text}').get(default='{condition_sub}.strip()"; }
                 string price_xpath = "'0'";
                 if (tb_boat_price.Text != "None") { price_xpath = $"{price_source}.xpath('{tb_boat_price.Text}').get(default='{price_sub}.strip()"; }
                 string length_xpath = "'0'";
                 if (tb_boat_length.Text != "None") { length_xpath = $"{length_source}.xpath('{tb_boat_length.Text}').get(default='{length_sub}.strip()"; }
-                string material_xpath = "'UNKNOWN'";
+                string material_xpath = "'Unknown'";
                 if (tb_boat_material.Text != "None") { material_xpath = $"{material_source}.xpath('{tb_boat_material.Text}').get(default='{material_sub}.strip()"; }
-                string location_xpath = "'UNKNOWN'";
+                string location_xpath = "'Unknown'";
                 if (tb_boat_location.Text != "None") { location_xpath = $"{location_source}.xpath('{tb_boat_location.Text}').get(default='{location_sub}.strip()"; }
-                string country_xpath = "'UNKNOWN'";
+                string country_xpath = "'Unknown'";
                 if (tb_boat_country.Text != "None") { country_xpath = $"{country_source}.xpath('{tb_boat_country.Text}').get(default='{country_sub}.strip()"; }
 
 
@@ -691,7 +691,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("make");
                         if (find > -1)
                         {
-                            if (l.IndexOf("UNKNOWN',") > -1){ tb_boat_make.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("Unknown',") > -1){ tb_boat_make.Text = "None"; next += 1; continue; }
                             find = l.IndexOf('(') + 2;
                             tb_boat_make.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
@@ -706,7 +706,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("model");
                         if (find > -1)
                         {
-                            if (l.IndexOf("UNKNOWN',") > -1) { tb_boat_model.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("Unknown',") > -1) { tb_boat_model.Text = "None"; next += 1; continue; }
                             find = l.IndexOf('(') + 2;
                             tb_boat_model.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
@@ -721,7 +721,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("year");
                         if (find > -1)
                         {
-                            if (l.IndexOf("UNKNOWN',") > -1) { tb_boat_year.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("Unknown',") > -1) { tb_boat_year.Text = "None"; next += 1; continue; }
                             find = l.IndexOf('(') + 2;
                             tb_boat_year.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
@@ -736,7 +736,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("condition");
                         if (find > -1)
                         {
-                            if (l.IndexOf("UNKNOWN',") > -1) { tb_boat_condition.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("Unknown',") > -1) { tb_boat_condition.Text = "None"; next += 1; continue; }
                             find = l.IndexOf('(') + 2;
                             tb_boat_condition.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
@@ -781,7 +781,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("hull_material");
                         if (find > -1)
                         {
-                            if (l.IndexOf("UNKNOWN',") > -1) { tb_boat_material.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("Unknown',") > -1) { tb_boat_material.Text = "None"; next += 1; continue; }
                             find = l.IndexOf('(') + 2;
                             tb_boat_material.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
@@ -796,7 +796,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("location");
                         if (find > -1)
                         {
-                            if (l.IndexOf("UNKNOWN',") > -1) { tb_boat_location.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("Unknown',") > -1) { tb_boat_location.Text = "None"; next += 1; continue; }
                             find = l.IndexOf('(') + 2;
                             tb_boat_location.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
@@ -811,7 +811,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("country");
                         if (find > -1)
                         {
-                            if (l.IndexOf("UNKNOWN',") > -1) { tb_boat_country.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("Unknown',") > -1) { tb_boat_country.Text = "None"; next += 1; continue; }
                             find = l.IndexOf('(') + 2;
                             tb_boat_country.Text = l.Substring(find, l.IndexOf("').") - find);
                             tail = l.Substring(l.IndexOf("')[") + 3);
