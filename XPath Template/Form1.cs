@@ -494,8 +494,8 @@ namespace XPath_Template
                 // determine if any substring suffixes to each specification exist and append them if so:
                 string make_sub = yield_substring(ud_make_a.Value,ud_make_b.Value);
                 string model_sub = yield_substring(ud_model_a.Value, ud_model_b.Value);
-                string year_sub = yield_substring(ud_year_a.Value, ud_year_a.Value, "0");
-                string condition_sub = yield_substring(ud_condition_a.Value, ud_condition_a.Value);
+                string year_sub = yield_substring(ud_year_a.Value, ud_year_b.Value, "0");
+                string condition_sub = yield_substring(ud_condition_a.Value, ud_condition_b.Value);
                 string price_sub = yield_substring(ud_price_a.Value, ud_price_b.Value, "0");
                 string length_sub = yield_substring(ud_length_a.Value, ud_length_b.Value, "0");
                 string material_sub = yield_substring(ud_material_a.Value, ud_material_b.Value);
