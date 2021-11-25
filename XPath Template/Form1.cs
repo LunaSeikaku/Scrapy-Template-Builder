@@ -352,17 +352,28 @@ namespace XPath_Template
             MessageBoxIcon.Error
             );
         }
-        private string yield_substring(decimal a, decimal b, string sub = "Unknown")
+        private string format_yield(string specs_xpath, decimal a, decimal b, string sub = "Unknown")
         {
-            // determine if any substring suffixes to each specification exist and append them if so:
-            if (a != 0 | b != 0)
+            // first we confirm if there is an xpath to parse or not:
+            if (specs_xpath=="None") { return $"'{sub}',\n"; } // no xpath to parse :)
+
+            // if there is an xpath to parse, we first confirm where the xpath for y is coming from:
+            string specs_source = "specs_table"; // specs_xpath is from specifications table xpath
+            if (specs_xpath.Replace("(", "").Substring(0, 2) == "//") { specs_source = "response"; } // specs_xpath is from base HTML
+
+            // determine if we need any substring list concatenation nonsense and add it if so:
+            string list_concat_prefix = "", list_concat_suffix = "";
+            if (a != 0 | b != 0)// if true then we substring:
             {
-                if (a > 0) { for (int i = 0; i < a; i++) { sub = 'x' + sub; } }
-                if (b < 0) { for (int i = 0; i < b; i++) { sub = sub + 'x'; } }
-                sub = sub + $"')[{a}:{b}]".Replace("[0:", "[:").Replace(":0]", ":]");
+                list_concat_prefix = $"[x[{a}:{b}].strip() if x!='{sub}' else '{sub}' for x in ".Replace("[0:", "[:").Replace(":0]", ":]");
+                list_concat_suffix = "]";
             }
-            else { sub += "')"; }
-            return sub;
+
+            // determine if any xpath is needed and 
+            string output = $"{list_concat_prefix}{specs_source}.xpath('{specs_xpath}').get(default='{sub}').strip(){list_concat_suffix},\n";
+
+            // return fully-formed output:
+            return output;
         }
         private void confirm_we_can_create_template()
         {
@@ -468,60 +479,25 @@ namespace XPath_Template
                     next_page_link_c = $"\t\t\t{debugmode}yield scrapy.Request(url=f'{tb_next_page.Text}', callback=self.parse)\n";
                 }
 
-                // determine if specifications come from the specs_table or not:
-                string make_source = "specs_table";
-                if (tb_boat_make.Text.Replace("(","").Substring(0, 2) == "//") { make_source = "response"; }
-                string model_source = "specs_table";
-                if (tb_boat_model.Text.Replace("(", "").Substring(0, 2) == "//") { model_source = "response"; }
-                string year_source = "specs_table";
-                if (tb_boat_year.Text.Replace("(", "").Substring(0, 2) == "//") { year_source = "response"; }
-                string condition_source = "specs_table";
-                if (tb_boat_condition.Text.Replace("(", "").Substring(0, 2) == "//") { condition_source = "response"; }
-                string price_source = "specs_table";
-                if (tb_boat_price.Text.Replace("(", "").Substring(0, 2) == "//") { price_source = "response"; }
-                string length_source = "specs_table";
-                if (tb_boat_length.Text.Replace("(", "").Substring(0, 2) == "//") { length_source = "response"; }
-                string material_source = "specs_table";
-                if (tb_boat_material.Text.Replace("(", "").Substring(0, 2) == "//") { material_source = "response"; }
-                string location_source = "specs_table";
-                if (tb_boat_location.Text.Replace("(", "").Substring(0, 2) == "//") { location_source = "response"; }
-                string country_source = "specs_table";
-                if (tb_boat_country.Text.Replace("(", "").Substring(0, 2) == "//") { country_source = "response"; }
-
-                // check for text() and @href suffixes?
-                // <TBC>
-
-                // determine if any substring suffixes to each specification exist and append them if so:
-                string make_sub = yield_substring(ud_make_a.Value,ud_make_b.Value);
-                string model_sub = yield_substring(ud_model_a.Value, ud_model_b.Value);
-                string year_sub = yield_substring(ud_year_a.Value, ud_year_b.Value, "0");
-                string condition_sub = yield_substring(ud_condition_a.Value, ud_condition_b.Value);
-                string price_sub = yield_substring(ud_price_a.Value, ud_price_b.Value, "0");
-                string length_sub = yield_substring(ud_length_a.Value, ud_length_b.Value, "0");
-                string material_sub = yield_substring(ud_material_a.Value, ud_material_b.Value);
-                string location_sub = yield_substring(ud_location_a.Value, ud_location_b.Value);
-                string country_sub = yield_substring(ud_country_a.Value, ud_country_b.Value);
-
-                // check for missing XPaths:
-                string make_xpath = "'Unknown'";
-                if (tb_boat_make.Text != "None") { make_xpath = $"{make_source}.xpath('{tb_boat_make.Text}').get(default='{make_sub}.strip()"; }
-                string model_xpath = "'Unknown'";
-                if (tb_boat_model.Text != "None") { model_xpath = $"{model_source}.xpath('{tb_boat_model.Text}').get(default='{model_sub}.strip()"; }
-                string year_xpath = "'Unknown'";
-                if (tb_boat_year.Text != "None") { year_xpath = $"{year_source}.xpath('{tb_boat_year.Text}').get(default='{year_sub}.strip()"; }
-                string condition_xpath = "'Unknown'";
-                if (tb_boat_condition.Text != "None") { condition_xpath = $"{condition_source}.xpath('{tb_boat_condition.Text}').get(default='{condition_sub}.strip()"; }
-                string price_xpath = "'0'";
-                if (tb_boat_price.Text != "None") { price_xpath = $"{price_source}.xpath('{tb_boat_price.Text}').get(default='{price_sub}.strip()"; }
-                string length_xpath = "'0'";
-                if (tb_boat_length.Text != "None") { length_xpath = $"{length_source}.xpath('{tb_boat_length.Text}').get(default='{length_sub}.strip()"; }
-                string material_xpath = "'Unknown'";
-                if (tb_boat_material.Text != "None") { material_xpath = $"{material_source}.xpath('{tb_boat_material.Text}').get(default='{material_sub}.strip()"; }
-                string location_xpath = "'Unknown'";
-                if (tb_boat_location.Text != "None") { location_xpath = $"{location_source}.xpath('{tb_boat_location.Text}').get(default='{location_sub}.strip()"; }
-                string country_xpath = "'Unknown'";
-                if (tb_boat_country.Text != "None") { country_xpath = $"{country_source}.xpath('{tb_boat_country.Text}').get(default='{country_sub}.strip()"; }
-
+                // form yield output:
+                string make = "'Unknown',\n";
+                make = format_yield(tb_boat_make.Text, ud_make_a.Value, ud_make_b.Value);
+                string model = "'Unknown',\n";
+                model = format_yield(tb_boat_model.Text, ud_model_a.Value, ud_model_b.Value);
+                string year = "'Unknown',\n";
+                year = format_yield(tb_boat_year.Text, ud_year_a.Value, ud_year_b.Value, "0");
+                string condition = "'Unknown',\n";
+                condition = format_yield(tb_boat_condition.Text, ud_condition_a.Value, ud_condition_b.Value);
+                string price = "'Unknown',\n";
+                price = format_yield(tb_boat_price.Text, ud_price_a.Value, ud_price_b.Value, "0");
+                string length = "'Unknown',\n";
+                length = format_yield(tb_boat_length.Text, ud_length_a.Value, ud_length_b.Value, "0");
+                string material = "'Unknown',\n";
+                material = format_yield(tb_boat_material.Text, ud_material_a.Value, ud_material_b.Value);
+                string location = "'Unknown',\n";
+                location = format_yield(tb_boat_location.Text, ud_location_a.Value, ud_location_b.Value);
+                string country = "'Unknown',\n";
+                country = format_yield(tb_boat_country.Text, ud_country_a.Value, ud_country_b.Value);
 
                 // post-processing handling:
                 string absolute_url = "";
@@ -577,15 +553,15 @@ $"{next_page_link_a}{next_page_link_b}{next_page_link_c}"+
 "\t\t# Define and get what specifications we desire:\n" +
 $"\t\tspecs_table = response.xpath('{tb_specifications.Text}')\n" +
 "\t\tspecifications = {\n" +
-$"\t\t\t'make':{make_xpath},\n" +
-$"\t\t\t'model':{model_xpath},\n" +
-$"\t\t\t'year':{year_xpath},\n" +
-$"\t\t\t'condition':{condition_xpath},\n" +
-$"\t\t\t'price':{price_xpath},\n" +
-$"\t\t\t'length':{length_xpath},\n" +
-$"\t\t\t'hull_material':{material_xpath},\n" +
-$"\t\t\t'location':{location_xpath},\n" +
-$"\t\t\t'country':{country_xpath},\n" +
+$"\t\t\t'make':{make}" +
+$"\t\t\t'model':{model}" +
+$"\t\t\t'year':{year}" +
+$"\t\t\t'condition':{condition}" +
+$"\t\t\t'price':{price}" +
+$"\t\t\t'length':{length}" +
+$"\t\t\t'hull_material':{material}" +
+$"\t\t\t'location':{location}" +
+$"\t\t\t'country':{country}" +
 "\t\t\t'url':href.split('?')[0]}# remove any trailing query to save on memory space and prevent duplicates\n" +
 "\n" +
 $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
@@ -627,7 +603,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             // read remaining desired data from lines:
             int next = -2;
             int find = -1;
-            string tail = "";
+            int start = -1, finish = -1;
             string[] split;
             foreach (string l in lines)
             {
@@ -692,11 +668,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             if (l.IndexOf("Unknown',") > -1){ tb_boat_make.Text = "None"; next += 1; continue; }
-                            find = l.IndexOf('(') + 2;
+                            find = l.IndexOf("('") + 2;
                             tb_boat_make.Text = l.Substring(find, l.IndexOf("').") - find);
-                            tail = l.Substring(l.IndexOf("')[") + 3);
-                            tail = tail.Remove(tail.Length - 2);
-                            split = tail.Split(':');
+                            start = l.IndexOf("x[") + 2;
+                            finish  = l.IndexOf(']');//tail = tail.Remove(tail.Length - 2);
+                            split = l.Substring(start,finish-start).Split(':');
                             ud_make_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                             ud_make_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             next += 1; 
@@ -707,11 +683,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_model.Text = "None"; next += 1; continue; }
-                            find = l.IndexOf('(') + 2;
+                            find = l.IndexOf("('") + 2;
                             tb_boat_model.Text = l.Substring(find, l.IndexOf("').") - find);
-                            tail = l.Substring(l.IndexOf("')[") + 3);
-                            tail = tail.Remove(tail.Length - 2);
-                            split = tail.Split(':');
+                            start = l.IndexOf("x[") + 2;
+                            finish = l.IndexOf(']');
+                            split = l.Substring(start, finish - start).Split(':');
                             ud_model_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                             ud_model_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             next += 1;
@@ -722,11 +698,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_year.Text = "None"; next += 1; continue; }
-                            find = l.IndexOf('(') + 2;
+                            find = l.IndexOf("('") + 2;
                             tb_boat_year.Text = l.Substring(find, l.IndexOf("').") - find);
-                            tail = l.Substring(l.IndexOf("')[") + 3);
-                            tail = tail.Remove(tail.Length - 2);
-                            split = tail.Split(':');
+                            start = l.IndexOf("x[") + 2;
+                            finish = l.IndexOf(']');
+                            split = l.Substring(start, finish - start).Split(':');
                             ud_year_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                             ud_year_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             next += 1;
@@ -737,11 +713,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_condition.Text = "None"; next += 1; continue; }
-                            find = l.IndexOf('(') + 2;
+                            find = l.IndexOf("('") + 2;
                             tb_boat_condition.Text = l.Substring(find, l.IndexOf("').") - find);
-                            tail = l.Substring(l.IndexOf("')[") + 3);
-                            tail = tail.Remove(tail.Length - 2);
-                            split = tail.Split(':');
+                            start = l.IndexOf("x[") + 2;
+                            finish = l.IndexOf(']');
+                            split = l.Substring(start, finish - start).Split(':');
                             ud_condition_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                             ud_condition_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             next += 1;
@@ -752,11 +728,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             if (l.IndexOf("0',") > -1) { tb_boat_price.Text = "None"; next += 1; continue; }
-                            find = l.IndexOf('(') + 2;
+                            find = l.IndexOf("('") + 2;
                             tb_boat_price.Text = l.Substring(find, l.IndexOf("').") - find);
-                            tail = l.Substring(l.IndexOf("')[") + 3);
-                            tail = tail.Remove(tail.Length - 2);
-                            split = tail.Split(':');
+                            start = l.IndexOf("x[") + 2;
+                            finish = l.IndexOf(']');
+                            split = l.Substring(start, finish - start).Split(':');
                             ud_price_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                             ud_price_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             next += 1;
@@ -767,11 +743,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             if (l.IndexOf("0',") > -1) { tb_boat_length.Text = "None"; next += 1; continue; }
-                            find = l.IndexOf('(') + 2;
+                            find = l.IndexOf("('") + 2;
                             tb_boat_length.Text = l.Substring(find, l.IndexOf("').") - find);
-                            tail = l.Substring(l.IndexOf("')[") + 3);
-                            tail = tail.Remove(tail.Length - 2);
-                            split = tail.Split(':');
+                            start = l.IndexOf("x[") + 2;
+                            finish = l.IndexOf(']');
+                            split = l.Substring(start, finish - start).Split(':');
                             ud_length_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                             ud_length_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             next += 1;
@@ -782,11 +758,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_material.Text = "None"; next += 1; continue; }
-                            find = l.IndexOf('(') + 2;
+                            find = l.IndexOf("('") + 2;
                             tb_boat_material.Text = l.Substring(find, l.IndexOf("').") - find);
-                            tail = l.Substring(l.IndexOf("')[") + 3);
-                            tail = tail.Remove(tail.Length - 2);
-                            split = tail.Split(':');
+                            start = l.IndexOf("x[") + 2;
+                            finish = l.IndexOf(']');
+                            split = l.Substring(start, finish - start).Split(':');
                             ud_material_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                             ud_material_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             next += 1;
@@ -797,11 +773,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_location.Text = "None"; next += 1; continue; }
-                            find = l.IndexOf('(') + 2;
+                            find = l.IndexOf("('") + 2;
                             tb_boat_location.Text = l.Substring(find, l.IndexOf("').") - find);
-                            tail = l.Substring(l.IndexOf("')[") + 3);
-                            tail = tail.Remove(tail.Length - 2);
-                            split = tail.Split(':');
+                            start = l.IndexOf("x[") + 2;
+                            finish = l.IndexOf(']');
+                            split = l.Substring(start, finish - start).Split(':');
                             ud_location_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                             ud_location_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             next += 1;
@@ -812,11 +788,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         if (find > -1)
                         {
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_country.Text = "None"; next += 1; continue; }
-                            find = l.IndexOf('(') + 2;
+                            find = l.IndexOf("('") + 2;
                             tb_boat_country.Text = l.Substring(find, l.IndexOf("').") - find);
-                            tail = l.Substring(l.IndexOf("')[") + 3);
-                            tail = tail.Remove(tail.Length - 2);
-                            split = tail.Split(':');
+                            start = l.IndexOf("x[") + 2;
+                            finish = l.IndexOf(']');
+                            split = l.Substring(start, finish - start).Split(':');
                             ud_country_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                             ud_country_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             next += 1;
