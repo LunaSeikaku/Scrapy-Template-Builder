@@ -366,7 +366,7 @@ namespace XPath_Template
             if (a != 0 | b != 0)// if true then we substring:
             {
                 list_concat_prefix = $"[x[{a}:{b}].strip() if x!='{sub}' else '{sub}' for x in ".Replace("[0:", "[:").Replace(":0]", ":]");
-                list_concat_suffix = "]";
+                list_concat_suffix = "][0]";
             }
 
             // determine if any xpath is needed and 
