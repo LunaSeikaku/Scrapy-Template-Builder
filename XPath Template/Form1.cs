@@ -107,7 +107,11 @@ namespace XPath_Template
             confirm_we_can_create_template();
 
             string make = "";
-            if (tb_boat_make.Text.Length>0) { make = tb_boat_make.Text.Replace("(", "").Substring(0, 1); }
+            if (tb_boat_make.Text.Length>0)
+            {
+                make = tb_boat_make.Text.Replace("(", "");
+                if (make.Length > 0) { make = make.Substring(0, 1); }
+            }
             if (make != "/" & make != ".")
             { 
                 tb_boat_make.Text = "None";
@@ -132,7 +136,11 @@ namespace XPath_Template
             confirm_we_can_create_template();
 
             string model = "";
-            if (tb_boat_model.Text.Length > 0) { model = tb_boat_model.Text.Replace("(", "").Substring(0, 1); }
+            if (tb_boat_model.Text.Length > 0)
+            {
+                model = tb_boat_model.Text.Replace("(", "");
+                if (model.Length > 0) { model = model.Substring(0, 1); }
+            }
             if (model != "/" & model != ".")
             {
                 tb_boat_model.Text = "None";
@@ -154,7 +162,11 @@ namespace XPath_Template
         {
             tb_boat_year.Text = tb_boat_year.Text.Replace("'", "\"").Trim();
             string year = "";
-            if (tb_boat_year.Text.Length > 0) { year = tb_boat_year.Text.Replace("(", "").Substring(0, 1); }
+            if (tb_boat_year.Text.Length > 0)
+            {
+                year = tb_boat_year.Text.Replace("(", "");
+                if (year.Length > 0) { year = year.Substring(0, 1); }
+            }
             if (year != "/" & year != ".")
             {
                 tb_boat_year.Text = "None";
@@ -176,7 +188,11 @@ namespace XPath_Template
         {
             tb_boat_condition.Text = tb_boat_condition.Text.Replace("'", "\"").Trim();
             string condition = "";
-            if (tb_boat_condition.Text.Length > 0) { condition = tb_boat_condition.Text.Replace("(", "").Substring(0, 1); }
+            if (tb_boat_condition.Text.Length > 0)
+            {
+                condition = tb_boat_condition.Text.Replace("(", "");
+                if (condition.Length > 0) { condition = condition.Substring(0, 1); }
+            }
             if (condition != "/" & condition != ".")
             {
                 tb_boat_condition.Text = "None";
@@ -198,7 +214,11 @@ namespace XPath_Template
         {
             tb_boat_price.Text = tb_boat_price.Text.Replace("'", "\"").Trim();
             string price = "";
-            if (tb_boat_price.Text.Length > 0) { price = tb_boat_price.Text.Replace("(", "").Substring(0, 1); }
+            if (tb_boat_price.Text.Length > 0)
+            {
+                price = tb_boat_price.Text.Replace("(", "");
+                if (price.Length > 0) { price = price.Substring(0, 1); }
+            }
             if (price != "/" & price != ".")
             {
                 tb_boat_price.Text = "None";
@@ -220,7 +240,11 @@ namespace XPath_Template
         {
             tb_boat_length.Text = tb_boat_length.Text.Replace("'", "\"").Trim();
             string length = "";
-            if (tb_boat_length.Text.Length > 0) { length = tb_boat_length.Text.Replace("(", "").Substring(0, 1); }
+            if (tb_boat_length.Text.Length > 0)
+            {
+                length = tb_boat_length.Text.Replace("(", "");
+                if (length.Length > 0) { length = length.Substring(0, 1); }
+            }
             if (length != "/" & length != ".")
             {
                 tb_boat_length.Text = "None";
@@ -242,7 +266,11 @@ namespace XPath_Template
         {
             tb_boat_material.Text = tb_boat_material.Text.Replace("'", "\"").Trim();
             string material = "";
-            if (tb_boat_material.Text.Length > 0) { material = tb_boat_material.Text.Replace("(", "").Substring(0, 1); }
+            if (tb_boat_material.Text.Length > 0)
+            {
+                material = tb_boat_material.Text.Replace("(", "");
+                if (material.Length > 0) { material = material.Substring(0, 1); }
+            }
             if (material != "/" & material != ".")
             {
                 tb_boat_material.Text = "None";
@@ -264,7 +292,11 @@ namespace XPath_Template
         {
             tb_boat_location.Text = tb_boat_location.Text.Replace("'", "\"").Trim();
             string location = "";
-            if (tb_boat_location.Text.Length > 0) { location = tb_boat_location.Text.Replace("(", "").Substring(0, 1); }
+            if (tb_boat_location.Text.Length > 0)
+            {
+                location = tb_boat_location.Text.Replace("(", "");
+                if (location.Length > 0) { location = location.Substring(0, 1); }
+            }
             if (location != "/" & location != ".")
             {
                 tb_boat_location.Text = "None";
@@ -286,7 +318,11 @@ namespace XPath_Template
         {
             tb_boat_country.Text = tb_boat_country.Text.Replace("'", "\"").Trim();
             string country = "";
-            if (tb_boat_country.Text.Length > 0) { country = tb_boat_country.Text.Replace("(", "").Substring(0, 1); }
+            if (tb_boat_country.Text.Length > 0)
+            {
+                country = tb_boat_country.Text.Replace("(", "");
+                if (country.Length > 0) { country = country.Substring(0, 1); }
+            }
             if (country != "/" & country != ".")
             {
                 tb_boat_country.Text = "None";
