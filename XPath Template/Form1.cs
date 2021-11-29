@@ -34,7 +34,6 @@ namespace XPath_Template
                 rtb_urls.TextLength < 3 | //tb_url.TextLength < 3 |
                 tb_boat_listings.TextLength < 3 |
                 tb_next_page.TextLength < 3 |
-                tb_specifications.TextLength < 3 |
                 tb_boat_make.TextLength < 3 |
                 tb_boat_model.TextLength < 3 |
                 tb_boat_year.TextLength < 3 |
@@ -388,6 +387,15 @@ namespace XPath_Template
             MessageBoxIcon.Error
             );
         }
+        private void success_box(string msg)
+        {
+            MessageBox.Show(
+            msg,
+            "Information!",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information
+            );
+        }
         private string format_yield(string specs_xpath, decimal a, decimal b, string sub = "Unknown")
         {
             // first we confirm if there is an xpath to parse or not:
@@ -450,7 +458,7 @@ namespace XPath_Template
                 if (!rx_xpath.IsMatch(x) & !cb_infinite_scroll.Checked) { error_box("That is not a valid Next Page XPath!"); return; }
                 else if (!rx_url.IsMatch(x) & cb_infinite_scroll.Checked) { error_box("That is not a valid Infinite Scroll URL!"); return; }
                 x = tb_specifications.Text;
-                if (!rx_xpath.IsMatch(x)) { error_box("That is not a valid Specifications XPath!"); return; }
+                if (!rx_xpath.IsMatch(x) & x!="") { error_box("That is not a valid Specifications XPath!"); return; }
                 x = tb_boat_make.Text;
                 if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Make XPath!"); return; }
                 x = tb_boat_model.Text;
@@ -611,6 +619,8 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
 
                 try { File.WriteAllText(file_path, file_content); }
                 catch (IOException) { error_box($"Please close {file_path} before running this!"); return; }
+
+                success_box($"{tb_spider_denomer.Text.ToLower()}.py template file was created successfully!"); return;
             }
             else//at least one field has not been filled in:
             {
