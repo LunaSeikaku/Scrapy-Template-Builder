@@ -262,6 +262,7 @@ namespace XPath_Template
             // btn_debug
             // 
             this.btn_debug.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(167)))), ((int)(((byte)(157)))));
+            this.btn_debug.Enabled = false;
             this.btn_debug.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(199)))), ((int)(((byte)(8)))));
             this.btn_debug.FlatAppearance.BorderSize = 2;
             this.btn_debug.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -271,13 +272,14 @@ namespace XPath_Template
             this.btn_debug.Name = "btn_debug";
             this.btn_debug.Size = new System.Drawing.Size(210, 83);
             this.btn_debug.TabIndex = 17;
-            this.btn_debug.Text = "Debug!";
+            this.btn_debug.Text = "Crawl Page!";
             this.btn_debug.UseVisualStyleBackColor = false;
             this.btn_debug.Click += new System.EventHandler(this.btn_debug_Click);
             // 
             // btn_test
             // 
             this.btn_test.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(167)))), ((int)(((byte)(157)))));
+            this.btn_test.Enabled = false;
             this.btn_test.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(199)))), ((int)(((byte)(8)))));
             this.btn_test.FlatAppearance.BorderSize = 2;
             this.btn_test.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -287,7 +289,7 @@ namespace XPath_Template
             this.btn_test.Name = "btn_test";
             this.btn_test.Size = new System.Drawing.Size(210, 83);
             this.btn_test.TabIndex = 18;
-            this.btn_test.Text = "Test!";
+            this.btn_test.Text = "Crawl Spider!";
             this.btn_test.UseVisualStyleBackColor = false;
             this.btn_test.Click += new System.EventHandler(this.btn_test_Click);
             // 

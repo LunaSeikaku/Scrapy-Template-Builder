@@ -62,7 +62,7 @@ namespace XPath_Template
             string folder_path = Directory.GetCurrentDirectory();
 
             // grab filepath from below the source directory using the spider name:
-            string file_path = $@"{folder_path}\best_scraper\spiders\{tb_spider_denomer.Text.ToLower()}.py";
+            string file_path = $@"{folder_path}\yachtscrape\spiders\{tb_spider_denomer.Text.ToLower()}.py";
 
             // if file exists, enable Load Template button - otherwise disable it
             if (File.Exists(file_path)) { btn_load_template.Enabled = true; }
@@ -342,7 +342,13 @@ namespace XPath_Template
 
         private void btn_Create_Click(object sender, EventArgs e)
         {
-            create_template();
+            create_template(true);
+        }
+        private void btn_debug_Click(object sender, EventArgs e)
+        {
+            create_template(false,"pass#");// overwrite template to temporary put it into Debug Mode
+            crawl_spider('c');// run scrapy on temporary template (no pagination)
+            create_template();// reset template back to original
         }
         private void btn_test_Click(object sender, EventArgs e)
         {
@@ -359,13 +365,6 @@ namespace XPath_Template
         {
             if (cb_parse_feet.Checked) { cb_convert_metres_to_feet.Enabled = true; }
             else { cb_convert_metres_to_feet.Enabled = false; }
-        }
-
-        private void btn_debug_Click(object sender, EventArgs e)
-        {
-            create_template("pass#");// overwrite template to temporary put it into Debug Mode
-            crawl_spider();// run scrapy on temporary template (no pagination)
-            create_template();// reset template back to original
         }
         private void btn_csv_Click(object sender, EventArgs e)
         {
@@ -421,9 +420,18 @@ namespace XPath_Template
         }
         private void confirm_we_can_create_template()
         {
-            if (no_fields_are_empty()) { btn_Create.Enabled = true; } else { btn_Create.Enabled = false; }
+            if (no_fields_are_empty())
+            { 
+                btn_Create.Enabled = true;
+                btn_debug.Enabled = true;
+                btn_test.Enabled = true;
+            } else {
+                btn_Create.Enabled = false;
+                btn_debug.Enabled = false;
+                btn_test.Enabled = false;
+            }
         }
-        private void create_template(string debugmode="")//debugmode="pass#" if Debug Mode is ON
+        private void create_template(bool show_box=false,string debugmode="")//debugmode="pass#" if Debug Mode is ON
         {
             if (no_fields_are_empty())//all form fields filled with something:
             {
@@ -615,12 +623,12 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                 // grab root scrapy project directory
                 string folder_path = Directory.GetCurrentDirectory();
 
-                string file_path = $@"{folder_path}\best_scraper\spiders\{tb_spider_denomer.Text.ToLower()}.py";
+                string file_path = $@"{folder_path}\yachtscrape\spiders\{tb_spider_denomer.Text.ToLower()}.py";
 
                 try { File.WriteAllText(file_path, file_content); }
                 catch (IOException) { error_box($"Please close {file_path} before running this!"); return; }
 
-                success_box($"{tb_spider_denomer.Text.ToLower()}.py template file was created successfully!"); return;
+                if (show_box) { success_box($"{tb_spider_denomer.Text.ToLower()}.py template file was created successfully!"); }
             }
             else//at least one field has not been filled in:
             {
@@ -633,7 +641,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             string folder_path = Directory.GetCurrentDirectory();
 
             // grab filepath from below the source directory using the spider name:
-            string file_path = $@"{folder_path}\best_scraper\spiders\{tb_spider_denomer.Text.ToLower()}.py";
+            string file_path = $@"{folder_path}\yachtscrape\spiders\{tb_spider_denomer.Text.ToLower()}.py";
             if (File.Exists(file_path) == false)
             { error_box($"Could not find {tb_spider_denomer.Text}.py!\n\nPlease enter an existing Spider Name!"); return; }
 
@@ -718,9 +726,12 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             tb_boat_make.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("x[") + 2;
                             finish  = l.IndexOf(']');//tail = tail.Remove(tail.Length - 2);
-                            split = l.Substring(start,finish-start).Split(':');
-                            ud_make_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
-                            ud_make_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            if (start > 1 & finish > -1)
+                            {
+                                split = l.Substring(start, finish - start).Split(':');
+                                ud_make_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
+                                ud_make_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            }
                             next += 1; 
                         }
                         continue;
@@ -733,9 +744,12 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             tb_boat_model.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("x[") + 2;
                             finish = l.IndexOf(']');
-                            split = l.Substring(start, finish - start).Split(':');
-                            ud_model_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
-                            ud_model_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            if (start > 1 & finish > -1)
+                            {
+                                split = l.Substring(start, finish - start).Split(':');
+                                ud_model_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
+                                ud_model_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            }
                             next += 1;
                         }
                         continue;
@@ -743,14 +757,17 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("year");
                         if (find > -1)
                         {
-                            if (l.IndexOf("Unknown',") > -1) { tb_boat_year.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("0',") > -1) { tb_boat_year.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_year.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("x[") + 2;
                             finish = l.IndexOf(']');
-                            split = l.Substring(start, finish - start).Split(':');
-                            ud_year_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
-                            ud_year_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            if (start > 1 & finish > -1)
+                            {
+                                split = l.Substring(start, finish - start).Split(':');
+                                ud_year_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
+                                ud_year_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            }
                             next += 1;
                         }
                         continue;
@@ -763,9 +780,12 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             tb_boat_condition.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("x[") + 2;
                             finish = l.IndexOf(']');
-                            split = l.Substring(start, finish - start).Split(':');
-                            ud_condition_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
-                            ud_condition_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            if (start > 1 & finish > -1)
+                            {
+                                split = l.Substring(start, finish - start).Split(':');
+                                ud_condition_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
+                                ud_condition_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            }
                             next += 1;
                         }
                         continue;
@@ -778,9 +798,12 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             tb_boat_price.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("x[") + 2;
                             finish = l.IndexOf(']');
-                            split = l.Substring(start, finish - start).Split(':');
-                            ud_price_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
-                            ud_price_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            if (start > 1 & finish > -1)
+                            {
+                                split = l.Substring(start, finish - start).Split(':');
+                                ud_price_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
+                                ud_price_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            }
                             next += 1;
                         }
                         continue;
@@ -793,9 +816,12 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             tb_boat_length.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("x[") + 2;
                             finish = l.IndexOf(']');
-                            split = l.Substring(start, finish - start).Split(':');
-                            ud_length_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
-                            ud_length_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            if (start > 1 & finish > -1)
+                            {
+                                split = l.Substring(start, finish - start).Split(':');
+                                ud_length_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
+                                ud_length_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            }
                             next += 1;
                         }
                         continue;
@@ -808,9 +834,12 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             tb_boat_material.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("x[") + 2;
                             finish = l.IndexOf(']');
-                            split = l.Substring(start, finish - start).Split(':');
-                            ud_material_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
-                            ud_material_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            if (start > 1 & finish > -1)
+                            {
+                                split = l.Substring(start, finish - start).Split(':');
+                                ud_material_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
+                                ud_material_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            }
                             next += 1;
                         }
                         continue;
@@ -823,9 +852,12 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             tb_boat_location.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("x[") + 2;
                             finish = l.IndexOf(']');
-                            split = l.Substring(start, finish - start).Split(':');
-                            ud_location_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
-                            ud_location_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            if (start > 1 & finish > -1)
+                            {
+                                split = l.Substring(start, finish - start).Split(':');
+                                ud_location_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
+                                ud_location_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            }
                             next += 1;
                         }
                         continue;
@@ -838,9 +870,12 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             tb_boat_country.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("x[") + 2;
                             finish = l.IndexOf(']');
-                            split = l.Substring(start, finish - start).Split(':');
-                            ud_country_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
-                            ud_country_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            if (start > 1 & finish > -1)
+                            {
+                                split = l.Substring(start, finish - start).Split(':');
+                                ud_country_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
+                                ud_country_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
+                            }
                             next += 1;
                         }
                         continue;
