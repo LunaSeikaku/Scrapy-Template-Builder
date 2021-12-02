@@ -162,6 +162,7 @@ namespace XPath_Template
             this.tb_specifications.Name = "tb_specifications";
             this.tb_specifications.Size = new System.Drawing.Size(476, 20);
             this.tb_specifications.TabIndex = 6;
+            this.tb_specifications.Text = "None";
             this.tb_specifications.TextChanged += new System.EventHandler(this.tb_specifications_TextChanged);
             // 
             // lb_specifications

@@ -97,247 +97,85 @@ namespace XPath_Template
         {
             // check if we can Create Template! with current input:
             tb_specifications.Text = tb_specifications.Text.Replace("'", "\"").Trim();
+            //confirm_we_can_create_template();
+            string specs = "";
+            if (tb_specifications.Text.Length > 0)
+            {
+                specs = tb_specifications.Text.Replace("(", "");
+                if (specs.Length > 0) { specs = specs.Substring(0, 1); }
+            }
+            if (specs != "/" & specs != ".")
+            {
+                tb_specifications.Text = "None";
+            }
+        }
+        private void boat_listing_xpath_validation(TextBox xpath_textbox, NumericUpDown start, NumericUpDown stop, CheckBox sold_or_not)
+        {
+            // check if we can Create Template! with current input (make or model check):
+            xpath_textbox.Text = xpath_textbox.Text.Replace("'", "\"").Trim();
             confirm_we_can_create_template();
+
+            // validate input:
+            string first_char = ""; // has to be string as it might not always be the first character
+            if (xpath_textbox.Text.Length > 0)
+            {
+                first_char = xpath_textbox.Text.Replace("(", "");
+                if (first_char.Length > 0) { first_char = first_char.Substring(0, 1); }
+            }
+            if (first_char == "/" | (first_char == "." & tb_specifications.Text != "None"))
+            {
+                start.Enabled = true;
+                stop.Enabled = true;
+                sold_or_not.Enabled = true;
+                sold_or_not.Checked = true;
+            }
+            else
+            {
+                xpath_textbox.Text = "None";
+                start.Enabled = false;
+                stop.Enabled = false;
+                sold_or_not.Enabled = false;
+                sold_or_not.Checked = false;
+                start.Value = 0;
+                stop.Value = 0;
+                if (first_char == "." & tb_specifications.Text == "None") { error_box("To be able to grab data from a boat listing's specifications, you first need to define the Specifications XPath!"); }
+            }
         }
         private void tb_boat_make_TextChanged(object sender, EventArgs e)
         {
-            // check if we can Create Template! with current input (make or model check):
-            tb_boat_make.Text = tb_boat_make.Text.Replace("'", "\"").Trim();
-            confirm_we_can_create_template();
-
-            string make = "";
-            if (tb_boat_make.Text.Length>0)
-            {
-                make = tb_boat_make.Text.Replace("(", "");
-                if (make.Length > 0) { make = make.Substring(0, 1); }
-            }
-            if (make != "/" & make != ".")
-            { 
-                tb_boat_make.Text = "None";
-                ud_make_a.Enabled = false;
-                ud_make_b.Enabled = false;
-                cb_sold_make.Enabled = false;
-                cb_sold_make.Checked = false;
-                ud_make_a.Value = 0;
-                ud_make_b.Value = 0;
-            }
-            else
-            {
-                ud_make_a.Enabled = true;
-                ud_make_b.Enabled = true;
-                cb_sold_make.Enabled = true;
-            }
+            boat_listing_xpath_validation(tb_boat_make, ud_make_a, ud_make_b, cb_sold_make);
         }
         private void tb_boat_model_TextChanged(object sender, EventArgs e)
         {
-            // check if we can Create Template! with current input (make or model check):
-            tb_boat_model.Text = tb_boat_model.Text.Replace("'", "\"").Trim();
-            confirm_we_can_create_template();
-
-            string model = "";
-            if (tb_boat_model.Text.Length > 0)
-            {
-                model = tb_boat_model.Text.Replace("(", "");
-                if (model.Length > 0) { model = model.Substring(0, 1); }
-            }
-            if (model != "/" & model != ".")
-            {
-                tb_boat_model.Text = "None";
-                ud_model_a.Enabled = false;
-                ud_model_b.Enabled = false;
-                cb_sold_model.Enabled = false;
-                cb_sold_model.Checked = false;
-                ud_model_a.Value = 0;
-                ud_model_b.Value = 0;
-            }
-            else
-            {
-                ud_model_a.Enabled = true;
-                ud_model_b.Enabled = true;
-                cb_sold_model.Enabled = true;
-            }
+            boat_listing_xpath_validation(tb_boat_model, ud_model_a, ud_model_b, cb_sold_model);
         }
         private void tb_boat_year_TextChanged(object sender, EventArgs e)
         {
-            tb_boat_year.Text = tb_boat_year.Text.Replace("'", "\"").Trim();
-            string year = "";
-            if (tb_boat_year.Text.Length > 0)
-            {
-                year = tb_boat_year.Text.Replace("(", "");
-                if (year.Length > 0) { year = year.Substring(0, 1); }
-            }
-            if (year != "/" & year != ".")
-            {
-                tb_boat_year.Text = "None";
-                ud_year_a.Enabled = false;
-                ud_year_b.Enabled = false;
-                cb_sold_year.Enabled = false;
-                cb_sold_year.Checked = false;
-                ud_year_a.Value = 0;
-                ud_year_b.Value = 0;
-            }
-            else
-            {
-                ud_year_a.Enabled = true;
-                ud_year_b.Enabled = true;
-                cb_sold_year.Enabled = true;
-            }
+            boat_listing_xpath_validation(tb_boat_year, ud_year_a, ud_year_b, cb_sold_year);
         }
         private void tb_boat_condition_TextChanged(object sender, EventArgs e)
         {
-            tb_boat_condition.Text = tb_boat_condition.Text.Replace("'", "\"").Trim();
-            string condition = "";
-            if (tb_boat_condition.Text.Length > 0)
-            {
-                condition = tb_boat_condition.Text.Replace("(", "");
-                if (condition.Length > 0) { condition = condition.Substring(0, 1); }
-            }
-            if (condition != "/" & condition != ".")
-            {
-                tb_boat_condition.Text = "None";
-                ud_condition_a.Enabled = false;
-                ud_condition_b.Enabled = false;
-                cb_sold_condition.Enabled = false;
-                cb_sold_condition.Checked = false;
-                ud_condition_a.Value = 0;
-                ud_condition_b.Value = 0;
-            }
-            else
-            {
-                ud_condition_a.Enabled = true;
-                ud_condition_b.Enabled = true;
-                cb_sold_condition.Enabled = true;
-            }
+            boat_listing_xpath_validation(tb_boat_condition, ud_condition_a, ud_condition_b, cb_sold_condition);
         }
         private void tb_boat_price_TextChanged(object sender, EventArgs e)
         {
-            tb_boat_price.Text = tb_boat_price.Text.Replace("'", "\"").Trim();
-            string price = "";
-            if (tb_boat_price.Text.Length > 0)
-            {
-                price = tb_boat_price.Text.Replace("(", "");
-                if (price.Length > 0) { price = price.Substring(0, 1); }
-            }
-            if (price != "/" & price != ".")
-            {
-                tb_boat_price.Text = "None";
-                ud_price_a.Enabled = false;
-                ud_price_b.Enabled = false;
-                cb_sold_price.Enabled = false;
-                cb_sold_price.Checked = false;
-                ud_price_a.Value = 0;
-                ud_price_b.Value = 0;
-            }
-            else
-            {
-                ud_price_a.Enabled = true;
-                ud_price_b.Enabled = true;
-                cb_sold_price.Enabled = true;
-            }
+            boat_listing_xpath_validation(tb_boat_price, ud_price_a, ud_price_b, cb_sold_price);
         }
         private void tb_boat_length_TextChanged(object sender, EventArgs e)
         {
-            tb_boat_length.Text = tb_boat_length.Text.Replace("'", "\"").Trim();
-            string length = "";
-            if (tb_boat_length.Text.Length > 0)
-            {
-                length = tb_boat_length.Text.Replace("(", "");
-                if (length.Length > 0) { length = length.Substring(0, 1); }
-            }
-            if (length != "/" & length != ".")
-            {
-                tb_boat_length.Text = "None";
-                ud_length_a.Enabled = false;
-                ud_length_b.Enabled = false;
-                cb_sold_length.Enabled = false;
-                cb_sold_length.Checked = false;
-                ud_length_a.Value = 0;
-                ud_length_b.Value = 0;
-            }
-            else
-            {
-                ud_length_a.Enabled = true;
-                ud_length_b.Enabled = true;
-                cb_sold_length.Enabled = true;
-            }
+            boat_listing_xpath_validation(tb_boat_length, ud_length_a, ud_length_b, cb_sold_length);
         }
         private void tb_boat_material_TextChanged(object sender, EventArgs e)
         {
-            tb_boat_material.Text = tb_boat_material.Text.Replace("'", "\"").Trim();
-            string material = "";
-            if (tb_boat_material.Text.Length > 0)
-            {
-                material = tb_boat_material.Text.Replace("(", "");
-                if (material.Length > 0) { material = material.Substring(0, 1); }
-            }
-            if (material != "/" & material != ".")
-            {
-                tb_boat_material.Text = "None";
-                ud_material_a.Enabled = false;
-                ud_material_b.Enabled = false;
-                cb_sold_material.Enabled = false;
-                cb_sold_material.Checked = false;
-                ud_material_a.Value = 0;
-                ud_material_b.Value = 0;
-            }
-            else
-            {
-                ud_material_a.Enabled = true;
-                ud_material_b.Enabled = true;
-                cb_sold_material.Enabled = true;
-            }
+            boat_listing_xpath_validation(tb_boat_material, ud_material_a, ud_material_b, cb_sold_material);
         }
         private void tb_boat_location_TextChanged(object sender, EventArgs e)
         {
-            tb_boat_location.Text = tb_boat_location.Text.Replace("'", "\"").Trim();
-            string location = "";
-            if (tb_boat_location.Text.Length > 0)
-            {
-                location = tb_boat_location.Text.Replace("(", "");
-                if (location.Length > 0) { location = location.Substring(0, 1); }
-            }
-            if (location != "/" & location != ".")
-            {
-                tb_boat_location.Text = "None";
-                ud_location_a.Enabled = false;
-                ud_location_b.Enabled = false;
-                cb_sold_location.Enabled = false;
-                cb_sold_location.Checked = false;
-                ud_location_a.Value = 0;
-                ud_location_b.Value = 0;
-            }
-            else
-            {
-                ud_location_a.Enabled = true;
-                ud_location_b.Enabled = true;
-                cb_sold_location.Enabled = true;
-            }
+            boat_listing_xpath_validation(tb_boat_location, ud_location_a, ud_location_b, cb_sold_location);
         }
         private void tb_boat_country_TextChanged(object sender, EventArgs e)
         {
-            tb_boat_country.Text = tb_boat_country.Text.Replace("'", "\"").Trim();
-            string country = "";
-            if (tb_boat_country.Text.Length > 0)
-            {
-                country = tb_boat_country.Text.Replace("(", "");
-                if (country.Length > 0) { country = country.Substring(0, 1); }
-            }
-            if (country != "/" & country != ".")
-            {
-                tb_boat_country.Text = "None";
-                ud_country_a.Enabled = false;
-                ud_country_b.Enabled = false;
-                cb_sold_country.Enabled = false;
-                cb_sold_country.Checked = false;
-                ud_country_a.Value = 0;
-                ud_country_b.Value = 0;
-            }
-            else
-            {
-                ud_country_a.Enabled = true;
-                ud_country_b.Enabled = true;
-                cb_sold_country.Enabled = true;
-            }
+            boat_listing_xpath_validation(tb_boat_country, ud_country_a, ud_country_b, cb_sold_country);
         }
 
         private void btn_Create_Click(object sender, EventArgs e)
@@ -466,7 +304,7 @@ namespace XPath_Template
                 if (!rx_xpath.IsMatch(x) & !cb_infinite_scroll.Checked) { error_box("That is not a valid Next Page XPath!"); return; }
                 else if (!rx_url.IsMatch(x) & cb_infinite_scroll.Checked) { error_box("That is not a valid Infinite Scroll URL!"); return; }
                 x = tb_specifications.Text;
-                if (!rx_xpath.IsMatch(x) & x!="") { error_box("That is not a valid Specifications XPath!"); return; }
+                if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Specifications XPath!"); return; }
                 x = tb_boat_make.Text;
                 if (!rx_xpath.IsMatch(x) & x != "None") { error_box("That is not a valid Boat Make XPath!"); return; }
                 x = tb_boat_model.Text;
@@ -550,6 +388,9 @@ namespace XPath_Template
                 location = format_yield(tb_boat_location.Text, ud_location_a.Value, ud_location_b.Value);
                 string country = "'Unknown',\n";
                 country = format_yield(tb_boat_country.Text, ud_country_a.Value, ud_country_b.Value);
+                // specs xpath toggle:
+                string specs_table = "";
+                if (tb_specifications.Text!="None") { specs_table = $"\t\tspecs_table = response.xpath('{tb_specifications.Text}')\n"; }
 
                 // post-processing handling:
                 string absolute_url = "";
@@ -603,7 +444,7 @@ $"{next_page_link_a}{next_page_link_b}{next_page_link_c}"+
 "\t\thref = response.request.meta['URL']\n" +
 "\n" +
 "\t\t# Define and get what specifications we desire:\n" +
-$"\t\tspecs_table = response.xpath('{tb_specifications.Text}')\n" +
+$"{specs_table}" +
 "\t\tspecifications = {\n" +
 $"\t\t\t'make':{make}" +
 $"\t\t\t'model':{model}" +
@@ -716,6 +557,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                     case 6:
                         find = l.IndexOf("specs_table =");
                         if (find > -1) { find = l.IndexOf('(') + 2; tb_specifications.Text = l.Substring(find, l.IndexOf("')") - find); next += 1; }
+                        else if (l.IndexOf("specifications = {") > -1) { next += 1; }
                         continue;
                     case 7:
                         find = l.IndexOf("make");
