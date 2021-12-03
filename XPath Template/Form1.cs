@@ -99,7 +99,7 @@ namespace XPath_Template
                 specs = tb_specifications.Text.Replace("(", "");
                 if (specs.Length > 0) { specs = specs.Substring(0, 1); }
             }
-            if (specs != "/" & specs != ".")
+            if (specs != "/")//& specs != "."
             {
                 tb_specifications.Text = "None";
             }
@@ -844,6 +844,67 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
         private void ll_xpath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://devhints.io/xpath");
+        }
+
+        private void lb_spider_denomer_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The name of the spider file (excluding .py file extension), the name of the spider class (excluding 'Spider' suffix) and the name parameter of the spider class. Case insensitive.\n\n'example' input when Create Template! is clicked results in the creation of an ExampleSpider class with ExampleSpider.name = 'example' in a newly created example.py template spider file in the spiders subfolder.\n\nYour spider name can be anything, but should be the same as your website as a general rule so whoever looks at your spider file knows immediately what website it is scraping from.");
+        }
+        private void lb_domain_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The base domain of the website this spider is scraping. Scrapy needs this to determine which urls to scrape from, and more importantly, which urls not to scrap (as they are outside the domain scope). Case insensitive.\n\n'example.com' input results in ExampleSpider.allowed_domains = ['example.com'] in your spider.\n\nThis can technically handle multiple domains, however we have yet to discover any boat websites requiring this.If you run into a website with multiple domains, ask for advice.");
+        }
+        private void lb_url_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("Every line of this Rich TextBox should contain a fully-formed URL. Scrapy needs these to determine which specific URL(s) to begin scraping from. Case insensitive.\n\n'http://www.example.com/speedboats-for-sale\nhttps://www.example.com/motorboats-for-sale\nhttp://www.example.com/houseboats-for-sale'\n\ninput results in ExampleSpider.start_urls =[f'http://www.example.com/speedboats-for-sale', f'http://www.example.com/motorboats-for-sale', f'http://www.example.com/houseboats-for-sale'] in your spider.\n\nThe[] means the result is a list. The f'' allows advanced f - string functionality in the URL(s) to allow for edge - cases like infinite scrolling websites.Ask for advice if you need to use this functionality.\n\nSome websites only require a single URL as all their boats are listed on a single boat listing page, like if all of example.com's boats were listed on 'https://www.example.com/boats-for-sale'");
+        }
+        private void lb_boat_listings_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns every single Boat Listing URL on a Boat Listing's webpage.\n\n'//example-tag/@href' could return 'http://www.example.com/a-boat','http://www.example.com/b-boat' and 'http://www.example.com/c-boat'.");
+        }
+        private void lb_next_page_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns the next page button's URL on a Boat Listing's webpage.\n\n'//example-tag(@class='next-page-button')/@href' could return 'http://www.example.com/boats-for-sale/page-2' then page 3 and so on until the button no longer exists on the last page of boat listings.");
+        }
+        private void lb_specifications_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns a Boat's specifications on the Boat's webpage. Optional as a website may occasionally not have a section for specs.\n\n'//example-tag[contains(text(),'specifications')]' could return the HTML for the boat's specifications - which the Single Boat Listing XPaths can then use to grab data from it.");
+        }
+        private void lb_boat_make_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns a Boat's specific Make from that Boat's webpage, if it is listed.\n\n'//example-tag/text()' could return the Make from the Boat's HTML. './ example - tag / text()' could return the Make from that Boat's Specifications(XPath) if within it.\n\nEvery boat needs either a Make or a Model XPath. Some websites will mix the pair into a single value which our pipelines will automatically split into Make and Model.\nIn this case, just put the Make+Model XPath into this Make XPath textbox, and our infrastructure will handle the rest.");
+        }
+        private void lb_boat_model_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns a Boat's specific Model from that Boat's webpage, if it is listed.\n\n'//example-tag/text()' could return the Model from that Boat's HTML. './ example - tag / text()' could return the Model from that Boat's Specifications(XPath) if within it.\n\nEvery boat needs either a Make or a Model XPath. Some websites will mix the pair into a single value which our pipelines will automatically split into Make and Model.\nIn this case, just put the Make+Model XPath into the Make XPath textbox above, and our infrastructure will handle the rest.");
+        }
+        private void lb_boat_year_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns a Boat's specific Year from that Boat's webpage, if it is listed.\n\n'//example-tag/text()' could return the Year from that Boat's HTML. './ example - tag / text()' could return the Year from that Boat's Specifications(XPath).\n\nYear must end up formatted as a strictly - numerical format.\nExample: '2004' is fine but '01/01/2004' would require the first 6 characters to be removed using the numerical dials to the right of the textbox(6 in first box)");
+        }
+        private void lb_boat_condition_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns the 'Condition' of a Boat from that Boat's webpage, if it is listed.\n\n'//example-tag/text()' could return the Condition from that Boat's HTML. './ example - tag / text()' could return the Condition from that Boat's Specifications(XPath).\n\nTypically a condition is either Used or New, and will be processed in the pipeline as such so you don't have to worry about edge cases here.");
+        }
+        private void lb_boat_price_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns the Price of a Boat from that Boat's webpage, if it is listed.\nThis is ideally in GBP, but can handle American Dollars, French Euros and Japanese Yen.\nIf you must add a currency to the list, ask for assistance.\n\n'//example-tag/text()' could return the Price from that Boat's HTML. './ example - tag / text()' could return the Price from that Boat's Specifications(XPath).\n\nPrice must end up formatted as a strictly - numerical format.\n  Example: '100,000.00' is fine, but '£100,000.00' would require the £ sign removed. This is done by checking 'Parse Price as GBP' below.\n  Example: '100,000.00' is fine, but '$100,000.00' would require the $ sign removed. This is done by checking 'Parse Price as GBP' below,\nthen changing the combobox to the right of it to a $ sign rather than the default £ sign.");
+        }
+        private void lb_boat_length_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns the Length of a Boat from that Boat's webpage, if it is listed.\nThis is ideally in Imperial Feet(ft), but can handle Metres as well.\nIf you must add a unit of measurement to the list, ask for assistance.\n\n'//example-tag/text()' could return the Length from that Boat's HTML. './ example - tag / text()' could return the Length from that Boat's Specifications(XPath).\n\nLength must end up formatted as a strictly - numerical format.\n  Example: '123' is fine, but '12'3\"ft' would require all the symbols removed. This is done by checking 'Parse Length as Feet' below.\n  Example: '123' is fine, but '123 metres' would require the ' metres' symbol removed. This is done by checking 'Parse Length as Feet' below, \nthen checking 'Convert Metres to Feet' to the right of it.");
+        }
+        private void lb_boat_material_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns the Hull Material of a Boat from that Boat's webpage, if it is listed.\n\n'//example-tag/text()' could return the Material from that Boat's HTML. './ example - tag / text()' could return the Material from that Boat's Specifications(XPath).\n\nWe will narrow down the results in the pipeline so you don't need to worry about weird edge-cases here.");
+        }
+        private void lb_boat_location_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns a Boat's current docking/mooring Location from that Boat's webpage, if it is listed.\n\n'//example-tag/text()' could return the Location from the Boat's HTML. './ example - tag / text()' could return the Location from that Boat's Specifications(XPath) if within it.\n\nEvery boat needs either a Country or Location XPath.Some websites will mix the pair into a single value which our pipelines will automatically split into Country and Location.\nIn this case, just put the Country+Location XPath into this Location XPath textbox, and our infrastructure will handle the rest.");
+        }
+        private void lb_boat_country_DoubleClick(object sender, EventArgs e)
+        {
+            success_box("The XPath that returns a Boat's current docking/mooring Country from that Boat's webpage, if it is listed.\n\n'//example-tag/text()' could return the Country from the Boat's HTML. './ example - tag / text()' could return the Country from that Boat's Specifications(XPath) if within it.\n\nEvery boat needs either a Country or Location XPath.Some websites will mix the pair into a single value which our pipelines will automatically split into Country and Location.\nIn this case, just put the Country+Location XPath into the Location XPath textbox, and our infrastructure will handle the rest. ");
         }
     }
 }
