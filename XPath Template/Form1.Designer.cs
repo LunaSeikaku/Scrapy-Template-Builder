@@ -112,6 +112,7 @@ namespace XPath_Template
             this.cb_absolute_url = new System.Windows.Forms.CheckBox();
             this.cb_infinite_scroll = new System.Windows.Forms.CheckBox();
             this.tt_help = new System.Windows.Forms.ToolTip(this.components);
+            this.ll_xpath = new System.Windows.Forms.LinkLabel();
             this.pnl_Header.SuspendLayout();
             this.pnl_Footer.SuspendLayout();
             this.gb_main.SuspendLayout();
@@ -225,6 +226,7 @@ namespace XPath_Template
             // pnl_Header
             // 
             this.pnl_Header.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(24)))), ((int)(((byte)(167)))), ((int)(((byte)(157)))));
+            this.pnl_Header.Controls.Add(this.ll_xpath);
             this.pnl_Header.Controls.Add(this.lb_Title);
             this.pnl_Header.Location = new System.Drawing.Point(1, 1);
             this.pnl_Header.Name = "pnl_Header";
@@ -1190,6 +1192,17 @@ namespace XPath_Template
             this.tt_help.IsBalloon = true;
             this.tt_help.ReshowDelay = 100;
             // 
+            // ll_xpath
+            // 
+            this.ll_xpath.AutoSize = true;
+            this.ll_xpath.Location = new System.Drawing.Point(1125, 66);
+            this.ll_xpath.Name = "ll_xpath";
+            this.ll_xpath.Size = new System.Drawing.Size(125, 13);
+            this.ll_xpath.TabIndex = 1;
+            this.ll_xpath.TabStop = true;
+            this.ll_xpath.Text = "https://devhints.io/xpath";
+            this.ll_xpath.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ll_xpath_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1326,6 +1339,7 @@ namespace XPath_Template
         private System.Windows.Forms.CheckBox cb_infinite_scroll;
         private System.Windows.Forms.RichTextBox rtb_urls;
         private System.Windows.Forms.ToolTip tt_help;
+        private System.Windows.Forms.LinkLabel ll_xpath;
     }
 }
 

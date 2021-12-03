@@ -5,11 +5,6 @@ using System.IO;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
-// Load Template
-// Useful functions (parse_feet, string_contains_word)
-// Compile during test
-// Test w/o debug
-
 namespace XPath_Template
 {
     public partial class Form1 : Form
@@ -844,6 +839,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             proc.StartInfo.FileName = "xpath_test.csv";
             if (File.Exists($@"{folder_path}\xpath_test.csv")) { proc.Start(); }
             //proc.WaitForExit();
+        }
+
+        private void ll_xpath_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://devhints.io/xpath");
         }
     }
 }
