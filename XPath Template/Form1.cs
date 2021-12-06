@@ -122,7 +122,6 @@ namespace XPath_Template
                 start.Enabled = true;
                 stop.Enabled = true;
                 sold_or_not.Enabled = true;
-                sold_or_not.Checked = true;
             }
             else
             {
@@ -463,6 +462,9 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
 
                 try { File.WriteAllText(file_path, file_content); }
                 catch (IOException) { error_box($"Please close {file_path} before running this!"); return; }
+
+                btn_load_template.Text = "Clear Template!";
+                btn_load_template.Enabled = true;
 
                 if (show_box) { success_box($"{tb_spider_denomer.Text.ToLower()}.py template file was created successfully!"); }
             }
