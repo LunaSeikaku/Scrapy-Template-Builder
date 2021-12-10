@@ -168,7 +168,7 @@ namespace XPath_Template
                 {
                     string absolute_xpath = tb_specifications.Text + xpath_textbox.Text.Substring(1);
                     tooltip.SetToolTip(xpath_textbox, absolute_xpath);
-                    border_control(absolute_xpath.Substring(0, absolute_xpath.LastIndexOf('/')));
+                    border_control(absolute_xpath.Replace("/@href","").Replace("/text()", ""));
                 }
                 else { border_control(xpath_textbox.Text); } 
             }
