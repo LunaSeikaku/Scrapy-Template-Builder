@@ -4,11 +4,17 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 
 namespace XPath_Template
 {
     public partial class Form1 : Form
     {
+        IWebDriver driver;
+        IJavaScriptExecutor jsExecutor;
+        IWebElement ele;
+
         public Form1()
         {
             InitializeComponent();
@@ -75,18 +81,50 @@ namespace XPath_Template
         private void rtb_urls_TextChanged(object sender, EventArgs e)
         {
             confirm_we_can_create_template();//trimming of rtb_urls done in the RegEx function of create_template()
+
+            // get every base url into a single one-line string (and validate it at the same time for efficency):
+            Regex rx_url = new Regex(
+@"^http(s)?:\/\/(www\.){0,1}((?!-)[A-Za-z0-9-]{1,63}(?<!-)){1}(\.[A-Za-z]{2,6}){1,2}(.)*$");//'{0,1}'='?' but no C# handling for multiple '?' LOL
+            foreach (var s in rtb_urls.Lines)
+            {
+                string strim = s.Trim();//.ToLower();//urls can be case-sensitive apparently (TMYK)
+                if (!rx_url.IsMatch(strim)) { btn_selenium.Enabled = false; return; }
+            }
+            if (rtb_urls.Lines.Length > 0)
+            {
+                btn_selenium.Enabled = true;//if the compiler gets to this line, every line is a valid url so it's okay!
+            }
+        }
+        private void border_control(string xpath)
+        {
+            if (xpath=="None") { return; }
+            try
+            {
+                // first remove any existing border:
+                try { jsExecutor.ExecuteScript("arguments[0].style.border='0px'", ele); } catch { }
+                // then attempt to make an element from the XPath input:
+                ele = driver.FindElement(By.XPath(xpath));
+                // if the previous line was successful, make a border around the new item:
+                jsExecutor = (IJavaScriptExecutor)driver;
+                jsExecutor.ExecuteScript("arguments[0].style.border='10px solid red'", ele);
+            }
+            catch { return; }
         }
         private void tb_boat_listings_TextChanged(object sender, EventArgs e)
         {
             // check if we can Create Template! with current input:
             tb_boat_listings.Text = tb_boat_listings.Text.Replace("'", "\"").Trim();
             confirm_we_can_create_template();
+
+            border_control(tb_boat_listings.Text);
         }
         private void tb_next_page_TextChanged(object sender, EventArgs e)
         {
             // check if we can Create Template! with current input:
             tb_next_page.Text = tb_next_page.Text.Replace("'", "\"").Trim();
             confirm_we_can_create_template();
+
+            border_control(tb_next_page.Text);
         }
         private void tb_specifications_TextChanged(object sender, EventArgs e)
         {
@@ -103,10 +141,13 @@ namespace XPath_Template
             {
                 tb_specifications.Text = "None";
             }
+
+            border_control(tb_specifications.Text);
         }
         private void boat_listing_xpath_validation(TextBox xpath_textbox, NumericUpDown start, NumericUpDown stop, CheckBox sold_or_not)
         {
             // check if we can Create Template! with current input (make or model check):
+            tooltip.SetToolTip(xpath_textbox, "");
             xpath_textbox.Text = xpath_textbox.Text.Replace("'", "\"").Trim();
             confirm_we_can_create_template();
 
@@ -122,6 +163,14 @@ namespace XPath_Template
                 start.Enabled = true;
                 stop.Enabled = true;
                 sold_or_not.Enabled = true;
+
+                if (first_char == "." & tb_specifications.Text != "None")
+                {
+                    string absolute_xpath = tb_specifications.Text + xpath_textbox.Text.Substring(1);
+                    tooltip.SetToolTip(xpath_textbox, absolute_xpath);
+                    border_control(absolute_xpath.Substring(0, absolute_xpath.LastIndexOf('/')));
+                }
+                else { border_control(xpath_textbox.Text); } 
             }
             else
             {
@@ -743,6 +792,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
         }
         private void clear_template(bool includespider=true)
         {
+            try { driver.Close(); } catch { }
             tb_domain.Text = "";
             rtb_urls.Text = "";//tb_url.Text = "";
             tb_boat_listings.Text = "";
@@ -896,6 +946,13 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
         private void lb_boat_country_DoubleClick(object sender, EventArgs e)
         {
             success_box("The XPath that returns a Boat's current docking/mooring Country from that Boat's webpage, if it is listed.\n\n'//example-tag/text()' could return the Country from the Boat's HTML. './ example - tag / text()' could return the Country from that Boat's Specifications(XPath) if within it.\n\nEvery boat needs either a Country or Location XPath.Some websites will mix the pair into a single value which our pipelines will automatically split into Country and Location.\nIn this case, just put the Country+Location XPath into the Location XPath textbox, and our infrastructure will handle the rest. ");
+        }
+
+        private void btn_selenium_Click(object sender, EventArgs e)
+        {
+            driver = new ChromeDriver();
+            jsExecutor = (IJavaScriptExecutor)driver;
+            driver.Navigate().GoToUrl(rtb_urls.Lines[0]);
         }
     }
 }
