@@ -284,7 +284,7 @@ namespace XPath_Template
                 string urls = "";
                 foreach (var s in rtb_urls.Lines)
                 {
-                    string strim = s.Trim().ToLower();
+                    string strim = s.Trim();//.ToLower();//urls can be case-sensitive apparently (TMYK)
                     if (!rx_url.IsMatch(strim)) { error_box("One of the Website URLs is not a valid URL!"); return; }
                     urls = $"f'{strim}'," + urls;
                 }
