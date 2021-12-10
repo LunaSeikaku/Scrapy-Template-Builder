@@ -230,22 +230,22 @@ namespace XPath_Template
         private string format_yield(string specs_xpath, decimal a, decimal b, string sub = "Unknown")
         {
             // first we confirm if there is an xpath to parse or not:
-            if (specs_xpath=="None") { return $"'{sub}',\n"; } // no xpath to parse :)
+            if (specs_xpath=="None") { return $"'{sub}',\n"; }// no xpath to parse :)
 
-            // if there is an xpath to parse, we first confirm where the xpath for y is coming from:
-            string specs_source = "specs_table"; // specs_xpath is from specifications table xpath
-            if (specs_xpath.Replace("(", "").Substring(0, 2) == "//") { specs_source = "response"; } // specs_xpath is from base HTML
+            // if there IS an xpath to parse, we first confirm where the specs_xpath is coming from:
+            string specs_source = "specs_table";// specs_xpath is from specifications table xpath
+            if (specs_xpath.Replace("(", "").Substring(0, 2) == "//") { specs_source = "response"; }// specs_xpath is from base HTML
 
             // determine if we need any substring list concatenation nonsense and add it if so:
-            string list_concat_prefix = "", list_concat_suffix = "";
-            if (a != 0 | b != 0)// if true then we substring:
+            string output = "";
+            if (a != 0 | b != 0)// if either is true then we substring where xpath is not default value:
             {
-                list_concat_prefix = $"[x[{a}:{b}].strip() if x!='{sub}' else '{sub}' for x in ".Replace("[0:", "[:").Replace(":0]", ":]");
-                list_concat_suffix = "][0]";
+                output = $"{specs_source}.xpath('{specs_xpath}').get().strip()[{a}:{b}] if {specs_source}.xpath('{specs_xpath}').get(default='{sub}')!='{sub}'else'{sub}',\n".Replace("[0:", "[:").Replace(":0]", ":]");
             }
-
-            // determine if any xpath is needed and 
-            string output = $"{list_concat_prefix}{specs_source}.xpath('{specs_xpath}').get(default='{sub}').strip(){list_concat_suffix},\n";
+            else// otherwise we just return a standard xpath:
+            {
+                output = $"{specs_source}.xpath('{specs_xpath}').get(default='{sub}').strip(),\n";
+            }
 
             // return fully-formed output:
             return output;
@@ -362,26 +362,16 @@ namespace XPath_Template
                     next_page_link_b = "\t\t\tself.page_number+=1\n";
                     next_page_link_c = $"\t\t\t{debugmode}yield scrapy.Request(url=f'{tb_next_page.Text}', callback=self.parse)\n";
                 }
-
                 // form yield output:
-                string make = "'Unknown',\n";
-                make = format_yield(tb_boat_make.Text, ud_make_a.Value, ud_make_b.Value);
-                string model = "'Unknown',\n";
-                model = format_yield(tb_boat_model.Text, ud_model_a.Value, ud_model_b.Value);
-                string year = "'Unknown',\n";
-                year = format_yield(tb_boat_year.Text, ud_year_a.Value, ud_year_b.Value, "0");
-                string condition = "'Unknown',\n";
-                condition = format_yield(tb_boat_condition.Text, ud_condition_a.Value, ud_condition_b.Value);
-                string price = "'Unknown',\n";
-                price = format_yield(tb_boat_price.Text, ud_price_a.Value, ud_price_b.Value, "0");
-                string length = "'Unknown',\n";
-                length = format_yield(tb_boat_length.Text, ud_length_a.Value, ud_length_b.Value, "0");
-                string material = "'Unknown',\n";
-                material = format_yield(tb_boat_material.Text, ud_material_a.Value, ud_material_b.Value);
-                string location = "'Unknown',\n";
-                location = format_yield(tb_boat_location.Text, ud_location_a.Value, ud_location_b.Value);
-                string country = "'Unknown',\n";
-                country = format_yield(tb_boat_country.Text, ud_country_a.Value, ud_country_b.Value);
+                string make = format_yield(tb_boat_make.Text, ud_make_a.Value, ud_make_b.Value);
+                string model = format_yield(tb_boat_model.Text, ud_model_a.Value, ud_model_b.Value);
+                string year = format_yield(tb_boat_year.Text, ud_year_a.Value, ud_year_b.Value, "0");
+                string condition = format_yield(tb_boat_condition.Text, ud_condition_a.Value, ud_condition_b.Value);
+                string price = format_yield(tb_boat_price.Text, ud_price_a.Value, ud_price_b.Value, "0");
+                string length = format_yield(tb_boat_length.Text, ud_length_a.Value, ud_length_b.Value, "0");
+                string material = format_yield(tb_boat_material.Text, ud_material_a.Value, ud_material_b.Value);
+                string location = format_yield(tb_boat_location.Text, ud_location_a.Value, ud_location_b.Value);
+                string country = format_yield(tb_boat_country.Text, ud_country_a.Value, ud_country_b.Value);
                 // specs xpath toggle:
                 string specs_table = "";
                 if (tb_specifications.Text!="None") { specs_table = $"\t\tspecs_table = response.xpath('{tb_specifications.Text}')\n"; }
