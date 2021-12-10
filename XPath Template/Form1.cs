@@ -484,8 +484,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
 
             // read remaining desired data from lines:
             int next = -2;
-            int find = -1;
-            int start = -1, finish = -1;
+            int find, start, finish;
             string[] split;
             foreach (string l in lines)
             {
@@ -511,7 +510,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                     case 2:
                         find = l.IndexOf("start_urls");
                         if (find > -1)
-                        { 
+                        {
                             find = l.IndexOf('[') + 3;
                             string[] urls = l.Substring(find, l.IndexOf("']") - find).Split(new[] { "',f'" }, StringSplitOptions.None);//tb_url.Text
                             rtb_urls.Text = string.Join(Environment.NewLine, urls);
@@ -533,11 +532,11 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         else//infinite scroll stuff:
                         {
                             find = l.IndexOf("url=f'");
-                            if (find > -1) 
-                            { 
+                            if (find > -1)
+                            {
                                 tb_next_page.Text = l.Substring(find + 6, l.IndexOf("', c") - find - 6);
                                 cb_infinite_scroll.Checked = true;
-                                next += 1; 
+                                next += 1;
                             }
                         }
                         continue;
@@ -550,18 +549,18 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("make");
                         if (find > -1)
                         {
-                            if (l.IndexOf("Unknown',") > -1){ tb_boat_make.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("Unknown',") > -1) { tb_boat_make.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_make.Text = l.Substring(find, l.IndexOf("').") - find);
-                            start = l.IndexOf("x[") + 2;
-                            finish  = l.IndexOf(']');//tail = tail.Remove(tail.Length - 2);
+                            start = l.IndexOf("()[") + 3;
+                            finish = l.IndexOf("] ");//tail = tail.Remove(tail.Length - 2);
                             if (start > 1 & finish > -1)
                             {
                                 split = l.Substring(start, finish - start).Split(':');
                                 ud_make_a.Value = decimal.TryParse(split[0], out decimal a) ? decimal.Parse(split[0]) : 0;
                                 ud_make_b.Value = decimal.TryParse(split[1], out decimal b) ? decimal.Parse(split[1]) : 0;
                             }
-                            next += 1; 
+                            next += 1;
                         }
                         continue;
                     case 8:
@@ -571,8 +570,8 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_model.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_model.Text = l.Substring(find, l.IndexOf("').") - find);
-                            start = l.IndexOf("x[") + 2;
-                            finish = l.IndexOf(']');
+                            start = l.IndexOf("()[") + 3;
+                            finish = l.IndexOf("] ");
                             if (start > 1 & finish > -1)
                             {
                                 split = l.Substring(start, finish - start).Split(':');
@@ -589,8 +588,8 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             if (l.IndexOf("0',") > -1) { tb_boat_year.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_year.Text = l.Substring(find, l.IndexOf("').") - find);
-                            start = l.IndexOf("x[") + 2;
-                            finish = l.IndexOf(']');
+                            start = l.IndexOf("()[") + 3;
+                            finish = l.IndexOf("] ");
                             if (start > 1 & finish > -1)
                             {
                                 split = l.Substring(start, finish - start).Split(':');
@@ -607,8 +606,8 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_condition.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_condition.Text = l.Substring(find, l.IndexOf("').") - find);
-                            start = l.IndexOf("x[") + 2;
-                            finish = l.IndexOf(']');
+                            start = l.IndexOf("()[") + 3;
+                            finish = l.IndexOf("] ");
                             if (start > 1 & finish > -1)
                             {
                                 split = l.Substring(start, finish - start).Split(':');
@@ -625,8 +624,8 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             if (l.IndexOf("0',") > -1) { tb_boat_price.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_price.Text = l.Substring(find, l.IndexOf("').") - find);
-                            start = l.IndexOf("x[") + 2;
-                            finish = l.IndexOf(']');
+                            start = l.IndexOf("()[") + 3;
+                            finish = l.IndexOf("] ");
                             if (start > 1 & finish > -1)
                             {
                                 split = l.Substring(start, finish - start).Split(':');
@@ -643,8 +642,8 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             if (l.IndexOf("0',") > -1) { tb_boat_length.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_length.Text = l.Substring(find, l.IndexOf("').") - find);
-                            start = l.IndexOf("x[") + 2;
-                            finish = l.IndexOf(']');
+                            start = l.IndexOf("()[") + 3;
+                            finish = l.IndexOf("] ");
                             if (start > 1 & finish > -1)
                             {
                                 split = l.Substring(start, finish - start).Split(':');
@@ -661,8 +660,8 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_material.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_material.Text = l.Substring(find, l.IndexOf("').") - find);
-                            start = l.IndexOf("x[") + 2;
-                            finish = l.IndexOf(']');
+                            start = l.IndexOf("()[") + 3;
+                            finish = l.IndexOf("] ");
                             if (start > 1 & finish > -1)
                             {
                                 split = l.Substring(start, finish - start).Split(':');
@@ -679,8 +678,8 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_location.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_location.Text = l.Substring(find, l.IndexOf("').") - find);
-                            start = l.IndexOf("x[") + 2;
-                            finish = l.IndexOf(']');
+                            start = l.IndexOf("()[") + 3;
+                            finish = l.IndexOf("] ");
                             if (start > 1 & finish > -1)
                             {
                                 split = l.Substring(start, finish - start).Split(':');
@@ -697,8 +696,8 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                             if (l.IndexOf("Unknown',") > -1) { tb_boat_country.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_country.Text = l.Substring(find, l.IndexOf("').") - find);
-                            start = l.IndexOf("x[") + 2;
-                            finish = l.IndexOf(']');
+                            start = l.IndexOf("()[") + 3;
+                            finish = l.IndexOf("] ");
                             if (start > 1 & finish > -1)
                             {
                                 split = l.Substring(start, finish - start).Split(':');
