@@ -6,6 +6,8 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using OpenQA.Selenium.Interactions;
 
 namespace XPath_Template
 {
@@ -30,8 +32,7 @@ namespace XPath_Template
         // returns true if 1-or-more input fields are empty, otherwise returns false
         private bool no_fields_are_empty()
         {
-            if (tb_spider_denomer.TextLength < 3 |
-                tb_domain.TextLength < 3 |
+            if (tb_domain.TextLength < 3 |
                 rtb_urls.TextLength < 3 | //tb_url.TextLength < 3 |
                 tb_boat_listings.TextLength < 3 |
                 tb_next_page.TextLength < 3 |
@@ -77,6 +78,22 @@ namespace XPath_Template
             // check if we can Create Template! with current input:
             tb_domain.Text = tb_domain.Text.Trim().ToLower();
             confirm_we_can_create_template();
+
+            // only proceed if on Load Template...
+            if (btn_load_template.Text == "Clear Template!") { return; }
+
+            // get filename which is also the spider class name and spider name:
+            string spider_name = tb_domain.Text.Split('.')[0].ToLower();
+
+            // grab root scrapy project directory
+            string folder_path = Directory.GetCurrentDirectory();
+
+            // grab filepath from below the source directory using the spider name:
+            string file_path = $@"{folder_path}\yachtscrape\spiders\{spider_name}.py";
+
+            // if file exists, enable Load Template button - otherwise disable it
+            if (File.Exists(file_path)) { btn_load_template.Enabled = true; }
+            else { btn_load_template.Enabled = false; }
         }
         private void rtb_urls_TextChanged(object sender, EventArgs e)
         {
@@ -97,18 +114,31 @@ namespace XPath_Template
         }
         private void border_control(string xpath)
         {
-            if (xpath=="None") { return; }
-            try
+            if (xpath=="None" | jsExecutor==null) { return; }
+
+            // first remove any existing inline CSS:
+            if (ele != null) 
             {
-                // first remove any existing border:
-                try { jsExecutor.ExecuteScript("arguments[0].style.border='0px'", ele); } catch { }
-                // then attempt to make an element from the XPath input:
-                ele = driver.FindElement(By.XPath(xpath));
-                // if the previous line was successful, make a border around the new item:
-                jsExecutor = (IJavaScriptExecutor)driver;
-                jsExecutor.ExecuteScript("arguments[0].style.border='10px solid red'", ele);
+                try { jsExecutor?.ExecuteScript("arguments[0].style.border='0px'", ele); } catch (WebDriverException) { return; }
+                jsExecutor?.ExecuteScript("arguments[0].style.backgroundColor='transparent'", ele);
             }
-            catch { return; }
+
+            // then attempt to make an element from the XPath input:
+            try 
+            { 
+                ele = driver?.FindElement(By.XPath(xpath)); 
+            }
+            catch (Exception e) 
+            { 
+                if (e is WebDriverException) { driver = null; jsExecutor = null; }//declare_selenium(); driver.Close();
+                return; 
+            }
+
+            // if the previous line was successful, make a border around the new item and scroll to it:
+            jsExecutor = (IJavaScriptExecutor)driver;
+            jsExecutor.ExecuteScript("arguments[0].style.border='5px solid black'", ele);
+            jsExecutor.ExecuteScript("arguments[0].style.backgroundColor='#22AAE2'", ele);
+            jsExecutor.ExecuteScript("arguments[0].scrollIntoView(true);", ele);
         }
         private void tb_boat_listings_TextChanged(object sender, EventArgs e)
         {
@@ -316,11 +346,14 @@ namespace XPath_Template
         {
             if (no_fields_are_empty())//all form fields filled with something:
             {
+                // get filename which is also the spider class name and spider name:
+                string spider_name = tb_domain.Text.Split('.')[0].ToLower();
+
                 // input validation:
                 Regex rx_nam = new Regex(//confirm there is a valid spidername (no symbols basically)
-@"^[A-Za-z0-9]{3,}$");
-                string nam = tb_spider_denomer.Text;
-                if (!rx_nam.IsMatch(nam)) { error_box("That is not a valid Spider Name!\n\n(at least 3 characters long with no symbols, please)"); return; }
+@"^[A-Za-z0-9]{1,63}$");
+                //string nam = tb_spider_denomer.Text;
+                if (!rx_nam.IsMatch(spider_name)) { error_box("That is not a valid Spider Name!\n\n(at least 1 character long with no symbols, please!)"); return; }
 
                 Regex rx_dom = new Regex(//confirm there is a valid "domain-name+.+TLD"
 @"^((?!-)[A-Za-z0-9-]{1,63}(?<!-)){1}(\.[A-Za-z]{2,6}){1,2}$");//yes I know {1} is a meaningless quantifier: it's there as a reminder!
@@ -447,8 +480,8 @@ namespace XPath_Template
 "\n\"\"\"\n" +
 $"Assigned To: {assigned_to}\nBrief Status: {brief_status}{notes}"+//metadata
 "\n\"\"\"\n\n" +
-$"class {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(tb_spider_denomer.Text.ToLower())}Spider(scrapy.Spider):\n" +
-$"\tname = '{tb_spider_denomer.Text.ToLower()}'\n" +
+$"class {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(spider_name)}Spider(scrapy.Spider):\n" +
+$"\tname = '{spider_name}'\n" +
 $"\tallowed_domains = ['{tb_domain.Text}']\n" +
 $"{infinite_scroll_headers}" +//only appear if required
 $"\tstart_urls = [{urls}]\n" +
@@ -497,7 +530,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                 // grab root scrapy project directory
                 string folder_path = Directory.GetCurrentDirectory();
 
-                string file_path = $@"{folder_path}\yachtscrape\spiders\{tb_spider_denomer.Text.ToLower()}.py";
+                string file_path = $@"{folder_path}\yachtscrape\spiders\{spider_name}.py";
 
                 try { File.WriteAllText(file_path, file_content); }
                 catch (IOException) { error_box($"Please close {file_path} before running this!"); return; }
@@ -505,7 +538,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                 btn_load_template.Text = "Clear Template!";
                 btn_load_template.Enabled = true;
 
-                if (show_box) { success_box($"{tb_spider_denomer.Text.ToLower()}.py template file was created successfully!"); }
+                if (show_box) { success_box($"{spider_name}.py template file was created successfully!"); }
             }
             else//at least one field has not been filled in:
             {
@@ -514,18 +547,21 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
         }
         private void load_template()
         {
+            // get filename which is also the spider class name and spider name:
+            string spider_name = tb_domain.Text.Split('.')[0];
+
             // grab root scrapy project directory
             string folder_path = Directory.GetCurrentDirectory();
 
             // grab filepath from below the source directory using the spider name:
-            string file_path = $@"{folder_path}\yachtscrape\spiders\{tb_spider_denomer.Text.ToLower()}.py";
+            string file_path = $@"{folder_path}\yachtscrape\spiders\{spider_name.ToLower()}.py";
             if (File.Exists(file_path) == false)
-            { error_box($"Could not find {tb_spider_denomer.Text}.py!\n\nPlease enter an existing Spider Name!"); return; }
+            { error_box($"Could not find {spider_name}.py!\n\nPlease enter an existing Spider Name!"); return; }
 
             // get every line from above file in an array:
             string[] lines = new string[] { };
             try { lines = File.ReadAllLines(file_path); }
-            catch { error_box($"Could not read {tb_spider_denomer.Text}.py?"); return; }
+            catch { error_box($"Could not read {spider_name}.py?"); return; }
             // If data found, Spider Name is legit so it remains unchanged
 
             // blank values first (false to exclude spider denomer):
@@ -792,7 +828,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
         }
         private void clear_template(bool includespider=true)
         {
-            try { driver.Close(); } catch { }
+            try { driver?.Close(); } catch { }
             tb_domain.Text = "";
             rtb_urls.Text = "";//tb_url.Text = "";
             tb_boat_listings.Text = "";
@@ -857,6 +893,9 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
         }
         private void crawl_spider(char debug = 'k')//debug='c' when not debugging cmd
         {
+            // get filename which is also the spider class name and spider name:
+            string spider_name = tb_domain.Text.Split('.')[0];
+
             // grab root scrapy project directory
             string folder_path = Directory.GetCurrentDirectory();
 
@@ -867,7 +906,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
 
             // prepare to send scrapy cmd line input to user's root scrapy project directory
             ProcessStartInfo procStart =
-                new ProcessStartInfo("cmd", $"/{debug} scrapy crawl {tb_spider_denomer.Text} -o xpath_test.csv");
+                new ProcessStartInfo("cmd", $"/{debug} scrapy crawl {spider_name} -o xpath_test.csv");
             procStart.WorkingDirectory = folder_path;
             Process proc = new Process();
             proc.StartInfo = procStart;
@@ -950,9 +989,13 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
 
         private void btn_selenium_Click(object sender, EventArgs e)
         {
+            declare_selenium();
+            driver.Navigate().GoToUrl(rtb_urls.Lines[0]);
+        }
+        private void declare_selenium()
+        {
             driver = new ChromeDriver();
             jsExecutor = (IJavaScriptExecutor)driver;
-            driver.Navigate().GoToUrl(rtb_urls.Lines[0]);
         }
     }
 }

@@ -165,8 +165,8 @@ namespace XPath_Template
             this.tb_specifications.Size = new System.Drawing.Size(476, 20);
             this.tb_specifications.TabIndex = 6;
             this.tb_specifications.Text = "None";
-            this.tb_specifications.Click += new System.EventHandler(this.tb_specifications_TextChanged);
             this.tb_specifications.TextChanged += new System.EventHandler(this.tb_specifications_TextChanged);
+            this.tb_specifications.Enter += new System.EventHandler(this.tb_specifications_TextChanged);
             // 
             // lb_specifications
             // 
@@ -184,8 +184,8 @@ namespace XPath_Template
             this.tb_next_page.Name = "tb_next_page";
             this.tb_next_page.Size = new System.Drawing.Size(476, 20);
             this.tb_next_page.TabIndex = 5;
-            this.tb_next_page.Click += new System.EventHandler(this.tb_next_page_TextChanged);
             this.tb_next_page.TextChanged += new System.EventHandler(this.tb_next_page_TextChanged);
+            this.tb_next_page.Enter += new System.EventHandler(this.tb_next_page_TextChanged);
             // 
             // lb_next_page
             // 
@@ -203,8 +203,8 @@ namespace XPath_Template
             this.tb_boat_listings.Name = "tb_boat_listings";
             this.tb_boat_listings.Size = new System.Drawing.Size(476, 20);
             this.tb_boat_listings.TabIndex = 4;
-            this.tb_boat_listings.Click += new System.EventHandler(this.tb_boat_listings_TextChanged);
             this.tb_boat_listings.TextChanged += new System.EventHandler(this.tb_boat_listings_TextChanged);
+            this.tb_boat_listings.Enter += new System.EventHandler(this.tb_boat_listings_TextChanged);
             // 
             // lb_boat_listings
             // 
@@ -870,8 +870,8 @@ namespace XPath_Template
             this.tb_boat_country.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_country.TabIndex = 15;
             this.tb_boat_country.Text = "None";
-            this.tb_boat_country.Click += new System.EventHandler(this.tb_boat_country_TextChanged);
             this.tb_boat_country.TextChanged += new System.EventHandler(this.tb_boat_country_TextChanged);
+            this.tb_boat_country.Enter += new System.EventHandler(this.tb_boat_country_TextChanged);
             // 
             // lb_boat_country
             // 
@@ -890,8 +890,8 @@ namespace XPath_Template
             this.tb_boat_location.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_location.TabIndex = 14;
             this.tb_boat_location.Text = "None";
-            this.tb_boat_location.Click += new System.EventHandler(this.tb_boat_location_TextChanged);
             this.tb_boat_location.TextChanged += new System.EventHandler(this.tb_boat_location_TextChanged);
+            this.tb_boat_location.Enter += new System.EventHandler(this.tb_boat_location_TextChanged);
             // 
             // lb_boat_location
             // 
@@ -910,8 +910,8 @@ namespace XPath_Template
             this.tb_boat_material.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_material.TabIndex = 13;
             this.tb_boat_material.Text = "None";
-            this.tb_boat_material.Click += new System.EventHandler(this.tb_boat_material_TextChanged);
             this.tb_boat_material.TextChanged += new System.EventHandler(this.tb_boat_material_TextChanged);
+            this.tb_boat_material.Enter += new System.EventHandler(this.tb_boat_material_TextChanged);
             // 
             // lb_boat_material
             // 
@@ -930,8 +930,8 @@ namespace XPath_Template
             this.tb_boat_length.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_length.TabIndex = 12;
             this.tb_boat_length.Text = "None";
-            this.tb_boat_length.Click += new System.EventHandler(this.tb_boat_length_TextChanged);
             this.tb_boat_length.TextChanged += new System.EventHandler(this.tb_boat_length_TextChanged);
+            this.tb_boat_length.Enter += new System.EventHandler(this.tb_boat_length_TextChanged);
             // 
             // lb_boat_length
             // 
@@ -950,8 +950,8 @@ namespace XPath_Template
             this.tb_boat_price.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_price.TabIndex = 11;
             this.tb_boat_price.Text = "None";
-            this.tb_boat_price.Click += new System.EventHandler(this.tb_boat_price_TextChanged);
             this.tb_boat_price.TextChanged += new System.EventHandler(this.tb_boat_price_TextChanged);
+            this.tb_boat_price.Enter += new System.EventHandler(this.tb_boat_price_TextChanged);
             // 
             // lb_boat_price
             // 
@@ -970,8 +970,8 @@ namespace XPath_Template
             this.tb_boat_condition.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_condition.TabIndex = 10;
             this.tb_boat_condition.Text = "None";
-            this.tb_boat_condition.Click += new System.EventHandler(this.tb_boat_condition_TextChanged);
             this.tb_boat_condition.TextChanged += new System.EventHandler(this.tb_boat_condition_TextChanged);
+            this.tb_boat_condition.Enter += new System.EventHandler(this.tb_boat_condition_TextChanged);
             // 
             // lb_boat_condition
             // 
@@ -990,8 +990,8 @@ namespace XPath_Template
             this.tb_boat_year.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_year.TabIndex = 9;
             this.tb_boat_year.Text = "None";
-            this.tb_boat_year.Click += new System.EventHandler(this.tb_boat_year_TextChanged);
             this.tb_boat_year.TextChanged += new System.EventHandler(this.tb_boat_year_TextChanged);
+            this.tb_boat_year.Enter += new System.EventHandler(this.tb_boat_year_TextChanged);
             // 
             // lb_boat_year
             // 
@@ -1010,8 +1010,8 @@ namespace XPath_Template
             this.tb_boat_model.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_model.TabIndex = 8;
             this.tb_boat_model.Text = "None";
-            this.tb_boat_model.Click += new System.EventHandler(this.tb_boat_model_TextChanged);
             this.tb_boat_model.TextChanged += new System.EventHandler(this.tb_boat_model_TextChanged);
+            this.tb_boat_model.Enter += new System.EventHandler(this.tb_boat_model_TextChanged);
             // 
             // lb_boat_model
             // 
@@ -1030,8 +1030,8 @@ namespace XPath_Template
             this.tb_boat_make.Size = new System.Drawing.Size(272, 20);
             this.tb_boat_make.TabIndex = 7;
             this.tb_boat_make.Text = "None";
-            this.tb_boat_make.Click += new System.EventHandler(this.tb_boat_make_TextChanged);
             this.tb_boat_make.TextChanged += new System.EventHandler(this.tb_boat_make_TextChanged);
+            this.tb_boat_make.Enter += new System.EventHandler(this.tb_boat_make_TextChanged);
             // 
             // lb_boat_make
             // 
@@ -1066,10 +1066,9 @@ namespace XPath_Template
             "Ebren Durling",
             "Ethan Mackie",
             "Gareth Loakes",
-            "Lee",
             "Robbie Munro",
             "Sam Prince",
-            "",
+            "Yang Zhang",
             ""});
             this.cb_assigned_to.Location = new System.Drawing.Point(116, 13);
             this.cb_assigned_to.Name = "cb_assigned_to";
@@ -1216,7 +1215,7 @@ namespace XPath_Template
             this.btn_selenium.Name = "btn_selenium";
             this.btn_selenium.Size = new System.Drawing.Size(101, 21);
             this.btn_selenium.TabIndex = 18;
-            this.btn_selenium.Text = "Selenium";
+            this.btn_selenium.Text = "Show XPaths!";
             this.btn_selenium.UseVisualStyleBackColor = true;
             this.btn_selenium.Click += new System.EventHandler(this.btn_selenium_Click);
             // 
