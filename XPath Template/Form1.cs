@@ -51,28 +51,7 @@ namespace XPath_Template
             { return false; }
             return true;
         }
-        private void tb_spider_denomer_TextChanged(object sender, EventArgs e)
-        {
-            // check if we can Create Template! with current input:
-            tb_spider_denomer.Text = tb_spider_denomer.Text.Trim();
-            confirm_we_can_create_template();
 
-            // only proceed if on Load Template...
-            if (btn_load_template.Text == "Clear Template!") { return; }
-
-            // grab root scrapy project directory
-            string folder_path = Directory.GetCurrentDirectory();
-
-            // grab filepath from below the source directory using the spider name:
-            string file_path = $@"{folder_path}\yachtscrape\spiders\{tb_spider_denomer.Text.ToLower()}.py";
-
-            // if file exists, enable Load Template button - otherwise disable it
-            if (File.Exists(file_path)) { btn_load_template.Enabled = true; }
-            else { btn_load_template.Enabled = false; }
-
-            //if (tb_spider_denomer.TextLength < 3 & btn_load_template.Text=="Load Template...") {  }
-            //else {  }
-        }
         private void tb_domain_TextChanged(object sender, EventArgs e)
         {
             // check if we can Create Template! with current input:
@@ -886,7 +865,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
 
             if (includespider) 
             { 
-                tb_spider_denomer.Text = "";
+                //tb_spider_denomer.Text = "";
                 btn_load_template.Text = "Load Template...";
                 btn_load_template.Enabled = false;
             }
@@ -925,14 +904,9 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
         {
             Process.Start("https://devhints.io/xpath");
         }
-
-        private void lb_spider_denomer_DoubleClick(object sender, EventArgs e)
-        {
-            success_box("The name of the spider file (excluding .py file extension), the name of the spider class (excluding 'Spider' suffix) and the name parameter of the spider class. Case insensitive.\n\n'example' input when Create Template! is clicked results in the creation of an ExampleSpider class with ExampleSpider.name = 'example' in a newly created example.py template spider file in the spiders subfolder.\n\nYour spider name can be anything, but should be the same as your website as a general rule so whoever looks at your spider file knows immediately what website it is scraping from.");
-        }
         private void lb_domain_DoubleClick(object sender, EventArgs e)
         {
-            success_box("The base domain of the website this spider is scraping. Scrapy needs this to determine which urls to scrape from, and more importantly, which urls not to scrap (as they are outside the domain scope). Case insensitive.\n\n'example.com' input results in ExampleSpider.allowed_domains = ['example.com'] in your spider.\n\nThis can technically handle multiple domains, however we have yet to discover any boat websites requiring this.If you run into a website with multiple domains, ask for advice.");
+            success_box("The base domain of the website this spider is scraping. Scrapy needs this to determine which urls to scrape from, and more importantly, which urls not to scrap (as they are outside the domain scope). Case insensitive.\n\n'example.com' input results in ExampleSpider.allowed_domains = ['example.com'] in your spider.\n\nThis can technically handle multiple domains, however we have yet to discover any boat websites requiring this. If you run into a website with multiple domains, ask for advice.\n\nThe domain name itself will also become the name of the spider file (excluding .py file extension), the name of the spider class (excluding 'Spider' suffix) and the name parameter of the spider class.");
         }
         private void lb_url_DoubleClick(object sender, EventArgs e)
         {

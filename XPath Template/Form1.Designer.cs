@@ -31,8 +31,6 @@ namespace XPath_Template
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.tb_spider_denomer = new System.Windows.Forms.TextBox();
-            this.lb_spider_denomer = new System.Windows.Forms.Label();
             this.tb_specifications = new System.Windows.Forms.TextBox();
             this.lb_specifications = new System.Windows.Forms.Label();
             this.tb_next_page = new System.Windows.Forms.TextBox();
@@ -139,24 +137,6 @@ namespace XPath_Template
             this.gb_notes.SuspendLayout();
             this.gb_listing_pp.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // tb_spider_denomer
-            // 
-            this.tb_spider_denomer.Location = new System.Drawing.Point(116, 19);
-            this.tb_spider_denomer.Name = "tb_spider_denomer";
-            this.tb_spider_denomer.Size = new System.Drawing.Size(476, 20);
-            this.tb_spider_denomer.TabIndex = 0;
-            this.tb_spider_denomer.TextChanged += new System.EventHandler(this.tb_spider_denomer_TextChanged);
-            // 
-            // lb_spider_denomer
-            // 
-            this.lb_spider_denomer.AutoSize = true;
-            this.lb_spider_denomer.Location = new System.Drawing.Point(39, 22);
-            this.lb_spider_denomer.Name = "lb_spider_denomer";
-            this.lb_spider_denomer.Size = new System.Drawing.Size(71, 13);
-            this.lb_spider_denomer.TabIndex = 1;
-            this.lb_spider_denomer.Text = "Spider Name:";
-            this.lb_spider_denomer.DoubleClick += new System.EventHandler(this.lb_spider_denomer_DoubleClick);
             // 
             // tb_specifications
             // 
@@ -340,8 +320,6 @@ namespace XPath_Template
             this.gb_main.Controls.Add(this.lb_domain);
             this.gb_main.Controls.Add(this.tb_boat_listings);
             this.gb_main.Controls.Add(this.lb_boat_listings);
-            this.gb_main.Controls.Add(this.tb_spider_denomer);
-            this.gb_main.Controls.Add(this.lb_spider_denomer);
             this.gb_main.Location = new System.Drawing.Point(13, 97);
             this.gb_main.Name = "gb_main";
             this.gb_main.Size = new System.Drawing.Size(598, 282);
@@ -351,9 +329,9 @@ namespace XPath_Template
             // 
             // rtb_urls
             // 
-            this.rtb_urls.Location = new System.Drawing.Point(116, 74);
+            this.rtb_urls.Location = new System.Drawing.Point(116, 45);
             this.rtb_urls.Name = "rtb_urls";
-            this.rtb_urls.Size = new System.Drawing.Size(476, 111);
+            this.rtb_urls.Size = new System.Drawing.Size(476, 140);
             this.rtb_urls.TabIndex = 2;
             this.rtb_urls.Text = "";
             this.rtb_urls.TextChanged += new System.EventHandler(this.rtb_urls_TextChanged);
@@ -361,7 +339,7 @@ namespace XPath_Template
             // lb_url
             // 
             this.lb_url.AutoSize = true;
-            this.lb_url.Location = new System.Drawing.Point(9, 74);
+            this.lb_url.Location = new System.Drawing.Point(10, 45);
             this.lb_url.Name = "lb_url";
             this.lb_url.Size = new System.Drawing.Size(101, 13);
             this.lb_url.TabIndex = 5;
@@ -370,7 +348,7 @@ namespace XPath_Template
             // 
             // tb_domain
             // 
-            this.tb_domain.Location = new System.Drawing.Point(116, 45);
+            this.tb_domain.Location = new System.Drawing.Point(116, 18);
             this.tb_domain.Name = "tb_domain";
             this.tb_domain.Size = new System.Drawing.Size(476, 20);
             this.tb_domain.TabIndex = 1;
@@ -379,7 +357,7 @@ namespace XPath_Template
             // lb_domain
             // 
             this.lb_domain.AutoSize = true;
-            this.lb_domain.Location = new System.Drawing.Point(22, 48);
+            this.lb_domain.Location = new System.Drawing.Point(22, 21);
             this.lb_domain.Name = "lb_domain";
             this.lb_domain.Size = new System.Drawing.Size(88, 13);
             this.lb_domain.TabIndex = 3;
@@ -1211,7 +1189,7 @@ namespace XPath_Template
             // btn_selenium
             // 
             this.btn_selenium.Enabled = false;
-            this.btn_selenium.Location = new System.Drawing.Point(617, 171);
+            this.btn_selenium.Location = new System.Drawing.Point(617, 142);
             this.btn_selenium.Name = "btn_selenium";
             this.btn_selenium.Size = new System.Drawing.Size(101, 21);
             this.btn_selenium.TabIndex = 18;
@@ -1274,9 +1252,6 @@ namespace XPath_Template
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox tb_spider_denomer;
-        private System.Windows.Forms.Label lb_spider_denomer;
         private System.Windows.Forms.Label lb_Title;
         private System.Windows.Forms.Panel pnl_Header;
         private System.Windows.Forms.Panel pnl_Footer;
