@@ -13,7 +13,7 @@ namespace XPath_Template
     {
         IWebDriver driver;
         IJavaScriptExecutor jsExecutor;
-        IWebElement ele;
+        System.Collections.ObjectModel.ReadOnlyCollection<IWebElement> ele;
 
         public Form1()
         {
@@ -91,31 +91,45 @@ namespace XPath_Template
         }
         private void border_control(string xpath)
         {
-            if (xpath=="None" | jsExecutor==null) { return; }
+            if (jsExecutor==null) { return; }// if no Selenium instance open, no need to be here!
+
+            xpath = xpath.Replace("/@href", "").Replace("/text()", "");//CSS can't style attributes so remove them!
 
             // first remove any existing inline CSS:
             if (ele != null) 
             {
-                try { jsExecutor?.ExecuteScript("arguments[0].style.border='0px'", ele); } catch (WebDriverException) { return; }
-                jsExecutor?.ExecuteScript("arguments[0].style.backgroundColor='transparent'", ele);
+                try
+                {
+                    foreach (IWebElement e in ele)
+                    {
+                        jsExecutor?.ExecuteScript("arguments[0].style.border='0px'", e);
+                        jsExecutor?.ExecuteScript("arguments[0].style.backgroundColor='transparent'", e);
+                    }
+                }
+                catch (Exception x) { if (x is StaleElementReferenceException) {} else if (x is WebDriverException) { return; } }
             }
+
+            if (xpath=="None") { return; }// if no new xpath to select, return now as we're done here!
 
             // then attempt to make an element from the XPath input:
             try 
-            { 
-                ele = driver?.FindElement(By.XPath(xpath)); 
+            {
+                ele = driver?.FindElements(By.XPath(xpath)); 
             }
             catch (Exception e) 
-            { 
-                if (e is WebDriverException) { driver = null; jsExecutor = null; }//declare_selenium(); driver.Close();
+            {
+                //if (e is WebDriverException) { driver = null; jsExecutor = null; }
                 return; 
             }
 
             // if the previous line was successful, make a border around the new item and scroll to it:
             jsExecutor = (IJavaScriptExecutor)driver;
-            jsExecutor.ExecuteScript("arguments[0].style.border='5px solid black'", ele);
-            jsExecutor.ExecuteScript("arguments[0].style.backgroundColor='#22AAE2'", ele);
-            jsExecutor.ExecuteScript("arguments[0].scrollIntoView(true);", ele);
+            foreach (IWebElement e in ele)
+            {
+                jsExecutor.ExecuteScript("arguments[0].style.border='5px solid black'", e);
+                jsExecutor.ExecuteScript("arguments[0].style.backgroundColor='#22AAE2'", e);
+                jsExecutor.ExecuteScript("arguments[0].scrollIntoView(true);", e);
+            }
         }
         private void tb_boat_listings_TextChanged(object sender, EventArgs e)
         {
@@ -175,9 +189,9 @@ namespace XPath_Template
                 {
                     string absolute_xpath = tb_specifications.Text + xpath_textbox.Text.Substring(1);
                     tooltip.SetToolTip(xpath_textbox, absolute_xpath);
-                    border_control(absolute_xpath.Replace("/@href","").Replace("/text()", ""));
+                    border_control(absolute_xpath);
+                    return;//return now so border_control() doesn't run twice
                 }
-                else { border_control(xpath_textbox.Text); } 
             }
             else
             {
@@ -190,6 +204,7 @@ namespace XPath_Template
                 stop.Value = 0;
                 if (first_char == "." & tb_specifications.Text == "None") { error_box("To be able to grab data from a boat listing's specifications, you first need to define the Specifications XPath!"); }
             }
+            border_control(xpath_textbox.Text);
         }
         private void tb_boat_make_TextChanged(object sender, EventArgs e)
         {
@@ -961,13 +976,9 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
 
         private void btn_selenium_Click(object sender, EventArgs e)
         {
-            declare_selenium();
-            driver.Navigate().GoToUrl(rtb_urls.Lines[0]);
-        }
-        private void declare_selenium()
-        {
             driver = new ChromeDriver();
             jsExecutor = (IJavaScriptExecutor)driver;
+            driver.Navigate().GoToUrl(rtb_urls.Lines[0]);
         }
     }
 }
