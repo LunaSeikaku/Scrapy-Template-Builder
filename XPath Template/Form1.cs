@@ -585,19 +585,19 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             clear_template(false);
 
             // read remaining desired data from lines:
-            int next = -3;
+            int next = 0;
             int find, start, finish;
             string[] split;
             foreach (string l in lines)
             {
                 switch (next)
                 {
-                    case -3:
+                    case 0:
                         find = l.IndexOf("selector");
                         if (find > -1) { cb_js.Checked = true; next += 1; }
-                        else if (l.IndexOf("\"\"\"") > -1) { cb_js.Checked = false; next += 1; }
+                        else if (l.IndexOf("class") > -1) { cb_js.Checked = false; next += 1; }
                         continue;
-                    case -2:
+                    /*case -2:
                         find = l.IndexOf("Assigned");
                         if (find > -1) { find = l.IndexOf(": ") + 2; cb_assigned_to.SelectedItem = l.Substring(find); next += 1; }
                         continue;
@@ -609,7 +609,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("\"\"\"");
                         if (find > -1) { if (rtb_notes.Text.Length > 0) { rtb_notes.Text = rtb_notes.Text.Substring(1); } next += 1; }
                         else { rtb_notes.Text += "\n" + l; }
-                        continue;
+                        continue;*/
                     case 1:
                         find = l.IndexOf("allowed_domains");
                         if (find > -1) { find = l.IndexOf('[') + 2; tb_domain.Text = l.Substring(find, l.IndexOf(']') - find - 1); next += 1; }
