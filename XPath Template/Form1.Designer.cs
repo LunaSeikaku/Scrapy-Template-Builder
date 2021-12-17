@@ -112,6 +112,7 @@ namespace XPath_Template
             this.cb_infinite_scroll = new System.Windows.Forms.CheckBox();
             this.btn_selenium = new System.Windows.Forms.Button();
             this.tooltip = new System.Windows.Forms.ToolTip(this.components);
+            this.cb_js = new System.Windows.Forms.CheckBox();
             this.pnl_Header.SuspendLayout();
             this.pnl_Footer.SuspendLayout();
             this.gb_main.SuspendLayout();
@@ -1197,11 +1198,22 @@ namespace XPath_Template
             this.btn_selenium.UseVisualStyleBackColor = true;
             this.btn_selenium.Click += new System.EventHandler(this.btn_selenium_Click);
             // 
+            // cb_js
+            // 
+            this.cb_js.AutoSize = true;
+            this.cb_js.Location = new System.Drawing.Point(617, 117);
+            this.cb_js.Name = "cb_js";
+            this.cb_js.Size = new System.Drawing.Size(103, 17);
+            this.cb_js.TabIndex = 19;
+            this.cb_js.Text = "Uses JavaScript";
+            this.cb_js.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1263, 641);
+            this.Controls.Add(this.cb_js);
             this.Controls.Add(this.btn_selenium);
             this.Controls.Add(this.cb_infinite_scroll);
             this.Controls.Add(this.cb_absolute_url);
@@ -1333,6 +1345,7 @@ namespace XPath_Template
         private System.Windows.Forms.LinkLabel ll_xpath;
         private System.Windows.Forms.Button btn_selenium;
         private System.Windows.Forms.ToolTip tooltip;
+        private System.Windows.Forms.CheckBox cb_js;
     }
 }
 

@@ -105,7 +105,7 @@ namespace XPath_Template
                         jsExecutor?.ExecuteScript("arguments[0].style.border='0px'", e);
                         jsExecutor?.ExecuteScript("arguments[0].style.backgroundColor='transparent'", e);
                     }
-                }
+                }// handling for prematurely closing Selenium instances then inputting XPaths afterwards:
                 catch (Exception x) { if (x is StaleElementReferenceException) {} else if (x is WebDriverException) { return; } }
             }
 
@@ -128,7 +128,7 @@ namespace XPath_Template
             {
                 jsExecutor.ExecuteScript("arguments[0].style.border='5px solid black'", e);
                 jsExecutor.ExecuteScript("arguments[0].style.backgroundColor='#22AAE2'", e);
-                jsExecutor.ExecuteScript("arguments[0].scrollIntoView(true);", e);
+                //jsExecutor.ExecuteScript("arguments[0].scrollIntoView(true);", e);
             }
         }
         private void tb_boat_listings_TextChanged(object sender, EventArgs e)
@@ -424,10 +424,33 @@ namespace XPath_Template
                 string sold = sold_make + sold_model + sold_year + sold_condition + sold_price + sold_material + sold_location + sold_country;
                 if (sold!="") { sold = "\n\t\t# Remove sold boats:\n" + sold + "\n"; }
 
+                // JavaScript checkbox handling:
+                string js_a = "", js_b = "", js_c = "", js_d = "response";
+                if (cb_js.Checked)
+                {
+                    js_a = "from scrapy.selector import Selector\nfrom selenium import webdriver\nfrom selenium.webdriver.chrome.options import Options\nimport time\n";
+                    js_b = "\n" +
+                        "\tdef __init__(self):# Use Selenium to grab a version of the HTML with working JS:\n" +
+                        "\t\tchrome_options = Options()\n" +
+                        "\t\tchrome_options.add_argument('--headless')\n" +
+                        "\t\tchrome_options.add_argument('--no-sandbox')\n" +
+                        "\t\tchrome_options.add_argument('--disable-web-security')\n" +
+                        "\t\tchrome_options.add_argument('--disable-site-isolation-trials')\n" +
+                        "\t\tchrome_options.add_argument('--ignore-certificate-errors')\n" +
+                        "\t\tchrome_options.add_argument('--allow-insecure-localhost')\n" +
+                        "\t\tdriver = webdriver.Chrome('chromedriver.exe', options=chrome_options)\n" +
+                        $"\t\tdriver.get({urls})\n" +
+                        "\t\ttime.sleep(5)\n" +
+                        "\t\tself.html = driver.page_source\n" +
+                        "\t\tdriver.close()\n";
+                    js_c = "\t\tresp = Selector(text=self.html)#Replace HTML with a working JS version\n\n";
+                    js_d = "resp";//replaces response in parse() .xpath methods
+                }
+
                 // infinite scroll stuff:
                 string infinite_scroll_headers = "";
                 if (cb_infinite_scroll.Checked) { infinite_scroll_headers = "\tpage_number=1\n"; } // only 1 header for now
-                string next_page_link_a = $"\t\tnext_page = response.xpath('{tb_next_page.Text}').get(default=[])\n";
+                string next_page_link_a = $"\t\tnext_page = {js_d}.xpath('{tb_next_page.Text}').get(default=False)\n";
                 string next_page_link_b = "\t\tif next_page:# if a next page button exists, click it!\n";
                 string next_page_link_c = $"\t\t\t{debugmode}yield scrapy.Request(url=response.urljoin(next_page), callback=self.parse)\n";
                 if (cb_infinite_scroll.Checked)
@@ -467,21 +490,23 @@ namespace XPath_Template
                 string post_processing = "";
                 if (parse_feet != "" | parse_gbp != "" | sold != "") { post_processing = "\t\t# Post-Processing Begins:\n"; }
 
-                string file_content = "import scrapy\n" +
-"from ._useful_functions import *\n" +
-"\n\"\"\"\n" +
-$"Assigned To: {assigned_to}\nBrief Status: {brief_status}{notes}"+//metadata
-"\n\"\"\"\n\n" +
+                string file_content = "from ._useful_functions import *\n" +
+"import scrapy\n" +
+$"{js_a}" +//JavaScript compatibilty modules
+//"\n\"\"\"\n" +
+//$"Assigned To: {assigned_to}\nBrief Status: {brief_status}{notes}"+//metadata
+//"\n\"\"\"\n\n" +
 $"class {CultureInfo.CurrentCulture.TextInfo.ToTitleCase(spider_name)}Spider(scrapy.Spider):\n" +
 $"\tname = '{spider_name}'\n" +
 $"\tallowed_domains = ['{tb_domain.Text}']\n" +
 $"{infinite_scroll_headers}" +//only appear if required
 $"\tstart_urls = [{urls}]\n" +
+$"{js_b}" +//JavaScript compatibilty function
 "\n" +
 "\tdef parse(self, response):\n" +
-"\n" +
+$"\n{js_c}" +
 "\t\t# Grab details on every Boat Listing from this web page's response:\n" +
-$"\t\tfor boat_listing in response.xpath('{tb_boat_listings.Text}'):\n" +
+$"\t\tfor boat_listing in {js_d}.xpath('{tb_boat_listings.Text}'):\n" +
 "\n" +
 "\t\t\t# grab the boat_listing's full URL:\n" +
 "\t\t\thref = boat_listing.get()# get just the href without the array stuff\n" +
@@ -560,13 +585,18 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             clear_template(false);
 
             // read remaining desired data from lines:
-            int next = -2;
+            int next = -3;
             int find, start, finish;
             string[] split;
             foreach (string l in lines)
             {
                 switch (next)
                 {
+                    case -3:
+                        find = l.IndexOf("selector");
+                        if (find > -1) { cb_js.Checked = true; next += 1; }
+                        else if (l.IndexOf("\"\"\"") > -1) { cb_js.Checked = false; next += 1; }
+                        continue;
                     case -2:
                         find = l.IndexOf("Assigned");
                         if (find > -1) { find = l.IndexOf(": ") + 2; cb_assigned_to.SelectedItem = l.Substring(find); next += 1; }
@@ -626,7 +656,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("make");
                         if (find > -1)
                         {
-                            if (l.IndexOf("Unknown',") > -1) { tb_boat_make.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("':'") > -1) { tb_boat_make.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_make.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("()[") + 3;
@@ -644,7 +674,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("model");
                         if (find > -1)
                         {
-                            if (l.IndexOf("Unknown',") > -1) { tb_boat_model.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("':'") > -1) { tb_boat_model.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_model.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("()[") + 3;
@@ -662,7 +692,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("year");
                         if (find > -1)
                         {
-                            if (l.IndexOf("0',") > -1) { tb_boat_year.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("':'") > -1) { tb_boat_year.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_year.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("()[") + 3;
@@ -680,7 +710,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("condition");
                         if (find > -1)
                         {
-                            if (l.IndexOf("Unknown',") > -1) { tb_boat_condition.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("':'") > -1) { tb_boat_condition.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_condition.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("()[") + 3;
@@ -698,7 +728,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("price");
                         if (find > -1)
                         {
-                            if (l.IndexOf("0',") > -1) { tb_boat_price.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("':'") > -1) { tb_boat_price.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_price.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("()[") + 3;
@@ -716,7 +746,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("length");
                         if (find > -1)
                         {
-                            if (l.IndexOf("0',") > -1) { tb_boat_length.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("':'") > -1) { tb_boat_length.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_length.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("()[") + 3;
@@ -734,7 +764,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("hull_material");
                         if (find > -1)
                         {
-                            if (l.IndexOf("Unknown',") > -1) { tb_boat_material.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("':'") > -1) { tb_boat_material.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_material.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("()[") + 3;
@@ -752,7 +782,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("location");
                         if (find > -1)
                         {
-                            if (l.IndexOf("Unknown',") > -1) { tb_boat_location.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("':'") > -1) { tb_boat_location.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_location.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("()[") + 3;
@@ -770,7 +800,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                         find = l.IndexOf("country");
                         if (find > -1)
                         {
-                            if (l.IndexOf("Unknown',") > -1) { tb_boat_country.Text = "None"; next += 1; continue; }
+                            if (l.IndexOf("':'") > -1) { tb_boat_country.Text = "None"; next += 1; continue; }
                             find = l.IndexOf("('") + 2;
                             tb_boat_country.Text = l.Substring(find, l.IndexOf("').") - find);
                             start = l.IndexOf("()[") + 3;
@@ -869,6 +899,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             cb_sold_location.Checked = false;
             cb_sold_country.Checked = false;
 
+            cb_js.Checked = false;
             cb_absolute_url.Checked = false;
             cb_infinite_scroll.Checked = false;
             cb_convert_metres_to_feet.Checked = false;
