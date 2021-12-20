@@ -342,10 +342,10 @@ namespace XPath_Template
                 string spider_name = tb_domain.Text.Split('.')[0].ToLower();
 
                 // input validation:
-                Regex rx_nam = new Regex(//confirm there is a valid spidername (no symbols basically)
+                /*Regex rx_nam = new Regex(//confirm there is a valid spidername (no symbols basically)
 @"^[A-Za-z0-9]{1,63}$");
                 //string nam = tb_spider_denomer.Text;
-                if (!rx_nam.IsMatch(spider_name)) { error_box("That is not a valid Spider Name!\n\n(at least 1 character long with no symbols, please!)"); return; }
+                if (!rx_nam.IsMatch(spider_name)) { error_box("That is not a valid Spider Name!\n\n(at least 1 character long with no symbols, please!)"); return; }*/
 
                 Regex rx_dom = new Regex(//confirm there is a valid "domain-name+.+TLD"
 @"^((?!-)[A-Za-z0-9-]{1,63}(?<!-)){1}(\.[A-Za-z]{2,6}){1,2}$");//yes I know {1} is a meaningless quantifier: it's there as a reminder!
