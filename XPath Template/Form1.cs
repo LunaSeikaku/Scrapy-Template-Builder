@@ -87,6 +87,12 @@ namespace XPath_Template
             if (rtb_urls.Lines.Length > 0)
             {
                 btn_selenium.Enabled = true;//if the compiler gets to this line, every line is a valid url so it's okay!
+                // attempt to find extract domain from url:
+                string url = rtb_urls.Lines[0];
+                url = url.Replace("www.", "");//standardize www.
+                url = Regex.Split(url, "//")[1];//remove prefix
+                url = Regex.Split(url, "/")[0];//remove suffix
+                tb_domain.Text = url;
             }
         }
         private void border_control(string xpath)

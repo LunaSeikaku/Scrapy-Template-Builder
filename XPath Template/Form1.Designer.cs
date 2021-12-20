@@ -349,6 +349,7 @@ namespace XPath_Template
             // 
             // tb_domain
             // 
+            this.tb_domain.Enabled = false;
             this.tb_domain.Location = new System.Drawing.Point(116, 18);
             this.tb_domain.Name = "tb_domain";
             this.tb_domain.Size = new System.Drawing.Size(476, 20);
