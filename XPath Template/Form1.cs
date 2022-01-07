@@ -311,7 +311,7 @@ namespace XPath_Template
 
             // if there IS an xpath to parse, we first confirm where the specs_xpath is coming from:
             string specs_source = "specs_table";// specs_xpath is from specifications table xpath
-            if (specs_xpath.Replace("(", "").Substring(0, 2) == "//") { specs_source = "response"; }// specs_xpath is from base HTML
+            if (specs_xpath.Replace("(", "").Substring(0, 2) == "//") { specs_source = "resp"; }// specs_xpath is from base HTML
 
             // determine if we need any substring list concatenation nonsense and add it if so:
             string output = "";
@@ -431,32 +431,40 @@ namespace XPath_Template
                 if (sold!="") { sold = "\n\t\t# Remove sold boats:\n" + sold + "\n"; }
 
                 // JavaScript checkbox handling:
-                string js_a = "", js_b = "", js_c = "", js_d = "response";
+                string js_a = "", js_b = "", js_c = "\t\tresp=response\n", js_d = "";
                 if (cb_js.Checked)
                 {
-                    js_a = "from scrapy.selector import Selector\nfrom selenium import webdriver\nfrom selenium.webdriver.chrome.options import Options\nimport time\n";
+                    js_a = $"from scrapy.selector import Selector#{tb_seleniumbutton.Text}\nfrom selenium import webdriver\nfrom selenium.webdriver.chrome.options import Options\nfrom selenium.webdriver.common.by import By\nfrom selenium.webdriver.support import expected_conditions\nfrom selenium.webdriver.support.ui import WebDriverWait\nimport time\n";
                     js_b = "\n" +
                         "\tdef __init__(self):# Use Selenium to grab a version of the HTML with working JS:\n" +
-                        "\t\tchrome_options = Options()\n" +
-                        "\t\tchrome_options.add_argument('--headless')\n" +
-                        "\t\tchrome_options.add_argument('--no-sandbox')\n" +
-                        "\t\tchrome_options.add_argument('--disable-web-security')\n" +
-                        "\t\tchrome_options.add_argument('--disable-site-isolation-trials')\n" +
-                        "\t\tchrome_options.add_argument('--ignore-certificate-errors')\n" +
-                        "\t\tchrome_options.add_argument('--allow-insecure-localhost')\n" +
-                        "\t\tdriver = webdriver.Chrome('chromedriver.exe', options=chrome_options)\n" +
-                        $"\t\tdriver.get({urls})\n" +
-                        "\t\ttime.sleep(5)\n" +
+                        "\t\tself.chrome_options = Options()\n" +
+                        "\t\tself.chrome_options.add_argument('--no-sandbox')\n" +
+                        "\t\tself.chrome_options.add_argument('--disable-web-security')\n" +
+                        "\t\tself.chrome_options.add_argument('--disable-site-isolation-trials')\n" +
+                        "\t\tself.chrome_options.add_argument('--ignore-certificate-errors')\n" +
+                        "\t\tself.chrome_options.add_argument('--allow-insecure-localhost')\n" +
+                        $"\t\tself.selenium(self.start_urls[0],'{tb_seleniumbutton.Text}')\n" +
+                        "\tdef selenium(self,url,clickxpath=''):\n" +
+                        "\t\tco=self.chrome_options\n" +
+                        "\t\tif clickxpath=='':\n" +
+                        "\t\t\tco.add_argument('--headless')\n" +
+                        "\t\tdriver = webdriver.Chrome('chromedriver.exe', options=co)\n" +
+                        "\t\tdriver.get(url)\n" +
+                        "\t\tif clickxpath!='':\n" +
+                        "\t\t\twait = WebDriverWait(driver, 30)\n" +
+                        "\t\t\twait.until(expected_conditions.element_to_be_clickable((By.XPATH, clickxpath)))\n" +
+                        "\t\t\tdriver.find_elements_by_xpath(clickxpath)[0].click()\n" +
+                        "\t\ttime.sleep(7)\n" +
                         "\t\tself.html = driver.page_source\n" +
                         "\t\tdriver.close()\n";
                     js_c = "\t\tresp = Selector(text=self.html)#Replace HTML with a working JS version\n\n";
-                    js_d = "resp";//replaces response in parse() .xpath methods
+                    js_d = "\t\tself.selenium(href)\n";
                 }
 
                 // infinite scroll stuff:
                 string infinite_scroll_headers = "";
                 if (cb_infinite_scroll.Checked) { infinite_scroll_headers = "\tpage_number=1\n"; } // only 1 header for now
-                string next_page_link_a = $"\t\tnext_page = {js_d}.xpath('{tb_next_page.Text}').get(default=False)\n";
+                string next_page_link_a = $"\t\tnext_page = resp.xpath('{tb_next_page.Text}').get(default=False)\n";
                 string next_page_link_b = "\t\tif next_page:# if a next page button exists, click it!\n";
                 string next_page_link_c = $"\t\t\t{debugmode}yield scrapy.Request(url=response.urljoin(next_page), callback=self.parse)\n";
                 if (cb_infinite_scroll.Checked)
@@ -477,7 +485,7 @@ namespace XPath_Template
                 string country = format_yield(tb_boat_country.Text, ud_country_a.Value, ud_country_b.Value);
                 // specs xpath toggle:
                 string specs_table = "";
-                if (tb_specifications.Text!="None") { specs_table = $"\t\tspecs_table = response.xpath('{tb_specifications.Text}')\n"; }
+                if (tb_specifications.Text!="None") { specs_table = $"\t\tspecs_table = resp.xpath('{tb_specifications.Text}')\n"; }
 
                 // post-processing handling:
                 string absolute_url = "";
@@ -510,9 +518,9 @@ $"\tstart_urls = [{urls}]\n" +
 $"{js_b}" +//JavaScript compatibilty function
 "\n" +
 "\tdef parse(self, response):\n" +
-$"\n{js_c}" +
+$"{js_c}" +
 "\t\t# Grab details on every Boat Listing from this web page's response:\n" +
-$"\t\tfor boat_listing in {js_d}.xpath('{tb_boat_listings.Text}'):\n" +
+$"\t\tfor boat_listing in resp.xpath('{tb_boat_listings.Text}'):\n" +
 "\n" +
 "\t\t\t# grab the boat_listing's full URL:\n" +
 "\t\t\thref = boat_listing.get()# get just the href without the array stuff\n" +
@@ -531,7 +539,7 @@ $"{next_page_link_a}{next_page_link_b}{next_page_link_c}"+
 "\n" +
 "\t\t# Define the full-formed url of the boat listing as a value from the parse() that called this function:\n" +
 "\t\thref = response.request.meta['URL']\n" +
-"\n" +
+$"{js_d}{js_c}" +
 "\t\t# Define and get what specifications we desire:\n" +
 $"{specs_table}" +
 "\t\tspecifications = {\n" +
@@ -582,7 +590,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             { error_box($"Could not find {spider_name}.py!\n\nPlease enter an existing Spider Name!"); return; }
 
             // get every line from above file in an array:
-            string[] lines = new string[] { };
+            string[] lines;// = new string[] { };
             try { lines = File.ReadAllLines(file_path); }
             catch { error_box($"Could not read {spider_name}.py?"); return; }
             // If data found, Spider Name is legit so it remains unchanged
@@ -600,7 +608,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
                 {
                     case 0:
                         find = l.IndexOf("selector");
-                        if (find > -1) { cb_js.Checked = true; next += 1; }
+                        if (find > -1) { cb_js.Checked = true; tb_seleniumbutton.Text = l.Split('#')[1]; next += 1; }
                         else if (l.IndexOf("class") > -1) { cb_js.Checked = false; next += 1; }
                         continue;
                     /*case -2:
@@ -1016,6 +1024,14 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             driver = new ChromeDriver();
             jsExecutor = (IJavaScriptExecutor)driver;
             driver.Navigate().GoToUrl(rtb_urls.Lines[0]);
+        }
+
+        private void cb_js_CheckedChanged(object sender, EventArgs e)
+        {
+            bool js = cb_js.Checked;
+            tb_seleniumbutton.Enabled = (js) ? true : false;
+            tb_seleniumbutton.Visible = (js) ? true : false;
+            lb_seleniumbutton.Visible = (js) ? true : false;
         }
     }
 }

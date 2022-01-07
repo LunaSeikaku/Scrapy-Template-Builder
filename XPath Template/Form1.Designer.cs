@@ -96,13 +96,6 @@ namespace XPath_Template
             this.lb_boat_model = new System.Windows.Forms.Label();
             this.tb_boat_make = new System.Windows.Forms.TextBox();
             this.lb_boat_make = new System.Windows.Forms.Label();
-            this.gb_notes = new System.Windows.Forms.GroupBox();
-            this.cb_assigned_to = new System.Windows.Forms.ComboBox();
-            this.cb_status = new System.Windows.Forms.ComboBox();
-            this.rtb_notes = new System.Windows.Forms.RichTextBox();
-            this.lb_notes = new System.Windows.Forms.Label();
-            this.lb_status = new System.Windows.Forms.Label();
-            this.lb_assigned_to = new System.Windows.Forms.Label();
             this.gb_listing_pp = new System.Windows.Forms.GroupBox();
             this.cb_parse_feet = new System.Windows.Forms.CheckBox();
             this.cb_startchar = new System.Windows.Forms.ComboBox();
@@ -113,6 +106,8 @@ namespace XPath_Template
             this.btn_selenium = new System.Windows.Forms.Button();
             this.tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.cb_js = new System.Windows.Forms.CheckBox();
+            this.tb_seleniumbutton = new System.Windows.Forms.TextBox();
+            this.lb_seleniumbutton = new System.Windows.Forms.Label();
             this.pnl_Header.SuspendLayout();
             this.pnl_Footer.SuspendLayout();
             this.gb_main.SuspendLayout();
@@ -135,13 +130,12 @@ namespace XPath_Template
             ((System.ComponentModel.ISupportInitialize)(this.ud_model_a)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ud_make_b)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ud_make_a)).BeginInit();
-            this.gb_notes.SuspendLayout();
             this.gb_listing_pp.SuspendLayout();
             this.SuspendLayout();
             // 
             // tb_specifications
             // 
-            this.tb_specifications.Location = new System.Drawing.Point(116, 249);
+            this.tb_specifications.Location = new System.Drawing.Point(116, 387);
             this.tb_specifications.Name = "tb_specifications";
             this.tb_specifications.Size = new System.Drawing.Size(476, 20);
             this.tb_specifications.TabIndex = 6;
@@ -152,7 +146,7 @@ namespace XPath_Template
             // lb_specifications
             // 
             this.lb_specifications.AutoSize = true;
-            this.lb_specifications.Location = new System.Drawing.Point(2, 252);
+            this.lb_specifications.Location = new System.Drawing.Point(2, 390);
             this.lb_specifications.Name = "lb_specifications";
             this.lb_specifications.Size = new System.Drawing.Size(108, 13);
             this.lb_specifications.TabIndex = 11;
@@ -161,7 +155,7 @@ namespace XPath_Template
             // 
             // tb_next_page
             // 
-            this.tb_next_page.Location = new System.Drawing.Point(116, 223);
+            this.tb_next_page.Location = new System.Drawing.Point(116, 361);
             this.tb_next_page.Name = "tb_next_page";
             this.tb_next_page.Size = new System.Drawing.Size(476, 20);
             this.tb_next_page.TabIndex = 5;
@@ -171,7 +165,7 @@ namespace XPath_Template
             // lb_next_page
             // 
             this.lb_next_page.AutoSize = true;
-            this.lb_next_page.Location = new System.Drawing.Point(18, 226);
+            this.lb_next_page.Location = new System.Drawing.Point(18, 364);
             this.lb_next_page.Name = "lb_next_page";
             this.lb_next_page.Size = new System.Drawing.Size(92, 13);
             this.lb_next_page.TabIndex = 9;
@@ -180,7 +174,7 @@ namespace XPath_Template
             // 
             // tb_boat_listings
             // 
-            this.tb_boat_listings.Location = new System.Drawing.Point(116, 197);
+            this.tb_boat_listings.Location = new System.Drawing.Point(116, 335);
             this.tb_boat_listings.Name = "tb_boat_listings";
             this.tb_boat_listings.Size = new System.Drawing.Size(476, 20);
             this.tb_boat_listings.TabIndex = 4;
@@ -190,7 +184,7 @@ namespace XPath_Template
             // lb_boat_listings
             // 
             this.lb_boat_listings.AutoSize = true;
-            this.lb_boat_listings.Location = new System.Drawing.Point(8, 200);
+            this.lb_boat_listings.Location = new System.Drawing.Point(8, 338);
             this.lb_boat_listings.Name = "lb_boat_listings";
             this.lb_boat_listings.Size = new System.Drawing.Size(102, 13);
             this.lb_boat_listings.TabIndex = 7;
@@ -323,7 +317,7 @@ namespace XPath_Template
             this.gb_main.Controls.Add(this.lb_boat_listings);
             this.gb_main.Location = new System.Drawing.Point(13, 97);
             this.gb_main.Name = "gb_main";
-            this.gb_main.Size = new System.Drawing.Size(598, 282);
+            this.gb_main.Size = new System.Drawing.Size(598, 413);
             this.gb_main.TabIndex = 0;
             this.gb_main.TabStop = false;
             this.gb_main.Text = "General Information";
@@ -332,7 +326,7 @@ namespace XPath_Template
             // 
             this.rtb_urls.Location = new System.Drawing.Point(116, 45);
             this.rtb_urls.Name = "rtb_urls";
-            this.rtb_urls.Size = new System.Drawing.Size(476, 140);
+            this.rtb_urls.Size = new System.Drawing.Size(476, 279);
             this.rtb_urls.TabIndex = 2;
             this.rtb_urls.Text = "";
             this.rtb_urls.TextChanged += new System.EventHandler(this.rtb_urls_TextChanged);
@@ -1023,89 +1017,6 @@ namespace XPath_Template
             this.lb_boat_make.Text = "Make:";
             this.lb_boat_make.DoubleClick += new System.EventHandler(this.lb_boat_make_DoubleClick);
             // 
-            // gb_notes
-            // 
-            this.gb_notes.Controls.Add(this.cb_assigned_to);
-            this.gb_notes.Controls.Add(this.cb_status);
-            this.gb_notes.Controls.Add(this.rtb_notes);
-            this.gb_notes.Controls.Add(this.lb_notes);
-            this.gb_notes.Controls.Add(this.lb_status);
-            this.gb_notes.Controls.Add(this.lb_assigned_to);
-            this.gb_notes.Location = new System.Drawing.Point(13, 385);
-            this.gb_notes.Name = "gb_notes";
-            this.gb_notes.Size = new System.Drawing.Size(598, 140);
-            this.gb_notes.TabIndex = 6;
-            this.gb_notes.TabStop = false;
-            // 
-            // cb_assigned_to
-            // 
-            this.cb_assigned_to.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_assigned_to.FormattingEnabled = true;
-            this.cb_assigned_to.Items.AddRange(new object[] {
-            "Ben Tonks",
-            "Ebren Durling",
-            "Ethan Mackie",
-            "Gareth Loakes",
-            "Robbie Munro",
-            "Sam Prince",
-            "Yang Zhang",
-            ""});
-            this.cb_assigned_to.Location = new System.Drawing.Point(116, 13);
-            this.cb_assigned_to.Name = "cb_assigned_to";
-            this.cb_assigned_to.Size = new System.Drawing.Size(133, 21);
-            this.cb_assigned_to.TabIndex = 14;
-            // 
-            // cb_status
-            // 
-            this.cb_status.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cb_status.FormattingEnabled = true;
-            this.cb_status.Items.AddRange(new object[] {
-            "ONGOING",
-            "COMPLETE",
-            "PIPELINE WORK REQUIRED",
-            "DELAY NEEDED",
-            "NOT STARTED",
-            "OTHER"});
-            this.cb_status.Location = new System.Drawing.Point(424, 13);
-            this.cb_status.Name = "cb_status";
-            this.cb_status.Size = new System.Drawing.Size(168, 21);
-            this.cb_status.TabIndex = 13;
-            // 
-            // rtb_notes
-            // 
-            this.rtb_notes.Location = new System.Drawing.Point(116, 39);
-            this.rtb_notes.Name = "rtb_notes";
-            this.rtb_notes.Size = new System.Drawing.Size(476, 89);
-            this.rtb_notes.TabIndex = 12;
-            this.rtb_notes.Text = "";
-            // 
-            // lb_notes
-            // 
-            this.lb_notes.AutoSize = true;
-            this.lb_notes.Location = new System.Drawing.Point(72, 42);
-            this.lb_notes.Name = "lb_notes";
-            this.lb_notes.Size = new System.Drawing.Size(38, 13);
-            this.lb_notes.TabIndex = 11;
-            this.lb_notes.Text = "Notes:";
-            // 
-            // lb_status
-            // 
-            this.lb_status.AutoSize = true;
-            this.lb_status.Location = new System.Drawing.Point(354, 17);
-            this.lb_status.Name = "lb_status";
-            this.lb_status.Size = new System.Drawing.Size(64, 13);
-            this.lb_status.TabIndex = 9;
-            this.lb_status.Text = "Brief Status:";
-            // 
-            // lb_assigned_to
-            // 
-            this.lb_assigned_to.AutoSize = true;
-            this.lb_assigned_to.Location = new System.Drawing.Point(42, 16);
-            this.lb_assigned_to.Name = "lb_assigned_to";
-            this.lb_assigned_to.Size = new System.Drawing.Size(69, 13);
-            this.lb_assigned_to.TabIndex = 7;
-            this.lb_assigned_to.Text = "Assigned To:";
-            // 
             // gb_listing_pp
             // 
             this.gb_listing_pp.Controls.Add(this.cb_parse_feet);
@@ -1170,7 +1081,7 @@ namespace XPath_Template
             // cb_absolute_url
             // 
             this.cb_absolute_url.AutoSize = true;
-            this.cb_absolute_url.Location = new System.Drawing.Point(617, 297);
+            this.cb_absolute_url.Location = new System.Drawing.Point(617, 435);
             this.cb_absolute_url.Name = "cb_absolute_url";
             this.cb_absolute_url.Size = new System.Drawing.Size(98, 17);
             this.cb_absolute_url.TabIndex = 14;
@@ -1180,7 +1091,7 @@ namespace XPath_Template
             // cb_infinite_scroll
             // 
             this.cb_infinite_scroll.AutoSize = true;
-            this.cb_infinite_scroll.Location = new System.Drawing.Point(617, 322);
+            this.cb_infinite_scroll.Location = new System.Drawing.Point(617, 460);
             this.cb_infinite_scroll.Name = "cb_infinite_scroll";
             this.cb_infinite_scroll.Size = new System.Drawing.Size(92, 17);
             this.cb_infinite_scroll.TabIndex = 17;
@@ -1193,7 +1104,7 @@ namespace XPath_Template
             this.btn_selenium.Enabled = false;
             this.btn_selenium.Location = new System.Drawing.Point(617, 142);
             this.btn_selenium.Name = "btn_selenium";
-            this.btn_selenium.Size = new System.Drawing.Size(101, 21);
+            this.btn_selenium.Size = new System.Drawing.Size(103, 21);
             this.btn_selenium.TabIndex = 18;
             this.btn_selenium.Text = "Show XPaths!";
             this.btn_selenium.UseVisualStyleBackColor = true;
@@ -1208,18 +1119,39 @@ namespace XPath_Template
             this.cb_js.TabIndex = 19;
             this.cb_js.Text = "Uses JavaScript";
             this.cb_js.UseVisualStyleBackColor = true;
+            this.cb_js.CheckedChanged += new System.EventHandler(this.cb_js_CheckedChanged);
+            // 
+            // tb_seleniumbutton
+            // 
+            this.tb_seleniumbutton.Enabled = false;
+            this.tb_seleniumbutton.Location = new System.Drawing.Point(617, 197);
+            this.tb_seleniumbutton.Name = "tb_seleniumbutton";
+            this.tb_seleniumbutton.Size = new System.Drawing.Size(103, 20);
+            this.tb_seleniumbutton.TabIndex = 20;
+            this.tb_seleniumbutton.Visible = false;
+            // 
+            // lb_seleniumbutton
+            // 
+            this.lb_seleniumbutton.AutoSize = true;
+            this.lb_seleniumbutton.Location = new System.Drawing.Point(627, 181);
+            this.lb_seleniumbutton.Name = "lb_seleniumbutton";
+            this.lb_seleniumbutton.Size = new System.Drawing.Size(84, 13);
+            this.lb_seleniumbutton.TabIndex = 12;
+            this.lb_seleniumbutton.Text = "Click this XPath:";
+            this.lb_seleniumbutton.Visible = false;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1263, 641);
+            this.Controls.Add(this.lb_seleniumbutton);
+            this.Controls.Add(this.tb_seleniumbutton);
             this.Controls.Add(this.cb_js);
             this.Controls.Add(this.btn_selenium);
             this.Controls.Add(this.cb_infinite_scroll);
             this.Controls.Add(this.cb_absolute_url);
             this.Controls.Add(this.gb_listing_pp);
-            this.Controls.Add(this.gb_notes);
             this.Controls.Add(this.gb_listing);
             this.Controls.Add(this.gb_main);
             this.Controls.Add(this.pnl_Header);
@@ -1255,8 +1187,6 @@ namespace XPath_Template
             ((System.ComponentModel.ISupportInitialize)(this.ud_model_a)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ud_make_b)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ud_make_a)).EndInit();
-            this.gb_notes.ResumeLayout(false);
-            this.gb_notes.PerformLayout();
             this.gb_listing_pp.ResumeLayout(false);
             this.gb_listing_pp.PerformLayout();
             this.ResumeLayout(false);
@@ -1298,13 +1228,6 @@ namespace XPath_Template
         private System.Windows.Forms.Label lb_boat_location;
         private System.Windows.Forms.TextBox tb_boat_material;
         private System.Windows.Forms.Label lb_boat_material;
-        private System.Windows.Forms.GroupBox gb_notes;
-        private System.Windows.Forms.RichTextBox rtb_notes;
-        private System.Windows.Forms.Label lb_notes;
-        private System.Windows.Forms.Label lb_status;
-        private System.Windows.Forms.Label lb_assigned_to;
-        private System.Windows.Forms.ComboBox cb_assigned_to;
-        private System.Windows.Forms.ComboBox cb_status;
         private System.Windows.Forms.Button btn_test;
         private System.Windows.Forms.GroupBox gb_listing_pp;
         private System.Windows.Forms.CheckBox cb_convert_metres_to_feet;
@@ -1347,6 +1270,8 @@ namespace XPath_Template
         private System.Windows.Forms.Button btn_selenium;
         private System.Windows.Forms.ToolTip tooltip;
         private System.Windows.Forms.CheckBox cb_js;
+        private System.Windows.Forms.TextBox tb_seleniumbutton;
+        private System.Windows.Forms.Label lb_seleniumbutton;
     }
 }
 
