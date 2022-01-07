@@ -18,8 +18,6 @@ namespace XPath_Template
         public Form1()
         {
             InitializeComponent();
-            cb_assigned_to.SelectedIndex = 0;
-            cb_status.SelectedIndex = 0;
         }
 
         private void cb_infinite_scroll_CheckedChanged(object sender, EventArgs e)
@@ -42,9 +40,7 @@ namespace XPath_Template
                 tb_boat_length.TextLength < 3 |
                 tb_boat_material.TextLength < 3 |
                 tb_boat_location.TextLength < 3 |
-                tb_boat_country.TextLength < 3 |
-                cb_assigned_to.Text.Length < 3 |
-                cb_status.Text.Length < 3)
+                tb_boat_country.TextLength < 3)
                 //rtb_notes.Text.Trim().Length < 3)
             { return false; }
             return true;
@@ -405,10 +401,10 @@ namespace XPath_Template
                 //if (tb_boat_make.Text.Substring(tb_boat_make.TextLength-6)!="text()") { }
 
                 // metadata:
-                string assigned_to = cb_assigned_to.Text;
+                /*string assigned_to = cb_assigned_to.Text;
                 string brief_status = cb_status.Text;
                 string notes = rtb_notes.Text;
-                if (notes != "") { notes = "\n" + notes; }
+                if (notes != "") { notes = "\n" + notes; }*/
 
                 // determine what fields can have the word "sold" in them (for removal purposes):
                 string sold_make = "";
@@ -880,7 +876,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             tb_boat_location.Text = "None";
             tb_boat_country.Text = "None";
 
-            rtb_notes.Text = "";
+            //rtb_notes.Text = "";
 
             ud_make_a.Value = 0;
             ud_make_b.Value = 0;
@@ -901,7 +897,7 @@ $"{post_processing}{sold}{parse_feet}{parse_gbp}" +//convert_metres_to_feet
             ud_country_a.Value = 0;
             ud_country_b.Value = 0;
 
-            cb_status.SelectedIndex = 0;
+            //cb_status.SelectedIndex = 0;
 
             cb_sold_make.Checked = false;
             cb_sold_model.Checked = false;
